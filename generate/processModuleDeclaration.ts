@@ -28,7 +28,9 @@ export function processModuleDeclaration(
 
   for (const [name, node] of defs.interfaces.entries()) {
     if (defs.isNodeOrBase(name)) {
-      const derived = !knownLeaves.includes(name) && defs.getGroupMembers(name);
+      const derived =
+        !knownLeaves.includes(name) &&
+        defs.getReferenceSourceNames(name, 'heritage');
       if (derived) {
         statements.push(
           ts.addSyntheticLeadingComment(
@@ -65,6 +67,23 @@ export function processModuleDeclaration(
           ),
         );
       }
+    } else if (defs.getReferencingNodeNames(name).length) {
+      if (node.length > 1) {
+        throw new Error(`type ${name} has multiple definitions`);
+      }
+      statements.push(
+        ts.addSyntheticLeadingComment(
+          ts.factory.createInterfaceDeclaration(
+            [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+            name,
+            node[0].typeParameters,
+            node[0].heritageClauses,
+            node[0].members,
+          ),
+          ts.SyntaxKind.SingleLineCommentTrivia,
+          'Non-node definition',
+        ),
+      );
     } else {
       console.log(`unclassified: ${name}`);
     }
