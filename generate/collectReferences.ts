@@ -1,7 +1,8 @@
 import ts from 'typescript';
+import { getName, isValidNodeMember } from './util.js';
 
 export interface Reference {
-  kind: 'alias' | 'heritage' | 'property' | 'union';
+  kind: 'alias' | 'constraint' | 'generic' | 'heritage' | 'property' | 'union';
   source: string;
   target: ts.TypeReferenceNode;
 }
@@ -18,24 +19,22 @@ export function collectReferences(node: ts.Node): Reference[] {
 function collectInterfaceReferences(
   node: ts.InterfaceDeclaration,
 ): Reference[] {
-  const refs: Reference[] = [];
+  const refs = collectConstraintReferences(node);
 
   for (const member of node.members) {
     // we don't care about other types of members
-    if (ts.isPropertyDeclaration(member) && member.type) {
+    if (isValidNodeMember(member)) {
       refs.push(
         ...collectTypeReferences(node.name.text, member.type, 'property'),
       );
     }
   }
 
-  if (!node.heritageClauses) {
-    return refs;
-  }
-
-  for (const clause of node.heritageClauses) {
-    for (const type of clause.types) {
-      refs.push(...collectTypeReferences(node.name.text, type, 'heritage'));
+  if (node.heritageClauses) {
+    for (const clause of node.heritageClauses) {
+      for (const type of clause.types) {
+        refs.push(...collectTypeReferences(node.name.text, type, 'heritage'));
+      }
     }
   }
 
@@ -43,7 +42,32 @@ function collectInterfaceReferences(
 }
 
 function collectAliasReferences(node: ts.TypeAliasDeclaration): Reference[] {
-  return collectTypeReferences(node.name.text, node.type, 'alias');
+  return [
+    ...collectConstraintReferences(node),
+    ...collectTypeReferences(node.name.text, node.type, 'alias'),
+  ];
+}
+
+function collectConstraintReferences(
+  node: ts.TypeAliasDeclaration | ts.InterfaceDeclaration,
+): Reference[] {
+  const refs: Reference[] = [];
+
+  if (node.typeParameters) {
+    for (const param of node.typeParameters) {
+      if (param.constraint) {
+        refs.push(
+          ...collectTypeReferences(
+            node.name.text,
+            param.constraint,
+            'constraint',
+          ),
+        );
+      }
+    }
+  }
+
+  return refs;
 }
 
 function collectTypeReferences(
@@ -52,7 +76,34 @@ function collectTypeReferences(
   kind: Reference['kind'],
 ): Reference[] {
   if (ts.isTypeReferenceNode(target)) {
-    return [{ kind, source, target }];
+    if (getName(target.typeName) === source) {
+      // don't record self refs
+      return [];
+    }
+    const refs: Reference[] = [{ kind, source, target }];
+    if (target.typeArguments) {
+      refs.push(
+        ...target.typeArguments.flatMap((arg) =>
+          collectTypeReferences(source, arg, 'generic'),
+        ),
+      );
+    }
+    return refs;
+  }
+  if (
+    ts.isExpressionWithTypeArguments(target) &&
+    ts.isIdentifier(target.expression)
+  ) {
+    return [
+      {
+        kind,
+        source,
+        target: ts.factory.createTypeReferenceNode(
+          target.expression.text,
+          target.typeArguments,
+        ),
+      },
+    ];
   }
   if (ts.isUnionTypeNode(target)) {
     return target.types.flatMap((type) =>
