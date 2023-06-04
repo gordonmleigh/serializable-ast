@@ -10,6 +10,52 @@ export function processModuleDeclaration(
   const statements: ts.Statement[] = [];
   const defs = collectDefinitions(module.body);
 
+  // find SyntaxKinds with no corresponding token definition
+  const kinds = [...defs.references.keys()].filter((name) =>
+    name.match(/^SyntaxKind\.(.+)$/),
+  );
+
+  for (const name of kinds) {
+    const kind = name.match(/^SyntaxKind\.(.+)$/)?.[1];
+    assert(kind);
+
+    if (defs.tokens.has(kind)) {
+      console.log(`Token exists: ${kind}`);
+      continue;
+    }
+
+    const tokenRefs = defs.references
+      .get(name, 'generic')
+      .map((ref) =>
+        ref.path.length > 1
+          ? getName(ref.path[ref.path.length - 2].target)
+          : undefined,
+      )
+      .filter((x): x is string => !!x?.endsWith('Token'));
+
+    if (!tokenRefs.length) {
+      continue;
+    }
+
+    console.log(`Token missing ${tokenRefs}<${kind}>`);
+  }
+
+  for (const [name, refs] of defs.references) {
+    // if (!/^SyntaxKind(\.|$)/.test(name)) {
+    //   continue;
+    // }
+    console.log(
+      name,
+      refs.map(({ path }) =>
+        path.map(({ kind, target, typeArguments }) => ({
+          kind,
+          target: getName(target),
+          typeArguments: typeArguments?.map((arg) => arg.getText()),
+        })),
+      ),
+    );
+  }
+
   // output a definition for NodeArray<T>
   statements.push(
     ts.factory.createTypeAliasDeclaration(
@@ -22,23 +68,6 @@ export function processModuleDeclaration(
       ),
     ),
   );
-
-  for (const [name, refs] of defs.referencesByTarget) {
-    if (!/^SyntaxKind(\.|$)/.test(name)) {
-      continue;
-    }
-    console.log(
-      name,
-      refs.map(({ kind, source, target }) => ({
-        kind,
-        source,
-        target: {
-          typeName: getName(target.typeName),
-          typeArguments: target.typeArguments?.map((arg) => arg.getText()),
-        },
-      })),
-    );
-  }
 
   for (const [name, node] of defs.types) {
     const type = defs.getTypeClass(name);
@@ -93,10 +122,7 @@ export function processModuleDeclaration(
 
       case 'NodeBrand':
       case 'NodeGroup':
-        const derived = defs
-          .getReferenceSourceNames(name, ['alias', 'heritage'])
-          .filter((ref) => defs.isNode(ref));
-
+        const derived = defs.getGroupMembers(name);
         if (!derived.length) {
           continue;
         }

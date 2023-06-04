@@ -1,5 +1,9 @@
 import ts from 'typescript';
-import { Reference, collectReferences } from './collectReferences.js';
+import {
+  ReferenceCollection,
+  ReferenceKind,
+  getReferenceSourceName,
+} from './ReferenceCollection.js';
 import {
   NodeMember,
   assert,
@@ -30,11 +34,11 @@ export type TypeClassification =
 
 export class DefinitionContext {
   public readonly brands = new Set<string>();
-  public readonly referencesByTarget = new Map<string, Reference[]>();
+  public readonly references = new ReferenceCollection();
   public readonly tokens = new Map<string, string>();
   public readonly types = new Map<string, Declaration>();
 
-  public addToken(kind: string, token: string): void {
+  private addToken(kind: string, token: string): void {
     assert(!this.tokens.has(kind), `duplicate token ${kind}`);
     this.tokens.set(kind, token);
   }
@@ -66,8 +70,7 @@ export class DefinitionContext {
         this.addToken(tokenKind, node.name.text);
       }
     }
-    this.getOrAddReferenceList(node.name.text);
-    this.addReferences(collectReferences(node));
+    this.references.add(node);
   }
 
   public getNodeMembers(
@@ -122,42 +125,26 @@ export class DefinitionContext {
     }
   }
 
-  public getReferences(
-    target: string,
-    kind?: Reference['kind'] | Reference['kind'][],
-  ): Reference[] {
-    const refs = this.referencesByTarget.get(target);
-    if (!refs) {
-      return [];
-    }
-    if (kind) {
-      return refs.filter((ref) =>
-        Array.isArray(kind) ? kind.includes(ref.kind) : ref.kind === kind,
-      );
-    }
-    return refs;
-  }
-
   public getReferenceSourceNames(
     target: string,
-    kind?: Reference['kind'] | Reference['kind'][],
+    ...kind: ReferenceKind[]
   ): string[] {
-    return this.getReferences(target, kind).map((x) => x.source);
+    return this.references.get(target, ...kind).map(getReferenceSourceName);
   }
 
   public getGroupMembers(target: string): string[] {
-    // const tokens = this.getTokenNodeSyntaxKinds(target);
-    // if (tokens) {
-    //   const instances = tokens.map((x) => this.tokens.get(x));
-    //   const missing = tokens.filter((x) => !this.tokens.get(x));
-    //   assert(
-    //     !missing.length,
-    //     `${target} looks like a token group but can't find [${missing}]`,
-    //   );
-    //   return instances as string[];
-    // }
-    return this.getReferenceSourceNames(target, ['alias', 'heritage']).filter(
-      (x) => this.isNode(x),
+    const tokens = this.getTokenNodeSyntaxKinds(target);
+    if (tokens) {
+      const instances = tokens.map((x) => this.tokens.get(x));
+      // const missing = tokens.filter((x) => !this.tokens.get(x));
+      // assert(
+      //   !missing.length,
+      //   `${target} looks like a token group but can't find [${missing}]`,
+      // );
+      return instances as string[];
+    }
+    return this.getReferenceSourceNames(target, 'heritage').filter((x) =>
+      this.isNode(x),
     );
   }
 
@@ -241,18 +228,19 @@ export class DefinitionContext {
   }
 
   public isReferencedFromNode(name: string, path: string[] = []): boolean {
-    const refs = this.referencesByTarget.get(name);
-    if (!refs?.length) {
+    const refs = this.references.get(name);
+    if (!refs.length) {
       return false;
     }
     for (const ref of refs) {
-      if (this.isNode(ref.source)) {
+      const source = getName(ref.path[0].target);
+      if (this.isNode(source)) {
         return true;
       }
       // guard against circular loops
       if (
-        !path.includes(ref.source) &&
-        this.isReferencedFromNode(ref.source, [...path, ref.source])
+        !path.includes(source) &&
+        this.isReferencedFromNode(source, [...path, source])
       ) {
         return true;
       }
@@ -309,20 +297,6 @@ export class DefinitionContext {
       }
     }
     return kinds;
-  }
-
-  private addReference(
-    source: string,
-    target: ts.TypeReferenceNode,
-    kind: Reference['kind'],
-  ): void {
-    this.getOrAddReferenceList(target).push({ kind, source, target });
-  }
-
-  private addReferences(references: Reference[]) {
-    for (const ref of references) {
-      this.addReference(ref.source, ref.target, ref.kind);
-    }
   }
 
   private getInterfaceMembers(
@@ -419,19 +393,6 @@ export class DefinitionContext {
       }
     }
     return members;
-  }
-
-  private getOrAddReferenceList(
-    target: ts.TypeReferenceNode | string,
-  ): Reference[] {
-    const targetName =
-      typeof target === 'string' ? target : getName(target.typeName);
-    let list = this.referencesByTarget.get(targetName);
-    if (!list) {
-      list = [];
-      this.referencesByTarget.set(targetName, list);
-    }
-    return list;
   }
 }
 
