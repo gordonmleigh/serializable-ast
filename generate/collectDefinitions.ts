@@ -17,6 +17,7 @@ const blockedTypes = [
   'Bundle',
   'NodeArray',
   'SourceFile',
+  'SyntheticExpression',
   'TransientIdentifier',
 ];
 
