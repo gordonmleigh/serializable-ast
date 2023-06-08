@@ -3,7 +3,7 @@ import {
   ReferenceCollection,
   ReferenceKind,
   getReferenceSourceName,
-} from './ReferenceCollection.js';
+} from './DeclarationCollection.js';
 import {
   NodeMember,
   assert,

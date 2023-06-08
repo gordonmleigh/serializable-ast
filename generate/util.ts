@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { isTokenReference } from './isTokenReference.js';
 
 export function getName(name: ts.EntityName): string {
   if (ts.isQualifiedName(name)) {
@@ -10,11 +11,7 @@ export function getName(name: ts.EntityName): string {
 export function getSyntaxKindFromTokenRef(
   token: ts.TypeReferenceNode,
 ): string | undefined {
-  if (
-    ts.isTypeReferenceNode(token) &&
-    token.typeArguments &&
-    token.typeArguments.length === 1
-  ) {
+  if (isTokenReference(token)) {
     return getSyntaxKind(token.typeArguments[0]);
   }
 }
