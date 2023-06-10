@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { getName } from './getName';
+import { getName } from './getName.js';
 
 const bannedTypeNames = ['__String', 'NodeFlags'];
 

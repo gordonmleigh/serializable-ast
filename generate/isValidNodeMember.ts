@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { isBannedType } from './isBannedType';
+import { isBannedType } from './isBannedType.js';
 
 export type NodeMember = ts.PropertySignature & {
   name: ts.Identifier;

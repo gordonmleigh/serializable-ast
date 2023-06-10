@@ -10,7 +10,7 @@ import { getNodeMembers } from './getNodeMembers.js';
 import { getSyntaxKind } from './getSyntaxKind.js';
 import { getSyntaxKindFromTokenRef } from './getSyntaxKindFromTokenRef.js';
 import { isNode } from './isNode.js';
-import { isTokenInstanceDeclaration } from './isTokenInstanceDeclaration.js';
+import { isTokenDeclaration } from './isTokenDeclaration.js';
 import { isUnionOfNodes } from './isUnionOfNodes.js';
 import { NodeMember } from './isValidNodeMember.js';
 import { replaceTypes } from './replaceTypes.js';
@@ -62,7 +62,7 @@ export function processModuleDeclaration(
       statements.push(
         makeNodeDefinition(node.name.text, members, defs, tokensByKind),
       );
-    } else if (isTokenInstanceDeclaration(node, defs)) {
+    } else if (isTokenDeclaration(node)) {
       const refs = defs.getReferences(node.name, 'generic');
       if (refs.length) {
         statements.push(makeTokenGroupDefinition(node.name, refs));
