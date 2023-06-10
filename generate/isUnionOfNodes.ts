@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import { DeclarationCollection } from './DeclarationCollection.js';
+import { getName } from './getName.js';
 import { isNode } from './isNode.js';
-import { getName } from './util.js';
 
 export function isUnionOfNodes(
   name: string | ts.EntityName,

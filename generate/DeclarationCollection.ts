@@ -1,18 +1,7 @@
 import ts from 'typescript';
-import {
-  assert,
-  getName,
-  getSyntaxKindFromTokenRef,
-  isValidNodeMember,
-} from './util.js';
-
-const blockedTypes = [
-  'Bundle',
-  'NodeArray',
-  'SourceFile',
-  'SyntheticExpression',
-  'TransientIdentifier',
-];
+import { assert } from './assert.js';
+import { getName } from './getName.js';
+import { isValidNodeMember } from './isValidNodeMember.js';
 
 export type TsDeclarationNode =
   | ts.InterfaceDeclaration
@@ -40,20 +29,18 @@ export interface Reference {
   typeArguments?: readonly ts.TypeNode[];
 }
 
+export function isDeclarationNode(node: ts.Node): node is TsDeclarationNode {
+  return ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node);
+}
+
 export class DeclarationCollection implements Iterable<[string, Declaration]> {
   private readonly refs = new Map<string, Declaration>();
-  private readonly tokens = new Map<string, string>();
-
-  public readonly missingTokens = new Map<string, string>();
 
   public [Symbol.iterator](): Iterator<[string, Declaration], any, undefined> {
     return this.refs.entries();
   }
 
   public add(node: TsDeclarationNode): void {
-    if (blockedTypes.includes(node.name.text)) {
-      return;
-    }
     const existing = this.refs.get(node.name.text);
     if (existing) {
       if (ts.isTypeAliasDeclaration(node)) {
@@ -81,30 +68,31 @@ export class DeclarationCollection implements Iterable<[string, Declaration]> {
     }
   }
 
+  public *declarations(): IterableIterator<TsDeclarationNode> {
+    for (const item of this.refs.values()) {
+      if (item.node) {
+        yield item.node;
+      }
+    }
+  }
+
   public get(name: string | ts.EntityName): Declaration | undefined {
     const nameString = typeof name === 'string' ? name : getName(name);
     return this.refs.get(nameString);
   }
 
-  public getToken(
-    syntaxKind: string,
-    tokenType: string | ts.EntityName,
-  ): string {
-    const token = this.tokens.get(syntaxKind);
-    if (!token) {
-      const existing = this.missingTokens.get(syntaxKind);
-      assert(
-        !existing || existing === tokenType,
-        `duplicate token type for ${syntaxKind}`,
-      );
-      if (!existing) {
-        this.missingTokens.set(
-          syntaxKind,
-          typeof tokenType === 'string' ? tokenType : getName(tokenType),
-        );
-      }
+  public getReferences(
+    name: string | ts.EntityName,
+    ...kinds: ReferenceKind[]
+  ): Reference[] {
+    const def = this.get(name);
+    if (!def) {
+      return [];
     }
-    return token ?? syntaxKind;
+    if (!kinds.length) {
+      return def.references;
+    }
+    return def.references.filter((x) => kinds.includes(x.kind));
   }
 
   public keys(): IterableIterator<string> {
@@ -114,13 +102,6 @@ export class DeclarationCollection implements Iterable<[string, Declaration]> {
   private addAlias(node: ts.TypeAliasDeclaration): void {
     this.addConstraints(node);
     this.addType(node.name.text, node.type, 'alias');
-
-    if (ts.isTypeReferenceNode(node.type)) {
-      const tokenKind = getSyntaxKindFromTokenRef(node.type);
-      if (tokenKind) {
-        this.tokens.set(tokenKind, node.name.text);
-      }
-    }
   }
 
   private addConstraints(node: TsDeclarationNode): void {
@@ -155,8 +136,13 @@ export class DeclarationCollection implements Iterable<[string, Declaration]> {
   }
 
   private addQualifiedName(source: string, name: ts.EntityName): void {
-    const names = [name];
-    for (const current = names.pop(); !!current; ) {
+    const names: ts.EntityName[] = [];
+
+    for (
+      let current: ts.EntityName | undefined = name;
+      !!current;
+      current = names.pop()
+    ) {
       this.addReference({ kind: 'member', source, target: getName(current) });
       if (ts.isQualifiedName(current)) {
         names.push(current.left);

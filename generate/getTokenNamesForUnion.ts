@@ -1,7 +1,7 @@
 import ts from 'typescript';
 import { DeclarationCollection } from './DeclarationCollection.js';
+import { getName } from './getName.js';
 import { isTokenReference } from './isTokenReference.js';
-import { getName, getSyntaxKind } from './util.js';
 
 export function getTokenNamesForUnion(
   ref: string | ts.TypeNode,
@@ -44,9 +44,9 @@ function getTokenNamesForRef(
   if (!isTokenReference(ref, defs)) {
     return;
   }
-  const kind = getSyntaxKind(ref);
-  if (kind) {
-    return [defs.getToken(kind, ref.typeName)];
-  }
-  return getTokenNamesForUnion(ref, defs);
+  // const kind = getSyntaxKind(ref);
+  // if (kind) {
+  //   return [defs.getToken(kind, ref.typeName)];
+  // }
+  // return getTokenNamesForUnion(ref, defs);
 }

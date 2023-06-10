@@ -1,16 +1,21 @@
 import ts from 'typescript';
 import { DeclarationCollection } from './DeclarationCollection.js';
+import { getName } from './getName.js';
 import { isNode } from './isNode.js';
-import { getName } from './util.js';
+
+export type TokenReference = ts.TypeReferenceNode & {
+  typeArguments: readonly ts.TypeReferenceNode[];
+};
 
 export function isTokenReference(
-  token: ts.TypeReferenceNode,
+  token: ts.TypeNode,
   defs: DeclarationCollection,
-): token is ts.TypeReferenceNode & { typeArguments: readonly ts.TypeNode[] } {
+): token is TokenReference {
   return (
     ts.isTypeReferenceNode(token) &&
     getName(token.typeName).endsWith('Token') &&
     token.typeArguments?.length === 1 &&
+    ts.isTypeReferenceNode(token.typeArguments[0]) &&
     isNode(token.typeName, defs)
   );
 }

@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import { DeclarationCollection } from './DeclarationCollection.js';
-import { getName } from './util.js';
+import { getName } from './getName.js';
 
 export function isNode(
   name: string | ts.EntityName,

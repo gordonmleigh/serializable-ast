@@ -1,6 +1,7 @@
 import ts from 'typescript';
 import { DeclarationCollection } from './DeclarationCollection.js';
-import { getName, getSyntaxKind } from './util.js';
+import { getName } from './getName.js';
+import { getSyntaxKind } from './getSyntaxKind.js';
 
 export function getSyntaxKindsForUnion(
   ref: string | ts.TypeNode,
