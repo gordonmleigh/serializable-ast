@@ -12,8 +12,9 @@ import { getSyntaxKind } from './getSyntaxKind.js';
 import { isGenericBaseNode } from './isGenericBaseNode.js';
 import { isNode } from './isNode.js';
 import { isReferencedFromNode } from './isReferencedFromNode.js';
+import { isSimpleAliasDeclaration } from './isSimpleAliasDeclaration.js';
 import {
-  isSyntaxKindUnion,
+  isSyntaxKindUnionDeclaration,
   isSyntaxKindUnionRef,
 } from './isSyntaxKindUnion.js';
 import { isTokenDeclaration } from './isTokenDeclaration.js';
@@ -82,25 +83,24 @@ export function processModuleDeclaration(
 
   for (let i = 0; i < allRefs.length; ++i) {
     const ref = allRefs[i];
-    const kind = getName(ref.typeArgument);
-    if (kindToTokenName.has(kind)) {
+    const typeArgName = getName(ref.typeArgument);
+    if (kindToTokenName.has(typeArgName)) {
       continue;
     }
     if (ref.kind === 'alias') {
       // this is the name of the specific token node type
-      kindToTokenName.set(kind, ref.source);
+      kindToTokenName.set(typeArgName, ref.source);
       // we have a specific token node type, don't need the base
-      kindToTokenBase.delete(kind);
+      kindToTokenBase.delete(typeArgName);
     } else if (ref.kind === 'generic-instance') {
       // save the token base type for the kind for later
-      kindToTokenBase.set(kind, ref);
+      kindToTokenBase.set(typeArgName, ref);
     } else if (ref.kind === 'heritage') {
-      const typeArgumentName = getName(ref.typeArgument);
       const parent = defs.get(ref.source)?.node;
       assert(parent && ts.isInterfaceDeclaration(parent));
 
       const param = parent.typeParameters?.find(
-        (param) => param.name.text === typeArgumentName,
+        (param) => param.name.text === typeArgName,
       );
       if (param?.constraint) {
         if (isSyntaxKindUnionRef(param.constraint, defs)) {
@@ -129,7 +129,7 @@ export function processModuleDeclaration(
 
     const kinds = getNamesOfSyntaxKindUnionDeep(ref.typeArgument, defs);
     for (const childKind of kinds) {
-      if (kind === getName(childKind)) {
+      if (typeArgName === getName(childKind)) {
         continue;
       }
       allRefs.push({
@@ -217,7 +217,7 @@ export function processModuleDeclaration(
     } else if (isUnionOfNodes(node.name, defs)) {
       assert(ts.isTypeAliasDeclaration(node));
       statements.push(makeNodeUnionDefinition(node));
-    } else if (isSyntaxKindUnion(node, defs)) {
+    } else if (isSyntaxKindUnionDeclaration(node, defs)) {
       if (isReferencedFromNode(node.name, defs)) {
         statements.push(makeSyntaxKindUnionDefinition(node, defs));
       }
@@ -402,12 +402,16 @@ function getNamesOfSyntaxKindUnionDeep(
   defs: DeclarationCollection,
 ): ts.EntityName[] {
   const node = defs.get(name)?.node;
-  if (node && isUnionDeclaration(node)) {
-    const all = node.type.types.flatMap((x) =>
-      getNamesOfSyntaxKindUnionDeep(x.typeName, defs),
-    );
-    all.push(name);
-    return all;
+  if (node) {
+    if (isSyntaxKindUnionDeclaration(node, defs)) {
+      const all = node.type.types.flatMap((x) =>
+        getNamesOfSyntaxKindUnionDeep(x.typeName, defs),
+      );
+      all.push(name);
+      return all;
+    } else if (isSimpleAliasDeclaration(node) && getSyntaxKind(node.type)) {
+      return [node.type.typeName];
+    }
   }
   return [name];
 }
