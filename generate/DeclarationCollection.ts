@@ -15,29 +15,28 @@ export interface Declaration {
 export type ReferenceKind =
   | 'alias'
   | 'constraint'
-  | 'generic'
+  | 'generic-argument'
+  | 'generic-instance'
   | 'heritage'
   | 'intersection'
-  | 'member'
   | 'property'
   | 'union';
 
 export interface Reference {
   kind: ReferenceKind;
   source: string;
-  target: string;
-  typeArguments?: readonly ts.TypeNode[];
+  target: ts.TypeReferenceNode;
 }
 
 export function isDeclarationNode(node: ts.Node): node is TsDeclarationNode {
   return ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node);
 }
 
-export class DeclarationCollection implements Iterable<[string, Declaration]> {
+export class DeclarationCollection implements Iterable<Declaration> {
   private readonly refs = new Map<string, Declaration>();
 
-  public [Symbol.iterator](): Iterator<[string, Declaration], any, undefined> {
-    return this.refs.entries();
+  public [Symbol.iterator](): Iterator<Declaration, any, undefined> {
+    return this.refs.values();
   }
 
   public add(node: TsDeclarationNode): void {
@@ -135,25 +134,11 @@ export class DeclarationCollection implements Iterable<[string, Declaration]> {
     }
   }
 
-  private addQualifiedName(source: string, name: ts.EntityName): void {
-    const names: ts.EntityName[] = [];
-
-    for (
-      let current: ts.EntityName | undefined = name;
-      !!current;
-      current = names.pop()
-    ) {
-      this.addReference({ kind: 'member', source, target: getName(current) });
-      if (ts.isQualifiedName(current)) {
-        names.push(current.left);
-      }
-    }
-  }
-
   private addReference(ref: Reference): void {
-    const existing = this.refs.get(ref.target);
+    const typeName = getName(ref.target.typeName);
+    const existing = this.refs.get(typeName);
     if (!existing) {
-      this.refs.set(ref.target, { references: [ref] });
+      this.refs.set(typeName, { references: [ref] });
     } else {
       existing.references.push(ref);
     }
@@ -164,31 +149,39 @@ export class DeclarationCollection implements Iterable<[string, Declaration]> {
     node: ts.TypeNode,
     kind: ReferenceKind,
   ): void {
-    if (isTypeRef(node)) {
-      const typeName = ts.isTypeReferenceNode(node)
-        ? node.typeName
-        : node.expression;
-
-      if (node.typeArguments) {
+    let target: ts.TypeReferenceNode | undefined;
+    if (ts.isTypeReferenceNode(node)) {
+      target = node;
+    } else if (
+      ts.isExpressionWithTypeArguments(node) &&
+      ts.isIdentifier(node.expression)
+    ) {
+      target = ts.factory.createTypeReferenceNode(
+        node.expression.text,
+        node.typeArguments,
+      );
+    }
+    if (target) {
+      if (target.typeArguments) {
         this.addReference({
           kind,
           source,
-          target: getName(typeName),
-          typeArguments: node.typeArguments,
+          target,
         });
-        for (const arg of node.typeArguments) {
-          this.addType(source, arg, 'generic');
+        this.addReference({
+          kind: 'generic-instance',
+          source,
+          target,
+        });
+        for (const arg of target.typeArguments) {
+          this.addType(source, arg, 'generic-argument');
         }
       } else {
         this.addReference({
           kind,
           source,
-          target: getName(typeName),
+          target,
         });
-      }
-      if (ts.isQualifiedName(typeName)) {
-        // add all the name parts for a qualified name
-        this.addQualifiedName(source, typeName.left);
       }
     } else if (ts.isUnionTypeNode(node)) {
       const memberKind = kind === 'alias' ? 'union' : kind;
@@ -202,17 +195,6 @@ export class DeclarationCollection implements Iterable<[string, Declaration]> {
       }
     }
   }
-}
-
-type TypeRef =
-  | ts.TypeReferenceNode
-  | (ts.ExpressionWithTypeArguments & { expression: ts.EntityName });
-
-function isTypeRef(node: ts.TypeNode): node is TypeRef {
-  return (
-    ts.isTypeReferenceNode(node) ||
-    (ts.isExpressionWithTypeArguments(node) && ts.isEntityName(node.expression))
-  );
 }
 
 function mergeInterfaces(

@@ -3,8 +3,8 @@ import { DeclarationCollection } from './DeclarationCollection.js';
 import { getName } from './getName.js';
 import { isNode } from './isNode.js';
 
-export type TokenReference = ts.TypeReferenceNode & {
-  typeArguments: readonly ts.TypeReferenceNode[];
+export type TokenReference = Omit<ts.TypeReferenceNode, 'typeArguments'> & {
+  typeArguments: ts.NodeArray<ts.TypeReferenceNode>;
 };
 
 export function isTokenReference(

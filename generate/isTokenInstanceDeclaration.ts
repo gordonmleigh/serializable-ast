@@ -2,7 +2,7 @@ import ts from 'typescript';
 import { DeclarationCollection } from './DeclarationCollection.js';
 import { TokenReference, isTokenReference } from './isTokenReference.js';
 
-export type TokenInstanceDeclaration = ts.TypeAliasDeclaration & {
+export type TokenInstanceDeclaration = Omit<ts.TypeAliasDeclaration, 'type'> & {
   type: TokenReference;
 };
 

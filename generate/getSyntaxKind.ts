@@ -1,12 +1,17 @@
 import ts from 'typescript';
 
-export function getSyntaxKind(name: ts.TypeNode): string | undefined {
+export function getSyntaxKind(type: ts.TypeNode): string | undefined {
+  return ts.isTypeReferenceNode(type)
+    ? getSyntaxKindFromName(type.typeName)
+    : undefined;
+}
+
+export function getSyntaxKindFromName(name: ts.EntityName): string | undefined {
   if (
-    ts.isTypeReferenceNode(name) &&
-    ts.isQualifiedName(name.typeName) &&
-    ts.isIdentifier(name.typeName.left) &&
-    name.typeName.left.text === 'SyntaxKind'
+    ts.isQualifiedName(name) &&
+    ts.isIdentifier(name.left) &&
+    name.left.text === 'SyntaxKind'
   ) {
-    return name.typeName.right.text;
+    return name.right.text;
   }
 }
