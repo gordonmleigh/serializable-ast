@@ -47,10 +47,6 @@ function getInterfaceMembers(
   defs: DeclarationCollection,
   typeArguments?: readonly ts.TypeNode[],
 ): NodeMember[] | undefined {
-  if (node.typeParameters && !typeArguments) {
-    // can't get members of top-level generic
-    return;
-  }
   const members: NodeMember[] = [];
 
   for (const member of node.members) {

@@ -8,13 +8,15 @@ import { assert } from './assert.js';
 import { getName } from './getName.js';
 import { getNodeKind } from './getNodeKind.js';
 import { getNodeMembers } from './getNodeMembers.js';
-import { getSyntaxKind } from './getSyntaxKind.js';
+import { getSyntaxKind, getSyntaxKindFromName } from './getSyntaxKind.js';
+import { isDeprecated } from './isDeprecated.js';
 import { isGenericBaseNode } from './isGenericBaseNode.js';
 import { isNode } from './isNode.js';
 import { isReferencedFromNode } from './isReferencedFromNode.js';
 import { isSimpleAliasDeclaration } from './isSimpleAliasDeclaration.js';
 import {
   isSyntaxKindUnionDeclaration,
+  isSyntaxKindUnionName,
   isSyntaxKindUnionRef,
 } from './isSyntaxKindUnion.js';
 import { isTokenDeclaration } from './isTokenDeclaration.js';
@@ -46,7 +48,11 @@ export function processModuleDeclaration(
   const statements: ts.Statement[] = [];
 
   for (const statement of module.body.statements) {
-    if (isDeclarationNode(statement) && !isBlockedType(statement.name)) {
+    if (
+      isDeclarationNode(statement) &&
+      !isBlockedType(statement.name) &&
+      !isDeprecated(statement)
+    ) {
       defs.add(statement);
     }
   }
@@ -87,14 +93,19 @@ export function processModuleDeclaration(
     if (kindToTokenName.has(typeArgName)) {
       continue;
     }
-    if (ref.kind === 'alias') {
-      // this is the name of the specific token node type
-      kindToTokenName.set(typeArgName, ref.source);
-      // we have a specific token node type, don't need the base
-      kindToTokenBase.delete(typeArgName);
-    } else if (ref.kind === 'generic-instance') {
-      // save the token base type for the kind for later
-      kindToTokenBase.set(typeArgName, ref);
+    if (
+      getSyntaxKindFromName(ref.typeArgument) ||
+      isSyntaxKindUnionName(ref.typeArgument, defs)
+    ) {
+      if (ref.kind === 'alias') {
+        // this is the name of the specific token node type
+        kindToTokenName.set(typeArgName, ref.source);
+        // we have a specific token node type, don't need the base
+        kindToTokenBase.delete(typeArgName);
+      } else if (ref.kind === 'generic-instance') {
+        // save the token base type for the kind for later
+        kindToTokenBase.set(typeArgName, ref);
+      }
     } else if (ref.kind === 'heritage') {
       const parent = defs.get(ref.source)?.node;
       assert(parent && ts.isInterfaceDeclaration(parent));
@@ -121,9 +132,6 @@ export function processModuleDeclaration(
             typeArgument: param.default.typeName,
           });
         }
-      }
-      if (param) {
-        continue;
       }
     }
 
@@ -188,9 +196,15 @@ export function processModuleDeclaration(
           );
         }
       }
-    } else if (members && kind && !node.typeParameters) {
+    } else if (members && kind) {
       statements.push(
-        makeNodeDefinition(node.name.text, members, defs, kindToTokenName),
+        makeNodeDefinition(
+          node.name.text,
+          node.typeParameters,
+          members,
+          defs,
+          kindToTokenName,
+        ),
       );
     } else if (isTokenInstanceDeclaration(node, defs)) {
       statements.push(
@@ -233,6 +247,7 @@ export function processModuleDeclaration(
 
 function makeNodeDefinition(
   name: string,
+  typeParameters: readonly ts.TypeParameterDeclaration[] | undefined,
   members: NodeMember[],
   defs: DeclarationCollection,
   tokens: Map<string, string>,
@@ -254,6 +269,9 @@ function makeNodeDefinition(
         const token = tokens.get(kind);
         assert(token, `expected token for ${kind}`);
         return ts.factory.createTypeReferenceNode(token);
+      }
+      if (getName(ref.typeName) === 'SyntaxKind') {
+        return ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
       }
       if (ref.parent && ts.isPropertySignature(ref.parent)) {
         const kind = getSyntaxKind(ref);
@@ -279,7 +297,7 @@ function makeNodeDefinition(
     ts.factory.createInterfaceDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       name,
-      undefined,
+      typeParameters,
       undefined,
       processedMembers,
     ),
@@ -387,8 +405,8 @@ function makeTokenInstanceDeclaration(
         members.map((member) => {
           const memberName = getName(member);
           const token = kindToTokenName.get(memberName);
-          assert(token, `expected token for ${memberName}`);
-          return ts.factory.createTypeReferenceNode(token);
+          //assert(token, `expected token for ${memberName}`);
+          return ts.factory.createTypeReferenceNode(token ?? member);
         }),
       ),
     ),
@@ -404,13 +422,15 @@ function getNamesOfSyntaxKindUnionDeep(
   const node = defs.get(name)?.node;
   if (node) {
     if (isSyntaxKindUnionDeclaration(node, defs)) {
-      const all = node.type.types.flatMap((x) =>
-        getNamesOfSyntaxKindUnionDeep(x.typeName, defs),
-      );
-      all.push(name);
-      return all;
-    } else if (isSimpleAliasDeclaration(node) && getSyntaxKind(node.type)) {
-      return [node.type.typeName];
+      if (isUnionDeclaration(node)) {
+        const all = node.type.types.flatMap((x) =>
+          getNamesOfSyntaxKindUnionDeep(x.typeName, defs),
+        );
+        all.push(name);
+        return all;
+      } else {
+        return [node.type.typeName];
+      }
     }
   }
   return [name];
@@ -421,10 +441,15 @@ function getAllNames(
   defs: DeclarationCollection,
 ): ts.EntityName[] {
   const node = defs.get(name)?.node;
-  if (node && isUnionDeclaration(node)) {
-    return node.type.types.flatMap((x) => x.typeName);
+  if (node) {
+    if (isUnionDeclaration(node)) {
+      return node.type.types.flatMap((x) => x.typeName);
+    }
+    if (isSimpleAliasDeclaration(node)) {
+      return [node.type.typeName];
+    }
   }
-  return [name];
+  return [];
 }
 
 const blockedTypes = [
