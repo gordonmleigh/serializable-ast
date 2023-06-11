@@ -8,13 +8,12 @@ import { assert } from './assert.js';
 import { getName } from './getName.js';
 import { getNodeKind } from './getNodeKind.js';
 import { getNodeMembers } from './getNodeMembers.js';
-import { getSyntaxKind, getSyntaxKindFromName } from './getSyntaxKind.js';
+import { getSyntaxKind } from './getSyntaxKind.js';
 import { isGenericBaseNode } from './isGenericBaseNode.js';
 import { isNode } from './isNode.js';
 import { isReferencedFromNode } from './isReferencedFromNode.js';
 import {
   isSyntaxKindUnion,
-  isSyntaxKindUnionName,
   isSyntaxKindUnionRef,
 } from './isSyntaxKindUnion.js';
 import { isTokenDeclaration } from './isTokenDeclaration.js';
@@ -83,29 +82,25 @@ export function processModuleDeclaration(
 
   for (let i = 0; i < allRefs.length; ++i) {
     const ref = allRefs[i];
-    const typeArgName = getName(ref.typeArgument);
-    if (kindToTokenName.has(typeArgName)) {
+    const kind = getName(ref.typeArgument);
+    if (kindToTokenName.has(kind)) {
       continue;
-    }
-    if (
-      getSyntaxKindFromName(ref.typeArgument) ||
-      isSyntaxKindUnionName(ref.typeArgument, defs)
-    ) {
     }
     if (ref.kind === 'alias') {
       // this is the name of the specific token node type
-      kindToTokenName.set(typeArgName, ref.source);
+      kindToTokenName.set(kind, ref.source);
       // we have a specific token node type, don't need the base
-      kindToTokenBase.delete(typeArgName);
+      kindToTokenBase.delete(kind);
     } else if (ref.kind === 'generic-instance') {
       // save the token base type for the kind for later
-      kindToTokenBase.set(typeArgName, ref);
+      kindToTokenBase.set(kind, ref);
     } else if (ref.kind === 'heritage') {
+      const typeArgumentName = getName(ref.typeArgument);
       const parent = defs.get(ref.source)?.node;
       assert(parent && ts.isInterfaceDeclaration(parent));
 
       const param = parent.typeParameters?.find(
-        (param) => param.name.text === typeArgName,
+        (param) => param.name.text === typeArgumentName,
       );
       if (param?.constraint) {
         if (isSyntaxKindUnionRef(param.constraint, defs)) {
@@ -127,20 +122,22 @@ export function processModuleDeclaration(
           });
         }
       }
-    }
-    if (isSyntaxKindUnionName(ref.typeArgument, defs)) {
-      const kinds = getNamesOfSyntaxKindUnionDeep(ref.typeArgument, defs);
-      for (const childKind of kinds) {
-        if (typeArgName === getName(childKind)) {
-          continue;
-        }
-        allRefs.push({
-          kind: 'generic-instance',
-          source: ref.source,
-          typeName: ref.typeName,
-          typeArgument: childKind,
-        });
+      if (param) {
+        continue;
       }
+    }
+
+    const kinds = getNamesOfSyntaxKindUnionDeep(ref.typeArgument, defs);
+    for (const childKind of kinds) {
+      if (kind === getName(childKind)) {
+        continue;
+      }
+      allRefs.push({
+        kind: 'generic-instance',
+        source: ref.source,
+        typeName: ref.typeName,
+        typeArgument: childKind,
+      });
     }
   }
 
