@@ -279,7 +279,8 @@ export type LocalsContainer =
   | JSDocEnumTag
   | JSDocTypedefTag
   | JSDocCallbackTag
-  | JSDocSignature;
+  | JSDocSignature
+  | SourceFile;
 export type FlowContainer =
   | Identifier
   | QualifiedName
@@ -1194,7 +1195,8 @@ export type Declaration =
   | JSDocEnumTag
   | JSDocSignature
   | JSDocPropertyLikeTag
-  | JSDocTypeLiteral;
+  | JSDocTypeLiteral
+  | SourceFile;
 export interface QualifiedName {
   readonly kind: 'QualifiedName';
   readonly left: EntityName;
@@ -2026,6 +2028,12 @@ export interface MissingDeclaration {
   readonly kind: 'MissingDeclaration';
   readonly name?: Identifier;
 }
+export type BlockLike = SourceFile | Block | ModuleBlock | CaseOrDefaultClause;
+export interface SourceFile {
+  readonly kind: 'SourceFile';
+  readonly statements: NodeArray<Statement>;
+  readonly endOfFileToken: EndOfFileTokenToken;
+}
 export interface ModuleBlock {
   readonly kind: 'ModuleBlock';
   readonly statements: NodeArray<Statement>;
@@ -2319,9 +2327,19 @@ export interface JSDocSatisfiesTag {
   readonly typeExpression: JSDocTypeExpression;
   readonly tagName: Identifier;
 }
+export interface JsonSourceFile {
+  readonly statements: NodeArray<JsonObjectExpressionStatement>;
+  readonly kind: 'SourceFile';
+  readonly endOfFileToken: EndOfFileTokenToken;
+}
 export interface JsonObjectExpressionStatement {
   readonly expression: JsonObjectExpression;
   readonly kind: 'ExpressionStatement';
+}
+export interface TsConfigSourceFile {
+  readonly statements: NodeArray<JsonObjectExpressionStatement>;
+  readonly kind: 'SourceFile';
+  readonly endOfFileToken: EndOfFileTokenToken;
 }
 export interface JsonMinusNumericLiteral {
   readonly kind: 'PrefixUnaryExpression';

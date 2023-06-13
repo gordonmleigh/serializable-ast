@@ -16,7 +16,13 @@ export function isValidNodeMember(node: ts.TypeElement): node is NodeMember {
   );
 }
 
-const bannedTypeNames = ['__String', 'NodeFlags'];
+const bannedTypeNames = [
+  '__String',
+  'LanguageVariant',
+  'NodeFlags',
+  'ResolutionMode',
+  'ScriptTarget',
+];
 
 function isBannedType(node: ts.TypeNode): boolean {
   if (ts.isTypeReferenceNode(node)) {
