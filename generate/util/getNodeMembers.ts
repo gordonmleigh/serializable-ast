@@ -22,26 +22,41 @@ export function getNodeMembers(
 
   if (ts.isInterfaceDeclaration(node)) {
     return getInterfaceMembers(node, defs, typeArguments);
-  } else if (
-    ts.isTypeAliasDeclaration(node) &&
-    ts.isTypeReferenceNode(node.type)
-  ) {
-    let refTypeArguments: readonly ts.TypeNode[] | undefined =
-      node.type.typeArguments;
+  }
+  if (!ts.isTypeAliasDeclaration(node)) {
+    return;
+  }
+  if (ts.isTypeReferenceNode(node.type)) {
+    return getTokenRefMembers(
+      node.type,
+      defs,
+      node.typeParameters,
+      typeArguments,
+    );
+  }
+  if (ts.isIntersectionTypeNode(node.type)) {
+    const members: NodeMember[] = [];
 
-    if (typeArguments && refTypeArguments) {
-      assert(
-        node.typeParameters,
-        'expected type parameters for type arguments',
+    for (const type of node.type.types) {
+      if (!ts.isTypeReferenceNode(type)) {
+        return;
+      }
+      const typeMembers = getNodeMembers(
+        type.typeName,
+        defs,
+        type.typeArguments,
       );
-      refTypeArguments = replaceAllGenericTypes(
-        refTypeArguments,
-        node.typeParameters,
-        typeArguments,
+      if (!typeMembers) {
+        return;
+      }
+      members.push(
+        ...typeMembers.filter(
+          (m) => !members.find((x) => x.name.text === m.name.text),
+        ),
       );
     }
 
-    return getNodeMembers(getName(node.type.typeName), defs, refTypeArguments);
+    return members;
   }
 }
 
@@ -72,30 +87,6 @@ function getInterfaceMembers(
         );
       }
     }
-
-    // // replace refs to tokens
-    // memberType = replaceTypes(memberType, (ref) => {
-    //   if (!isTokenReference(ref)) {
-    //     return ref;
-    //   }
-    //   const kind = getSyntaxKindFromTokenRef(ref);
-    //   if (kind) {
-    //     return ts.factory.createTypeReferenceNode(
-    //       defs.getToken(kind, ref.typeName),
-    //     );
-    //   }
-    //   const kinds = getSyntaxKindsForUnion(ref, defs);
-    //   if (kinds) {
-    //     return ts.factory.createUnionTypeNode(
-    //       kinds.map((kind) =>
-    //         ts.factory.createTypeReferenceNode(
-    //           defs.getToken(kind, ref.typeName),
-    //         ),
-    //       ),
-    //     );
-    //   }
-    //   return ref;
-    // });
 
     if (memberType === member.type) {
       members.push(member);
@@ -140,12 +131,31 @@ function getInterfaceMembers(
       }
       members.push(
         ...baseMembers.filter(
-          (m): m is NodeMember =>
-            isValidNodeMember(m) &&
-            !members.find((x) => x.name.text === m.name.text),
+          (m) => !members.find((x) => x.name.text === m.name.text),
         ),
       );
     }
   }
   return members;
+}
+
+function getTokenRefMembers(
+  tokenRef: ts.TypeReferenceNode,
+  defs: DeclarationCollection,
+  typeParameters: readonly ts.TypeParameterDeclaration[] | undefined,
+  typeArguments?: readonly ts.TypeNode[],
+) {
+  let refTypeArguments: readonly ts.TypeNode[] | undefined =
+    tokenRef.typeArguments;
+
+  if (typeArguments && refTypeArguments) {
+    assert(typeParameters, 'expected type parameters for type arguments');
+    refTypeArguments = replaceAllGenericTypes(
+      refTypeArguments,
+      typeParameters,
+      typeArguments,
+    );
+  }
+
+  return getNodeMembers(getName(tokenRef.typeName), defs, refTypeArguments);
 }

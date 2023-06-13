@@ -4,6 +4,7 @@
 coverage/
 dist/
 lib/
+lib-gen/
 node_modules/
 test-report.xml
 *.tsbuildinfo

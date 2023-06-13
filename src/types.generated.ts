@@ -312,6 +312,70 @@ export type FlowContainer =
   | LabeledStatement
   | ThrowStatement
   | TryStatement;
+export type HasJSDoc =
+  | AccessorDeclaration
+  | ArrowFunction
+  | BinaryExpression
+  | Block
+  | BreakStatement
+  | CallSignatureDeclaration
+  | CaseClause
+  | ClassLikeDeclaration
+  | ClassStaticBlockDeclaration
+  | ConstructorDeclaration
+  | ConstructorTypeNode
+  | ConstructSignatureDeclaration
+  | ContinueStatement
+  | DebuggerStatement
+  | DoStatement
+  | ElementAccessExpression
+  | EmptyStatement
+  | EndOfFileToken
+  | EnumDeclaration
+  | EnumMember
+  | ExportAssignment
+  | ExportDeclaration
+  | ExportSpecifier
+  | ExpressionStatement
+  | ForInStatement
+  | ForOfStatement
+  | ForStatement
+  | FunctionDeclaration
+  | FunctionExpression
+  | FunctionTypeNode
+  | Identifier
+  | IfStatement
+  | ImportDeclaration
+  | ImportEqualsDeclaration
+  | IndexSignatureDeclaration
+  | InterfaceDeclaration
+  | JSDocFunctionType
+  | JSDocSignature
+  | LabeledStatement
+  | MethodDeclaration
+  | MethodSignature
+  | ModuleDeclaration
+  | NamedTupleMember
+  | NamespaceExportDeclaration
+  | ObjectLiteralExpression
+  | ParameterDeclaration
+  | ParenthesizedExpression
+  | PropertyAccessExpression
+  | PropertyAssignment
+  | PropertyDeclaration
+  | PropertySignature
+  | ReturnStatement
+  | ShorthandPropertyAssignment
+  | SpreadAssignment
+  | SwitchStatement
+  | ThrowStatement
+  | TryStatement
+  | TypeAliasDeclaration
+  | TypeParameterDeclaration
+  | VariableDeclaration
+  | VariableStatement
+  | WhileStatement
+  | WithStatement;
 export type AccessorDeclaration =
   | GetAccessorDeclaration
   | SetAccessorDeclaration;
@@ -390,6 +454,9 @@ export interface ElementAccessExpression {
 }
 export interface EmptyStatement {
   readonly kind: 'EmptyStatement';
+}
+export interface EndOfFileToken {
+  readonly kind: 'EndOfFileToken';
 }
 export interface EnumDeclaration {
   readonly kind: 'EnumDeclaration';
@@ -857,73 +924,72 @@ export type Token =
   | KeywordToken
   | BinaryOperatorToken
   | AssignmentOperatorToken
-  | EndOfFileTokenToken
   | PunctuationSyntaxKindToken
   | KeywordSyntaxKindToken
-  | QuestionQuestionTokenToken
-  | AsteriskAsteriskTokenToken
-  | SlashTokenToken
-  | PercentTokenToken
+  | QuestionQuestionToken
+  | AsteriskAsteriskToken
+  | SlashToken
+  | PercentToken
   | MultiplicativeOperatorToken
   | MultiplicativeOperatorOrHigherToken
   | AdditiveOperatorToken
   | AdditiveOperatorOrHigherToken
-  | LessThanLessThanTokenToken
-  | GreaterThanGreaterThanTokenToken
-  | GreaterThanGreaterThanGreaterThanTokenToken
+  | LessThanLessThanToken
+  | GreaterThanGreaterThanToken
+  | GreaterThanGreaterThanGreaterThanToken
   | ShiftOperatorToken
   | ShiftOperatorOrHigherToken
-  | LessThanTokenToken
-  | LessThanEqualsTokenToken
-  | GreaterThanTokenToken
-  | GreaterThanEqualsTokenToken
+  | LessThanToken
+  | LessThanEqualsToken
+  | GreaterThanToken
+  | GreaterThanEqualsToken
   | InstanceOfKeywordToken
   | RelationalOperatorToken
   | RelationalOperatorOrHigherToken
-  | EqualsEqualsTokenToken
-  | EqualsEqualsEqualsTokenToken
-  | ExclamationEqualsEqualsTokenToken
-  | ExclamationEqualsTokenToken
+  | EqualsEqualsToken
+  | EqualsEqualsEqualsToken
+  | ExclamationEqualsEqualsToken
+  | ExclamationEqualsToken
   | EqualityOperatorToken
   | EqualityOperatorOrHigherToken
-  | AmpersandTokenToken
-  | BarTokenToken
-  | CaretTokenToken
+  | AmpersandToken
+  | BarToken
+  | CaretToken
   | BitwiseOperatorToken
   | BitwiseOperatorOrHigherToken
-  | AmpersandAmpersandTokenToken
-  | BarBarTokenToken
+  | AmpersandAmpersandToken
+  | BarBarToken
   | LogicalOperatorToken
   | LogicalOperatorOrHigherToken
-  | PlusEqualsTokenToken
-  | MinusEqualsTokenToken
-  | AsteriskAsteriskEqualsTokenToken
-  | AsteriskEqualsTokenToken
-  | SlashEqualsTokenToken
-  | PercentEqualsTokenToken
-  | AmpersandEqualsTokenToken
-  | BarEqualsTokenToken
-  | CaretEqualsTokenToken
-  | LessThanLessThanEqualsTokenToken
-  | GreaterThanGreaterThanGreaterThanEqualsTokenToken
-  | GreaterThanGreaterThanEqualsTokenToken
+  | PlusEqualsToken
+  | MinusEqualsToken
+  | AsteriskAsteriskEqualsToken
+  | AsteriskEqualsToken
+  | SlashEqualsToken
+  | PercentEqualsToken
+  | AmpersandEqualsToken
+  | BarEqualsToken
+  | CaretEqualsToken
+  | LessThanLessThanEqualsToken
+  | GreaterThanGreaterThanGreaterThanEqualsToken
+  | GreaterThanGreaterThanEqualsToken
   | CompoundAssignmentOperatorToken
   | AssignmentOperatorOrHigherToken
-  | CommaTokenToken
-  | OpenBraceTokenToken
-  | CloseBraceTokenToken
-  | OpenParenTokenToken
-  | CloseParenTokenToken
-  | OpenBracketTokenToken
-  | CloseBracketTokenToken
-  | SemicolonTokenToken
-  | LessThanSlashTokenToken
-  | PlusPlusTokenToken
-  | MinusMinusTokenToken
-  | TildeTokenToken
-  | AtTokenToken
-  | BacktickTokenToken
-  | HashTokenToken
+  | CommaToken
+  | OpenBraceToken
+  | CloseBraceToken
+  | OpenParenToken
+  | CloseParenToken
+  | OpenBracketToken
+  | CloseBracketToken
+  | SemicolonToken
+  | LessThanSlashToken
+  | PlusPlusToken
+  | MinusMinusToken
+  | TildeToken
+  | AtToken
+  | BacktickToken
+  | HashToken
   | AsKeywordToken
   | BreakKeywordToken
   | CatchKeywordToken
@@ -1721,9 +1787,7 @@ export type AssignmentOperatorOrHigher =
   | LogicalOperatorOrHigher
   | AssignmentOperator;
 export type BinaryOperator = AssignmentOperatorOrHigher | 'CommaToken';
-export type BinaryOperatorToken =
-  | AssignmentOperatorOrHigherToken
-  | CommaTokenToken;
+export type BinaryOperatorToken = AssignmentOperatorOrHigherToken | CommaToken;
 export type AssignmentOperatorToken =
   | EqualsToken
   | CompoundAssignmentOperatorToken;
@@ -2032,7 +2096,7 @@ export type BlockLike = SourceFile | Block | ModuleBlock | CaseOrDefaultClause;
 export interface SourceFile {
   readonly kind: 'SourceFile';
   readonly statements: NodeArray<Statement>;
-  readonly endOfFileToken: EndOfFileTokenToken;
+  readonly endOfFileToken: EndOfFileToken;
 }
 export interface ModuleBlock {
   readonly kind: 'ModuleBlock';
@@ -2330,7 +2394,7 @@ export interface JSDocSatisfiesTag {
 export interface JsonSourceFile {
   readonly statements: NodeArray<JsonObjectExpressionStatement>;
   readonly kind: 'SourceFile';
-  readonly endOfFileToken: EndOfFileTokenToken;
+  readonly endOfFileToken: EndOfFileToken;
 }
 export interface JsonObjectExpressionStatement {
   readonly expression: JsonObjectExpression;
@@ -2339,7 +2403,7 @@ export interface JsonObjectExpressionStatement {
 export interface TsConfigSourceFile {
   readonly statements: NodeArray<JsonObjectExpressionStatement>;
   readonly kind: 'SourceFile';
-  readonly endOfFileToken: EndOfFileTokenToken;
+  readonly endOfFileToken: EndOfFileToken;
 }
 export interface JsonMinusNumericLiteral {
   readonly kind: 'PrefixUnaryExpression';
@@ -2361,71 +2425,68 @@ export type DestructuringPattern =
 export interface SyntaxList {
   kind: 'SyntaxList';
 }
-export interface EndOfFileTokenToken {
-  readonly kind: 'EndOfFileToken';
-}
 export type PunctuationSyntaxKindToken =
-  | OpenBraceTokenToken
-  | CloseBraceTokenToken
-  | OpenParenTokenToken
-  | CloseParenTokenToken
-  | OpenBracketTokenToken
-  | CloseBracketTokenToken
+  | OpenBraceToken
+  | CloseBraceToken
+  | OpenParenToken
+  | CloseParenToken
+  | OpenBracketToken
+  | CloseBracketToken
   | DotToken
   | DotDotDotToken
-  | SemicolonTokenToken
-  | CommaTokenToken
+  | SemicolonToken
+  | CommaToken
   | QuestionDotToken
-  | LessThanTokenToken
-  | LessThanSlashTokenToken
-  | GreaterThanTokenToken
-  | LessThanEqualsTokenToken
-  | GreaterThanEqualsTokenToken
-  | EqualsEqualsTokenToken
-  | ExclamationEqualsTokenToken
-  | EqualsEqualsEqualsTokenToken
-  | ExclamationEqualsEqualsTokenToken
+  | LessThanToken
+  | LessThanSlashToken
+  | GreaterThanToken
+  | LessThanEqualsToken
+  | GreaterThanEqualsToken
+  | EqualsEqualsToken
+  | ExclamationEqualsToken
+  | EqualsEqualsEqualsToken
+  | ExclamationEqualsEqualsToken
   | EqualsGreaterThanToken
   | PlusToken
   | MinusToken
   | AsteriskToken
-  | AsteriskAsteriskTokenToken
-  | SlashTokenToken
-  | PercentTokenToken
-  | PlusPlusTokenToken
-  | MinusMinusTokenToken
-  | LessThanLessThanTokenToken
-  | GreaterThanGreaterThanTokenToken
-  | GreaterThanGreaterThanGreaterThanTokenToken
-  | AmpersandTokenToken
-  | BarTokenToken
-  | CaretTokenToken
+  | AsteriskAsteriskToken
+  | SlashToken
+  | PercentToken
+  | PlusPlusToken
+  | MinusMinusToken
+  | LessThanLessThanToken
+  | GreaterThanGreaterThanToken
+  | GreaterThanGreaterThanGreaterThanToken
+  | AmpersandToken
+  | BarToken
+  | CaretToken
   | ExclamationToken
-  | TildeTokenToken
-  | AmpersandAmpersandTokenToken
+  | TildeToken
+  | AmpersandAmpersandToken
   | AmpersandAmpersandEqualsToken
-  | BarBarTokenToken
+  | BarBarToken
   | BarBarEqualsToken
-  | QuestionQuestionTokenToken
+  | QuestionQuestionToken
   | QuestionQuestionEqualsToken
   | QuestionToken
   | ColonToken
-  | AtTokenToken
-  | BacktickTokenToken
-  | HashTokenToken
+  | AtToken
+  | BacktickToken
+  | HashToken
   | EqualsToken
-  | PlusEqualsTokenToken
-  | MinusEqualsTokenToken
-  | AsteriskEqualsTokenToken
-  | AsteriskAsteriskEqualsTokenToken
-  | SlashEqualsTokenToken
-  | PercentEqualsTokenToken
-  | LessThanLessThanEqualsTokenToken
-  | GreaterThanGreaterThanEqualsTokenToken
-  | GreaterThanGreaterThanGreaterThanEqualsTokenToken
-  | AmpersandEqualsTokenToken
-  | BarEqualsTokenToken
-  | CaretEqualsTokenToken;
+  | PlusEqualsToken
+  | MinusEqualsToken
+  | AsteriskEqualsToken
+  | AsteriskAsteriskEqualsToken
+  | SlashEqualsToken
+  | PercentEqualsToken
+  | LessThanLessThanEqualsToken
+  | GreaterThanGreaterThanEqualsToken
+  | GreaterThanGreaterThanGreaterThanEqualsToken
+  | AmpersandEqualsToken
+  | BarEqualsToken
+  | CaretEqualsToken;
 export type KeywordSyntaxKindToken =
   | AbstractKeyword
   | AccessorKeyword
@@ -2509,22 +2570,22 @@ export type KeywordSyntaxKindToken =
   | WhileKeywordToken
   | WithKeywordToken
   | YieldKeywordToken;
-export interface QuestionQuestionTokenToken {
+export interface QuestionQuestionToken {
   readonly kind: 'QuestionQuestionToken';
 }
-export interface AsteriskAsteriskTokenToken {
+export interface AsteriskAsteriskToken {
   readonly kind: 'AsteriskAsteriskToken';
 }
-export interface SlashTokenToken {
+export interface SlashToken {
   readonly kind: 'SlashToken';
 }
-export interface PercentTokenToken {
+export interface PercentToken {
   readonly kind: 'PercentToken';
 }
 export type MultiplicativeOperatorToken =
   | AsteriskToken
-  | SlashTokenToken
-  | PercentTokenToken;
+  | SlashToken
+  | PercentToken;
 export type MultiplicativeOperatorOrHigherToken =
   | ExponentiationOperator
   | MultiplicativeOperatorToken;
@@ -2532,152 +2593,147 @@ export type AdditiveOperatorToken = PlusToken | MinusToken;
 export type AdditiveOperatorOrHigherToken =
   | MultiplicativeOperatorOrHigherToken
   | AdditiveOperatorToken;
-export interface LessThanLessThanTokenToken {
+export interface LessThanLessThanToken {
   readonly kind: 'LessThanLessThanToken';
 }
-export interface GreaterThanGreaterThanTokenToken {
+export interface GreaterThanGreaterThanToken {
   readonly kind: 'GreaterThanGreaterThanToken';
 }
-export interface GreaterThanGreaterThanGreaterThanTokenToken {
+export interface GreaterThanGreaterThanGreaterThanToken {
   readonly kind: 'GreaterThanGreaterThanGreaterThanToken';
 }
 export type ShiftOperatorToken =
-  | LessThanLessThanTokenToken
-  | GreaterThanGreaterThanTokenToken
-  | GreaterThanGreaterThanGreaterThanTokenToken;
+  | LessThanLessThanToken
+  | GreaterThanGreaterThanToken
+  | GreaterThanGreaterThanGreaterThanToken;
 export type ShiftOperatorOrHigherToken =
   | AdditiveOperatorOrHigherToken
   | ShiftOperatorToken;
-export interface LessThanTokenToken {
+export interface LessThanToken {
   readonly kind: 'LessThanToken';
 }
-export interface LessThanEqualsTokenToken {
+export interface LessThanEqualsToken {
   readonly kind: 'LessThanEqualsToken';
 }
-export interface GreaterThanTokenToken {
+export interface GreaterThanToken {
   readonly kind: 'GreaterThanToken';
 }
-export interface GreaterThanEqualsTokenToken {
+export interface GreaterThanEqualsToken {
   readonly kind: 'GreaterThanEqualsToken';
 }
 export interface InstanceOfKeywordToken {
   readonly kind: 'InstanceOfKeyword';
 }
 export type RelationalOperatorToken =
-  | LessThanTokenToken
-  | LessThanEqualsTokenToken
-  | GreaterThanTokenToken
-  | GreaterThanEqualsTokenToken
+  | LessThanToken
+  | LessThanEqualsToken
+  | GreaterThanToken
+  | GreaterThanEqualsToken
   | InstanceOfKeywordToken
   | InKeyword;
 export type RelationalOperatorOrHigherToken =
   | ShiftOperatorOrHigherToken
   | RelationalOperatorToken;
-export interface EqualsEqualsTokenToken {
+export interface EqualsEqualsToken {
   readonly kind: 'EqualsEqualsToken';
 }
-export interface EqualsEqualsEqualsTokenToken {
+export interface EqualsEqualsEqualsToken {
   readonly kind: 'EqualsEqualsEqualsToken';
 }
-export interface ExclamationEqualsEqualsTokenToken {
+export interface ExclamationEqualsEqualsToken {
   readonly kind: 'ExclamationEqualsEqualsToken';
 }
-export interface ExclamationEqualsTokenToken {
+export interface ExclamationEqualsToken {
   readonly kind: 'ExclamationEqualsToken';
 }
 export type EqualityOperatorToken =
-  | EqualsEqualsTokenToken
-  | EqualsEqualsEqualsTokenToken
-  | ExclamationEqualsEqualsTokenToken
-  | ExclamationEqualsTokenToken;
+  | EqualsEqualsToken
+  | EqualsEqualsEqualsToken
+  | ExclamationEqualsEqualsToken
+  | ExclamationEqualsToken;
 export type EqualityOperatorOrHigherToken =
   | RelationalOperatorOrHigherToken
   | EqualityOperatorToken;
-export interface AmpersandTokenToken {
+export interface AmpersandToken {
   readonly kind: 'AmpersandToken';
 }
-export interface BarTokenToken {
+export interface BarToken {
   readonly kind: 'BarToken';
 }
-export interface CaretTokenToken {
+export interface CaretToken {
   readonly kind: 'CaretToken';
 }
-export type BitwiseOperatorToken =
-  | AmpersandTokenToken
-  | BarTokenToken
-  | CaretTokenToken;
+export type BitwiseOperatorToken = AmpersandToken | BarToken | CaretToken;
 export type BitwiseOperatorOrHigherToken =
   | EqualityOperatorOrHigherToken
   | BitwiseOperatorToken;
-export interface AmpersandAmpersandTokenToken {
+export interface AmpersandAmpersandToken {
   readonly kind: 'AmpersandAmpersandToken';
 }
-export interface BarBarTokenToken {
+export interface BarBarToken {
   readonly kind: 'BarBarToken';
 }
-export type LogicalOperatorToken =
-  | AmpersandAmpersandTokenToken
-  | BarBarTokenToken;
+export type LogicalOperatorToken = AmpersandAmpersandToken | BarBarToken;
 export type LogicalOperatorOrHigherToken =
   | BitwiseOperatorOrHigherToken
   | LogicalOperatorToken;
-export interface PlusEqualsTokenToken {
+export interface PlusEqualsToken {
   readonly kind: 'PlusEqualsToken';
 }
-export interface MinusEqualsTokenToken {
+export interface MinusEqualsToken {
   readonly kind: 'MinusEqualsToken';
 }
-export interface AsteriskAsteriskEqualsTokenToken {
+export interface AsteriskAsteriskEqualsToken {
   readonly kind: 'AsteriskAsteriskEqualsToken';
 }
-export interface AsteriskEqualsTokenToken {
+export interface AsteriskEqualsToken {
   readonly kind: 'AsteriskEqualsToken';
 }
-export interface SlashEqualsTokenToken {
+export interface SlashEqualsToken {
   readonly kind: 'SlashEqualsToken';
 }
-export interface PercentEqualsTokenToken {
+export interface PercentEqualsToken {
   readonly kind: 'PercentEqualsToken';
 }
-export interface AmpersandEqualsTokenToken {
+export interface AmpersandEqualsToken {
   readonly kind: 'AmpersandEqualsToken';
 }
-export interface BarEqualsTokenToken {
+export interface BarEqualsToken {
   readonly kind: 'BarEqualsToken';
 }
-export interface CaretEqualsTokenToken {
+export interface CaretEqualsToken {
   readonly kind: 'CaretEqualsToken';
 }
-export interface LessThanLessThanEqualsTokenToken {
+export interface LessThanLessThanEqualsToken {
   readonly kind: 'LessThanLessThanEqualsToken';
 }
-export interface GreaterThanGreaterThanGreaterThanEqualsTokenToken {
+export interface GreaterThanGreaterThanGreaterThanEqualsToken {
   readonly kind: 'GreaterThanGreaterThanGreaterThanEqualsToken';
 }
-export interface GreaterThanGreaterThanEqualsTokenToken {
+export interface GreaterThanGreaterThanEqualsToken {
   readonly kind: 'GreaterThanGreaterThanEqualsToken';
 }
 export type CompoundAssignmentOperatorToken =
-  | PlusEqualsTokenToken
-  | MinusEqualsTokenToken
-  | AsteriskAsteriskEqualsTokenToken
-  | AsteriskEqualsTokenToken
-  | SlashEqualsTokenToken
-  | PercentEqualsTokenToken
-  | AmpersandEqualsTokenToken
-  | BarEqualsTokenToken
-  | CaretEqualsTokenToken
-  | LessThanLessThanEqualsTokenToken
-  | GreaterThanGreaterThanGreaterThanEqualsTokenToken
-  | GreaterThanGreaterThanEqualsTokenToken
+  | PlusEqualsToken
+  | MinusEqualsToken
+  | AsteriskAsteriskEqualsToken
+  | AsteriskEqualsToken
+  | SlashEqualsToken
+  | PercentEqualsToken
+  | AmpersandEqualsToken
+  | BarEqualsToken
+  | CaretEqualsToken
+  | LessThanLessThanEqualsToken
+  | GreaterThanGreaterThanGreaterThanEqualsToken
+  | GreaterThanGreaterThanEqualsToken
   | BarBarEqualsToken
   | AmpersandAmpersandEqualsToken
   | QuestionQuestionEqualsToken;
 export type AssignmentOperatorOrHigherToken =
-  | QuestionQuestionTokenToken
+  | QuestionQuestionToken
   | LogicalOperatorOrHigherToken
   | AssignmentOperatorToken;
-export interface CommaTokenToken {
+export interface CommaToken {
   readonly kind: 'CommaToken';
 }
 export type ModifierSyntaxKindToken =
@@ -2709,46 +2765,46 @@ export type KeywordTypeSyntaxKindToken =
   | UndefinedKeywordToken
   | UnknownKeywordToken
   | VoidKeywordToken;
-export interface OpenBraceTokenToken {
+export interface OpenBraceToken {
   readonly kind: 'OpenBraceToken';
 }
-export interface CloseBraceTokenToken {
+export interface CloseBraceToken {
   readonly kind: 'CloseBraceToken';
 }
-export interface OpenParenTokenToken {
+export interface OpenParenToken {
   readonly kind: 'OpenParenToken';
 }
-export interface CloseParenTokenToken {
+export interface CloseParenToken {
   readonly kind: 'CloseParenToken';
 }
-export interface OpenBracketTokenToken {
+export interface OpenBracketToken {
   readonly kind: 'OpenBracketToken';
 }
-export interface CloseBracketTokenToken {
+export interface CloseBracketToken {
   readonly kind: 'CloseBracketToken';
 }
-export interface SemicolonTokenToken {
+export interface SemicolonToken {
   readonly kind: 'SemicolonToken';
 }
-export interface LessThanSlashTokenToken {
+export interface LessThanSlashToken {
   readonly kind: 'LessThanSlashToken';
 }
-export interface PlusPlusTokenToken {
+export interface PlusPlusToken {
   readonly kind: 'PlusPlusToken';
 }
-export interface MinusMinusTokenToken {
+export interface MinusMinusToken {
   readonly kind: 'MinusMinusToken';
 }
-export interface TildeTokenToken {
+export interface TildeToken {
   readonly kind: 'TildeToken';
 }
-export interface AtTokenToken {
+export interface AtToken {
   readonly kind: 'AtToken';
 }
-export interface BacktickTokenToken {
+export interface BacktickToken {
   readonly kind: 'BacktickToken';
 }
-export interface HashTokenToken {
+export interface HashToken {
   readonly kind: 'HashToken';
 }
 export interface AnyKeywordToken {

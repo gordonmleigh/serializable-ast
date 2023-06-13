@@ -7,7 +7,8 @@
   "scripts": {
     "generate": "node --loader=@swc-node/register/esm generate/main.ts",
     "lint": "eslint src/ generate/ --ext=ts",
-    "watch:compile": "tsc -w"
+    "watch:check": "tsc -w",
+    "watch:generate": "tsc -w -p tsconfig.generate.json"
   },
   "repository": {
     "type": "git",

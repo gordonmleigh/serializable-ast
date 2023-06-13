@@ -11,8 +11,8 @@ import {
 } from './classification/isSyntaxKindUnion.js';
 import { isTokenDeclaration } from './classification/isTokenDeclaration.js';
 import {
-  TokenInstanceDeclaration,
   isTokenInstanceDeclaration,
+  isTokenInstanceIntersectionDeclaration,
 } from './classification/isTokenInstanceDeclaration.js';
 import {
   TokenReference,
@@ -101,7 +101,7 @@ export function processModuleDeclaration(
       getSyntaxKindFromName(ref.typeArgument) ||
       isSyntaxKindUnionName(ref.typeArgument, defs)
     ) {
-      if (ref.kind === 'alias') {
+      if (ref.kind === 'alias' || ref.kind === 'intersection') {
         // this is the name of the specific token node type
         kindToTokenName.set(typeArgName, ref.source);
         // we have a specific token node type, don't need the base
@@ -162,27 +162,32 @@ export function processModuleDeclaration(
           tokenBase.typeArgument.left.text === 'SyntaxKind',
         'expected SyntaxKind ref',
       );
-      nodeName = tokenBase.typeArgument.right.text + 'Token';
+      nodeName = tokenBase.typeArgument.right.text;
     } else {
       assert(ts.isIdentifier(tokenBase.typeArgument), 'expected identifier');
-      nodeName = tokenBase.typeArgument.text + 'Token';
+      nodeName = tokenBase.typeArgument.text;
     }
-    if (defs.get(nodeName)?.node) {
-      console.warn(`Token node type ${nodeName} already exists`);
-    } else {
-      // now generate a definition for the token node type
-      kindToTokenName.set(kind, nodeName);
-      defs.add(
-        ts.factory.createTypeAliasDeclaration(
-          undefined,
-          nodeName,
-          undefined,
-          ts.factory.createTypeReferenceNode(tokenBase.typeName, [
-            ts.factory.createTypeReferenceNode(tokenBase.typeArgument),
-          ]),
-        ),
-      );
+    if (!nodeName.endsWith('Token')) {
+      nodeName += 'Token';
     }
+
+    assert(
+      !defs.get(nodeName)?.node,
+      `token node type ${nodeName} already exists`,
+    );
+
+    // now generate a definition for the token node type
+    kindToTokenName.set(kind, nodeName);
+    defs.add(
+      ts.factory.createTypeAliasDeclaration(
+        undefined,
+        nodeName,
+        undefined,
+        ts.factory.createTypeReferenceNode(tokenBase.typeName, [
+          ts.factory.createTypeReferenceNode(tokenBase.typeArgument),
+        ]),
+      ),
+    );
   }
 
   for (const node of defs.declarations()) {
@@ -212,7 +217,26 @@ export function processModuleDeclaration(
       );
     } else if (isTokenInstanceDeclaration(node, defs)) {
       statements.push(
-        makeTokenInstanceDeclaration(node, defs, kindToTokenName),
+        makeTokenInstanceDeclaration(
+          node.name,
+          node.type,
+          defs,
+          kindToTokenName,
+        ),
+      );
+    } else if (isTokenInstanceIntersectionDeclaration(node, defs)) {
+      const tokenNode = node.type.types.find((type): type is TokenReference =>
+        isTokenReference(type, defs),
+      );
+      assert(tokenNode, 'expected to find the  token reference');
+
+      statements.push(
+        makeTokenInstanceDeclaration(
+          node.name,
+          tokenNode,
+          defs,
+          kindToTokenName,
+        ),
       );
     } else if (isTokenDeclaration(node)) {
       const refs = defs.getReferences(node.name, 'alias', 'heritage');
@@ -390,16 +414,17 @@ function makeSyntaxKindUnionDefinition(
 }
 
 function makeTokenInstanceDeclaration(
-  node: TokenInstanceDeclaration,
+  name: ts.Identifier,
+  tokenRef: TokenReference,
   defs: DeclarationCollection,
   kindToTokenName: Map<string, string>,
 ): ts.Statement {
-  const members = getAllNames(node.type.typeArguments[0].typeName, defs);
+  const members = getAllNames(tokenRef.typeArguments[0].typeName, defs);
 
   return attachDebugComments(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
-      node.name,
+      name,
       undefined,
       ts.factory.createUnionTypeNode(
         members.map((member) => {

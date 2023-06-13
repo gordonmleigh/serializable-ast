@@ -8,9 +8,9 @@
       "type": "node",
       "request": "launch",
       "name": "Generate",
-      "skipFiles": ["<node_internals>/**","**/node_modules/**"],
-      "program": "lib/main.js",
-      "outFiles": ["${workspaceFolder}/lib/*.js"]
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "program": "lib-gen/main.js",
+      "outFiles": ["${workspaceFolder}/lib-gen/*.js"]
     }
   ]
 }

@@ -28,6 +28,11 @@ export function isNode(
     if (ts.isTypeReferenceNode(def.type)) {
       return isNode(def.type.typeName, defs);
     }
+    if (ts.isIntersectionTypeNode(def.type)) {
+      return def.type.types.some(
+        (type) => ts.isTypeReferenceNode(type) && isNode(type.typeName, defs),
+      );
+    }
   }
   return false;
 }
