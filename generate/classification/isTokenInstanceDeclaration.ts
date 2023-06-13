@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { DeclarationCollection } from './DeclarationCollection.js';
+import { DeclarationCollection } from '../util/DeclarationCollection.js';
 import { TokenReference, isTokenReference } from './isTokenReference.js';
 
 export type TokenInstanceDeclaration = Omit<ts.TypeAliasDeclaration, 'type'> & {

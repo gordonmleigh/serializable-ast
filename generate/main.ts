@@ -32,7 +32,7 @@ function main(): void {
       const output = processModuleDeclaration(statement);
       const printer = ts.createPrinter();
       const source = printer.printFile(output);
-      writeFileSync(resolve(__dirname, '../.local/out.ts'), source);
+      writeFileSync(resolve(__dirname, '../src/types.generated.ts'), source);
       return;
     }
   }

@@ -1,6 +1,6 @@
 import ts from 'typescript';
+import { NodeMember } from '../classification/isValidNodeMember.js';
 import { getSyntaxKind } from './getSyntaxKind.js';
-import { NodeMember } from './isValidNodeMember.js';
 
 export function getNodeKind(members: NodeMember[]): string | undefined {
   const prop = members.find(

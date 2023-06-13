@@ -1,6 +1,6 @@
 import ts from 'typescript';
-import { DeclarationCollection } from './DeclarationCollection.js';
-import { getSyntaxKind } from './getSyntaxKind.js';
+import { DeclarationCollection } from '../util/DeclarationCollection.js';
+import { getSyntaxKind } from '../util/getSyntaxKind.js';
 import {
   SimpleAliasDeclaration,
   isSimpleAliasDeclaration,

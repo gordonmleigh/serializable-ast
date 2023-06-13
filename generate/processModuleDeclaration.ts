@@ -1,34 +1,37 @@
 import ts, { TypeAliasDeclaration } from 'typescript';
-import {
-  DeclarationCollection,
-  Reference,
-  isDeclarationNode,
-} from './DeclarationCollection.js';
-import { assert } from './assert.js';
-import { getName } from './getName.js';
-import { getNodeKind } from './getNodeKind.js';
-import { getNodeMembers } from './getNodeMembers.js';
-import { getSyntaxKind, getSyntaxKindFromName } from './getSyntaxKind.js';
-import { isDeprecated } from './isDeprecated.js';
-import { isGenericBaseNode } from './isGenericBaseNode.js';
-import { isNode } from './isNode.js';
-import { isReferencedFromNode } from './isReferencedFromNode.js';
-import { isSimpleAliasDeclaration } from './isSimpleAliasDeclaration.js';
+import { isDeprecated } from './classification/isDeprecated.js';
+import { isGenericBaseNode } from './classification/isGenericBaseNode.js';
+import { isNode } from './classification/isNode.js';
+import { isReferencedFromNode } from './classification/isReferencedFromNode.js';
+import { isSimpleAliasDeclaration } from './classification/isSimpleAliasDeclaration.js';
 import {
   isSyntaxKindUnionDeclaration,
   isSyntaxKindUnionName,
   isSyntaxKindUnionRef,
-} from './isSyntaxKindUnion.js';
-import { isTokenDeclaration } from './isTokenDeclaration.js';
+} from './classification/isSyntaxKindUnion.js';
+import { isTokenDeclaration } from './classification/isTokenDeclaration.js';
 import {
   TokenInstanceDeclaration,
   isTokenInstanceDeclaration,
-} from './isTokenInstanceDeclaration.js';
-import { TokenReference, isTokenReference } from './isTokenReference.js';
-import { isUnionDeclaration } from './isUnionDeclaration.js';
-import { isUnionOfNodes } from './isUnionOfNodes.js';
-import { NodeMember } from './isValidNodeMember.js';
-import { replaceTypes } from './replaceTypes.js';
+} from './classification/isTokenInstanceDeclaration.js';
+import {
+  TokenReference,
+  isTokenReference,
+} from './classification/isTokenReference.js';
+import { isUnionDeclaration } from './classification/isUnionDeclaration.js';
+import { isUnionOfNodes } from './classification/isUnionOfNodes.js';
+import { NodeMember } from './classification/isValidNodeMember.js';
+import {
+  DeclarationCollection,
+  Reference,
+  isDeclarationNode,
+} from './util/DeclarationCollection.js';
+import { assert } from './util/assert.js';
+import { getName } from './util/getName.js';
+import { getNodeKind } from './util/getNodeKind.js';
+import { getNodeMembers } from './util/getNodeMembers.js';
+import { getSyntaxKind, getSyntaxKindFromName } from './util/getSyntaxKind.js';
+import { replaceTypes } from './util/replaceTypes.js';
 
 type TokenInstanceRef = {
   typeName: ts.EntityName;

@@ -1,9 +1,12 @@
 import ts from 'typescript';
+import { isNode } from '../classification/isNode.js';
+import {
+  NodeMember,
+  isValidNodeMember,
+} from '../classification/isValidNodeMember.js';
 import { DeclarationCollection } from './DeclarationCollection.js';
 import { assert } from './assert.js';
 import { getName } from './getName.js';
-import { isNode } from './isNode.js';
-import { NodeMember, isValidNodeMember } from './isValidNodeMember.js';
 import { replaceAllGenericTypes, replaceGenericTypes } from './replaceTypes.js';
 
 export function getNodeMembers(

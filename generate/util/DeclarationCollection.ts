@@ -1,7 +1,7 @@
 import ts from 'typescript';
+import { isValidNodeMember } from '../classification/isValidNodeMember.js';
 import { assert } from './assert.js';
 import { getName } from './getName.js';
-import { isValidNodeMember } from './isValidNodeMember.js';
 
 export type TsDeclarationNode =
   | ts.InterfaceDeclaration

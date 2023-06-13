@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { DeclarationCollection } from './DeclarationCollection.js';
+import { DeclarationCollection } from '../util/DeclarationCollection.js';
 import { isNode } from './isNode.js';
 
 export type GenericBaseNodeDeclaration = Omit<
