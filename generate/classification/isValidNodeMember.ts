@@ -1,5 +1,5 @@
 import ts from 'typescript';
-import { isBannedType } from './isBannedType.js';
+import { getName } from '../util/getName.js';
 
 export type NodeMember = ts.PropertySignature & {
   name: ts.Identifier;
@@ -14,4 +14,13 @@ export function isValidNodeMember(node: ts.TypeElement): node is NodeMember {
     node.name.text !== 'parent' &&
     (!node.type || !isBannedType(node.type))
   );
+}
+
+const bannedTypeNames = ['__String', 'NodeFlags'];
+
+function isBannedType(node: ts.TypeNode): boolean {
+  if (ts.isTypeReferenceNode(node)) {
+    return bannedTypeNames.includes(getName(node.typeName));
+  }
+  return true;
 }

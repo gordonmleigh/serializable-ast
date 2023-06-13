@@ -27,6 +27,7 @@ import {
   isDeclarationNode,
 } from './util/DeclarationCollection.js';
 import { assert } from './util/assert.js';
+import { attachDebugComments } from './util/attachDebugComments.js';
 import { getName } from './util/getName.js';
 import { getNodeKind } from './util/getNodeKind.js';
 import { getNodeMembers } from './util/getNodeMembers.js';
@@ -296,7 +297,7 @@ function makeNodeDefinition(
     );
   }
 
-  return ts.addSyntheticLeadingComment(
+  return attachDebugComments(
     ts.factory.createInterfaceDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       name,
@@ -304,7 +305,6 @@ function makeNodeDefinition(
       undefined,
       processedMembers,
     ),
-    ts.SyntaxKind.SingleLineCommentTrivia,
     ' NodeType',
   );
 }
@@ -321,14 +321,13 @@ function makeNodeGroupDefinition(
       members.map((member) => ts.factory.createTypeReferenceNode(member)),
     );
   }
-  return ts.addSyntheticLeadingComment(
+  return attachDebugComments(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       name,
       undefined,
       type,
     ),
-    ts.SyntaxKind.SingleLineCommentTrivia,
     ' NodeGroup',
   );
 }
@@ -337,7 +336,7 @@ function makeTokenGroupDefinition(
   name: ts.Identifier,
   refs: (ts.EntityName | string)[],
 ): ts.Statement {
-  return ts.addSyntheticLeadingComment(
+  return attachDebugComments(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       name,
@@ -346,20 +345,18 @@ function makeTokenGroupDefinition(
         refs.map((ref) => ts.factory.createTypeReferenceNode(ref)),
       ),
     ),
-    ts.SyntaxKind.SingleLineCommentTrivia,
     ' TokenGroup',
   );
 }
 
 function makeNodeUnionDefinition(node: ts.TypeAliasDeclaration): ts.Statement {
-  return ts.addSyntheticLeadingComment(
+  return attachDebugComments(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       node.name,
       undefined,
       node.type,
     ),
-    ts.SyntaxKind.SingleLineCommentTrivia,
     ' NodeUnion',
   );
 }
@@ -368,7 +365,7 @@ function makeSyntaxKindUnionDefinition(
   node: TypeAliasDeclaration,
   defs: DeclarationCollection,
 ): ts.Statement {
-  return ts.addSyntheticLeadingComment(
+  return attachDebugComments(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       node.name,
@@ -388,7 +385,6 @@ function makeSyntaxKindUnionDefinition(
         }),
       ),
     ),
-    ts.SyntaxKind.SingleLineCommentTrivia,
     ' SyntaxKindUnion',
   );
 }
@@ -399,7 +395,8 @@ function makeTokenInstanceDeclaration(
   kindToTokenName: Map<string, string>,
 ): ts.Statement {
   const members = getAllNames(node.type.typeArguments[0].typeName, defs);
-  return ts.addSyntheticLeadingComment(
+
+  return attachDebugComments(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       node.name,
@@ -413,7 +410,6 @@ function makeTokenInstanceDeclaration(
         }),
       ),
     ),
-    ts.SyntaxKind.SingleLineCommentTrivia,
     ' TokenInstance',
   );
 }
