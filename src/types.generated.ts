@@ -1,4 +1,5 @@
 export type NodeArray<T> = readonly T[];
+export type SyntaxKind = Node['kind'];
 export type PunctuationSyntaxKind =
   | 'OpenBraceToken'
   | 'CloseBraceToken'
@@ -534,7 +535,7 @@ export interface FunctionTypeNode {
 }
 export interface Identifier {
   readonly kind: 'Identifier';
-  readonly originalKeywordKind?: string;
+  readonly originalKeywordKind?: SyntaxKind;
 }
 export interface IfStatement {
   readonly kind: 'IfStatement';

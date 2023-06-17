@@ -74,6 +74,21 @@ export function processModuleDeclaration(
     ),
   );
 
+  // output a definition for SyntaxKind
+  statements.push(
+    ts.factory.createTypeAliasDeclaration(
+      [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+      'SyntaxKind',
+      undefined,
+      ts.factory.createIndexedAccessTypeNode(
+        ts.factory.createTypeReferenceNode('Node'),
+        ts.factory.createLiteralTypeNode(
+          ts.factory.createStringLiteral('kind'),
+        ),
+      ),
+    ),
+  );
+
   const tokenTypes = [...defs].filter(
     (ref): ref is TokenDeclaration =>
       !!ref.node && isTokenDeclaration(ref.node),
@@ -297,9 +312,6 @@ function makeNodeDefinition(
         const token = tokens.get(kind);
         assert(token, `expected token for ${kind}`);
         return ts.factory.createTypeReferenceNode(token);
-      }
-      if (getName(ref.typeName) === 'SyntaxKind') {
-        return ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
       }
       if (ref.parent && ts.isPropertySignature(ref.parent)) {
         const kind = getSyntaxKind(ref);
