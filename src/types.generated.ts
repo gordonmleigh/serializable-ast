@@ -928,6 +928,7 @@ export type Token =
   | KeywordSyntaxKindToken
   | QuestionQuestionToken
   | AsteriskAsteriskToken
+  | ExponentiationOperatorToken
   | SlashToken
   | PercentToken
   | MultiplicativeOperatorToken
@@ -2576,6 +2577,7 @@ export interface QuestionQuestionToken {
 export interface AsteriskAsteriskToken {
   readonly kind: 'AsteriskAsteriskToken';
 }
+export type ExponentiationOperatorToken = AsteriskAsteriskToken;
 export interface SlashToken {
   readonly kind: 'SlashToken';
 }
@@ -2587,7 +2589,7 @@ export type MultiplicativeOperatorToken =
   | SlashToken
   | PercentToken;
 export type MultiplicativeOperatorOrHigherToken =
-  | ExponentiationOperator
+  | ExponentiationOperatorToken
   | MultiplicativeOperatorToken;
 export type AdditiveOperatorToken = PlusToken | MinusToken;
 export type AdditiveOperatorOrHigherToken =

@@ -430,7 +430,7 @@ function makeTokenInstanceDeclaration(
         members.map((member) => {
           const memberName = getName(member);
           const token = kindToTokenName.get(memberName);
-          //assert(token, `expected token for ${memberName}`);
+          assert(token, `expected token for ${memberName}`);
           return ts.factory.createTypeReferenceNode(token ?? member);
         }),
       ),
@@ -453,7 +453,11 @@ function getNamesOfSyntaxKindUnionDeep(
         all.push(name);
         return all;
       } else {
-        return [node.type.typeName];
+        const all = getNamesOfSyntaxKindUnionDeep(node.type.typeName, defs);
+        if (!all.find((x) => getName(x) === getName(name))) {
+          all.push(name);
+        }
+        return all;
       }
     }
   }
