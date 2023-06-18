@@ -5,9 +5,11 @@
   "main": "lib/index.js",
   "type": "module",
   "scripts": {
+    "compile": "tsc -p tsconfig.lib.json",
     "generate": "node --loader=@swc-node/register/esm generate/main.ts",
     "lint": "eslint src/ generate/ --ext=ts",
     "watch:check": "tsc -w",
+    "watch:compile": "tsc -w -p tsconfig.lib.json",
     "watch:generate": "tsc -w -p tsconfig.generate.json"
   },
   "repository": {
@@ -32,5 +34,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "source-map": "^0.7.4"
   }
 }

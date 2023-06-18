@@ -75,6 +75,36 @@ export function processModuleDeclaration(
     ),
   );
 
+  // output a definition for FileLocation
+  statements.push(
+    ts.factory.createInterfaceDeclaration(
+      [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+      'FileLocation',
+      undefined,
+      undefined,
+      [
+        ts.factory.createPropertySignature(
+          undefined,
+          'char',
+          ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+          ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+        ),
+        ts.factory.createPropertySignature(
+          undefined,
+          'line',
+          ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+          ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+        ),
+        ts.factory.createPropertySignature(
+          undefined,
+          'file',
+          ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+          ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+        ),
+      ],
+    ),
+  );
+
   // output a definition for SyntaxKind
   statements.push(
     ts.factory.createTypeAliasDeclaration(
@@ -333,6 +363,30 @@ function makeNodeDefinition(
       ),
     );
   }
+
+  // add the `pos` prop.
+  // `pos` is assumed not to conflict because it is present
+  // on all nodes but omitted
+  processedMembers.push(
+    ts.factory.createPropertySignature(
+      undefined,
+      'pos',
+      ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+      ts.factory.createTypeReferenceNode('FileLocation'),
+    ),
+  );
+
+  // add the `jsDoc` prop
+  processedMembers.push(
+    ts.factory.createPropertySignature(
+      undefined,
+      'jsDoc',
+      ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+      ts.factory.createTypeReferenceNode('NodeArray', [
+        ts.factory.createTypeReferenceNode('JSDoc'),
+      ]),
+    ),
+  );
 
   return attachDebugComments(
     ts.factory.createInterfaceDeclaration(

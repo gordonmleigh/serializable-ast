@@ -10,6 +10,13 @@
       "name": "Generate",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "program": "lib-gen/main.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Serialize",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "program": "lib/test.js"
     }
   ]
 }
