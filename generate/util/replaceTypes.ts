@@ -56,6 +56,18 @@ export function replaceTypes(
       );
     }
   }
+  if (ts.isTypeOperatorNode(node)) {
+    const replaced = replaceTypes(node.type, replace);
+    return replaced === node.type
+      ? node
+      : ts.factory.createTypeOperatorNode(node.operator, replaced);
+  }
+  if (ts.isArrayTypeNode(node)) {
+    const replaced = replaceTypes(node.elementType, replace);
+    return replaced === node.elementType
+      ? node
+      : ts.factory.createArrayTypeNode(replaced);
+  }
   if (ts.isUnionTypeNode(node)) {
     // keep a constant reference if nothing changed
     const replaced = replaceAllTypes(node.types, replace);

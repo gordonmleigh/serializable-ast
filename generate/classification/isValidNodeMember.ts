@@ -18,6 +18,8 @@ export function isValidNodeMember(node: ts.TypeElement): node is NodeMember {
 
 const bannedTypeNames = [
   '__String',
+  'AmdDependency',
+  'FileReference',
   'LanguageVariant',
   'NodeFlags',
   'ResolutionMode',
@@ -28,5 +30,14 @@ function isBannedType(node: ts.TypeNode): boolean {
   if (ts.isTypeReferenceNode(node)) {
     return bannedTypeNames.includes(getName(node.typeName));
   }
-  return true;
+  if (ts.isUnionTypeNode(node) || ts.isIntersectionTypeNode(node)) {
+    return node.types.some((type) => isBannedType(type));
+  }
+  if (ts.isTypeOperatorNode(node)) {
+    return isBannedType(node.type);
+  }
+  if (ts.isArrayTypeNode(node)) {
+    return isBannedType(node.elementType);
+  }
+  return false;
 }

@@ -183,6 +183,10 @@ export class DeclarationCollection implements Iterable<Declaration> {
           target,
         });
       }
+    } else if (ts.isArrayTypeNode(node)) {
+      this.addType(source, node.elementType, kind);
+    } else if (ts.isTypeOperatorNode(node)) {
+      this.addType(source, node.type, kind);
     } else if (ts.isUnionTypeNode(node)) {
       const memberKind = kind === 'alias' ? 'union' : kind;
       for (const member of node.types) {

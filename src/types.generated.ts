@@ -385,8 +385,13 @@ export interface ArrowFunction {
   readonly modifiers?: NodeArray<Modifier>;
   readonly equalsGreaterThanToken: EqualsGreaterThanToken;
   readonly body: ConciseBody;
-  readonly name?: PropertyName;
+  readonly name: never;
+  readonly asteriskToken?: AsteriskToken | undefined;
+  readonly questionToken?: QuestionToken | undefined;
+  readonly exclamationToken?: ExclamationToken | undefined;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
 }
 export interface BinaryExpression {
   readonly kind: 'BinaryExpression';
@@ -405,7 +410,10 @@ export interface BreakStatement {
 export interface CallSignatureDeclaration {
   readonly kind: 'CallSignature';
   readonly name?: PropertyName;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
+  readonly questionToken?: QuestionToken | undefined;
 }
 export interface CaseClause {
   readonly kind: 'CaseClause';
@@ -420,20 +428,31 @@ export interface ClassStaticBlockDeclaration {
 }
 export interface ConstructorDeclaration {
   readonly kind: 'Constructor';
+  readonly modifiers?: NodeArray<ModifierLike> | undefined;
+  readonly body?: FunctionBody | undefined;
+  readonly asteriskToken?: AsteriskToken | undefined;
+  readonly questionToken?: QuestionToken | undefined;
+  readonly exclamationToken?: ExclamationToken | undefined;
   readonly name?: PropertyName;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
 }
 export interface ConstructorTypeNode {
   readonly kind: 'ConstructorType';
   readonly modifiers?: NodeArray<Modifier>;
   readonly type: TypeNode;
   readonly name?: PropertyName;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
 }
 export interface ConstructSignatureDeclaration {
   readonly kind: 'ConstructSignature';
   readonly name?: PropertyName;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
+  readonly questionToken?: QuestionToken | undefined;
 }
 export interface ContinueStatement {
   readonly kind: 'ContinueStatement';
@@ -473,19 +492,22 @@ export interface EnumMember {
 export interface ExportAssignment {
   readonly kind: 'ExportAssignment';
   readonly modifiers?: NodeArray<ModifierLike>;
+  readonly isExportEquals?: boolean;
   readonly expression: Expression;
-  readonly name?: DeclarationName;
+  readonly name?: Identifier | StringLiteral | NumericLiteral;
 }
 export interface ExportDeclaration {
   readonly kind: 'ExportDeclaration';
   readonly modifiers?: NodeArray<ModifierLike>;
+  readonly isTypeOnly: boolean;
   readonly exportClause?: NamedExportBindings;
   readonly moduleSpecifier?: Expression;
   readonly assertClause?: AssertClause;
-  readonly name?: DeclarationName;
+  readonly name?: Identifier | StringLiteral | NumericLiteral;
 }
 export interface ExportSpecifier {
   readonly kind: 'ExportSpecifier';
+  readonly isTypeOnly: boolean;
   readonly propertyName?: Identifier;
   readonly name: Identifier;
 }
@@ -518,24 +540,37 @@ export interface FunctionDeclaration {
   readonly modifiers?: NodeArray<ModifierLike>;
   readonly name?: Identifier;
   readonly body?: FunctionBody;
+  readonly asteriskToken?: AsteriskToken | undefined;
+  readonly questionToken?: QuestionToken | undefined;
+  readonly exclamationToken?: ExclamationToken | undefined;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
 }
 export interface FunctionExpression {
   readonly kind: 'FunctionExpression';
   readonly modifiers?: NodeArray<Modifier>;
   readonly name?: Identifier;
   readonly body: FunctionBody;
+  readonly asteriskToken?: AsteriskToken | undefined;
+  readonly questionToken?: QuestionToken | undefined;
+  readonly exclamationToken?: ExclamationToken | undefined;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
 }
 export interface FunctionTypeNode {
   readonly kind: 'FunctionType';
   readonly type: TypeNode;
   readonly name?: PropertyName;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
 }
 export interface Identifier {
   readonly kind: 'Identifier';
+  readonly text: string;
   readonly originalKeywordKind?: SyntaxKind;
+  readonly isInJSDocNamespace?: boolean;
 }
 export interface IfStatement {
   readonly kind: 'IfStatement';
@@ -554,6 +589,7 @@ export interface ImportEqualsDeclaration {
   readonly kind: 'ImportEqualsDeclaration';
   readonly modifiers?: NodeArray<ModifierLike>;
   readonly name: Identifier;
+  readonly isTypeOnly: boolean;
   readonly moduleReference: ModuleReference;
 }
 export interface IndexSignatureDeclaration {
@@ -561,7 +597,9 @@ export interface IndexSignatureDeclaration {
   readonly modifiers?: NodeArray<ModifierLike>;
   readonly type: TypeNode;
   readonly name?: PropertyName;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly questionToken?: QuestionToken | undefined;
 }
 export interface InterfaceDeclaration {
   readonly kind: 'InterfaceDeclaration';
@@ -574,10 +612,15 @@ export interface InterfaceDeclaration {
 export interface JSDocFunctionType {
   readonly kind: 'JSDocFunctionType';
   readonly name?: PropertyName;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
 }
 export interface JSDocSignature {
   readonly kind: 'JSDocSignature';
+  readonly typeParameters?: readonly JSDocTemplateTag[];
+  readonly parameters: readonly JSDocParameterTag[];
+  readonly type: JSDocReturnTag | undefined;
 }
 export interface LabeledStatement {
   readonly kind: 'LabeledStatement';
@@ -586,19 +629,30 @@ export interface LabeledStatement {
 }
 export interface MethodDeclaration {
   readonly kind: 'MethodDeclaration';
+  readonly modifiers?: NodeArray<ModifierLike> | undefined;
   readonly name: PropertyName;
+  readonly body?: FunctionBody | undefined;
+  readonly asteriskToken?: AsteriskToken | undefined;
+  readonly questionToken?: QuestionToken | undefined;
+  readonly exclamationToken?: ExclamationToken | undefined;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
 }
 export interface MethodSignature {
   readonly kind: 'MethodSignature';
   readonly modifiers?: NodeArray<Modifier>;
   readonly name: PropertyName;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
+  readonly questionToken?: QuestionToken | undefined;
 }
 export interface ModuleDeclaration {
   readonly kind: 'ModuleDeclaration';
   readonly modifiers?: NodeArray<ModifierLike>;
   readonly name: ModuleName;
+  readonly body?: ModuleBody | JSDocNamespaceDeclaration;
 }
 export interface NamedTupleMember {
   readonly kind: 'NamedTupleMember';
@@ -674,6 +728,7 @@ export interface SwitchStatement {
   readonly kind: 'SwitchStatement';
   readonly expression: Expression;
   readonly caseBlock: CaseBlock;
+  possiblyExhaustive?: boolean;
 }
 export interface ThrowStatement {
   readonly kind: 'ThrowStatement';
@@ -756,6 +811,7 @@ export type SignatureDeclaration =
 export interface TypePredicateNode {
   readonly kind: 'TypePredicate';
   readonly assertsModifier?: AssertsKeyword;
+  readonly parameterName: Identifier | ThisTypeNode;
   readonly type?: TypeNode;
 }
 export interface ParenthesizedTypeNode {
@@ -764,12 +820,15 @@ export interface ParenthesizedTypeNode {
 }
 export interface TypeOperatorNode {
   readonly kind: 'TypeOperator';
+  readonly operator: 'KeyOfKeyword' | 'UniqueKeyword' | 'ReadonlyKeyword';
   readonly type: TypeNode;
 }
 export interface MappedTypeNode {
   readonly kind: 'MappedType';
+  readonly readonlyToken?: ReadonlyKeyword | PlusToken | MinusToken;
   readonly typeParameter: TypeParameterDeclaration;
   readonly nameType?: TypeNode;
+  readonly questionToken?: QuestionToken | PlusToken | MinusToken;
   readonly type?: TypeNode;
   readonly members?: NodeArray<TypeElement>;
 }
@@ -781,10 +840,12 @@ export interface JSDocTypeExpression {
 export interface JSDocNonNullableType {
   readonly kind: 'JSDocNonNullableType';
   readonly type: TypeNode;
+  readonly postfix: boolean;
 }
 export interface JSDocNullableType {
   readonly kind: 'JSDocNullableType';
   readonly type: TypeNode;
+  readonly postfix: boolean;
 }
 export interface JSDocOptionalType {
   readonly kind: 'JSDocOptionalType';
@@ -869,14 +930,24 @@ export interface GetAccessorDeclaration {
   readonly modifiers?: NodeArray<ModifierLike>;
   readonly name: PropertyName;
   readonly body?: FunctionBody;
+  readonly asteriskToken?: AsteriskToken | undefined;
+  readonly questionToken?: QuestionToken | undefined;
+  readonly exclamationToken?: ExclamationToken | undefined;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
 }
 export interface SetAccessorDeclaration {
   readonly kind: 'SetAccessor';
   readonly modifiers?: NodeArray<ModifierLike>;
   readonly name: PropertyName;
   readonly body?: FunctionBody;
+  readonly asteriskToken?: AsteriskToken | undefined;
+  readonly questionToken?: QuestionToken | undefined;
+  readonly exclamationToken?: ExclamationToken | undefined;
+  readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
+  readonly type?: TypeNode | undefined;
 }
 export interface ClassExpression {
   readonly kind: 'ClassExpression';
@@ -1279,9 +1350,15 @@ export type PropertyName =
   | PrivateIdentifier;
 export interface StringLiteral {
   readonly kind: 'StringLiteral';
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
 }
 export interface NumericLiteral {
   readonly kind: 'NumericLiteral';
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
 }
 export interface ComputedPropertyName {
   readonly kind: 'ComputedPropertyName';
@@ -1289,6 +1366,7 @@ export interface ComputedPropertyName {
 }
 export interface PrivateIdentifier {
   readonly kind: 'PrivateIdentifier';
+  readonly text: string;
 }
 export type MemberName = Identifier | PrivateIdentifier;
 export type DeclarationName =
@@ -1472,13 +1550,19 @@ export interface JSDocPropertyTag {
   readonly kind: 'JSDocPropertyTag';
   readonly name: EntityName;
   readonly typeExpression?: JSDocTypeExpression;
+  readonly isNameFirst: boolean;
+  readonly isBracketed: boolean;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocParameterTag {
   readonly kind: 'JSDocParameterTag';
   readonly name: EntityName;
   readonly typeExpression?: JSDocTypeExpression;
+  readonly isNameFirst: boolean;
+  readonly isBracketed: boolean;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface ObjectBindingPattern {
   readonly kind: 'ObjectBindingPattern';
@@ -1532,13 +1616,16 @@ export type KeywordTypeNode =
 export interface ImportTypeAssertionContainer {
   readonly kind: 'ImportTypeAssertionContainer';
   readonly assertClause: AssertClause;
+  readonly multiLine?: boolean;
 }
 export interface AssertClause {
   readonly kind: 'AssertClause';
   readonly elements: NodeArray<AssertEntry>;
+  readonly multiLine?: boolean;
 }
 export interface ImportTypeNode {
   readonly kind: 'ImportType';
+  readonly isTypeOf: boolean;
   readonly argument: TypeNode;
   readonly assertions?: ImportTypeAssertionContainer;
   readonly qualifier?: EntityName;
@@ -1621,15 +1708,33 @@ export interface IndexedAccessTypeNode {
 }
 export interface LiteralTypeNode {
   readonly kind: 'LiteralType';
+  readonly literal:
+    | NullLiteral
+    | BooleanLiteral
+    | LiteralExpression
+    | PrefixUnaryExpression;
 }
+export interface NullLiteral {
+  readonly kind: 'NullKeyword';
+}
+export type BooleanLiteral = TrueLiteral | FalseLiteral;
 export type LiteralExpression =
   | StringLiteral
   | RegularExpressionLiteral
   | NoSubstitutionTemplateLiteral
   | NumericLiteral
   | BigIntLiteral;
+export interface PrefixUnaryExpression {
+  readonly kind: 'PrefixUnaryExpression';
+  readonly operator: PrefixUnaryOperator;
+  readonly operand: UnaryExpression;
+}
 export interface NoSubstitutionTemplateLiteral {
   readonly kind: 'NoSubstitutionTemplateLiteral';
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
+  rawText?: string;
 }
 export type PropertyNameLiteral =
   | Identifier
@@ -1642,10 +1747,29 @@ export interface TemplateLiteralTypeNode {
 }
 export interface TemplateHead {
   readonly kind: 'TemplateHead';
+  rawText?: string;
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
 }
 export interface TemplateLiteralTypeSpan {
   readonly kind: 'TemplateLiteralTypeSpan';
   readonly type: TypeNode;
+  readonly literal: TemplateMiddle | TemplateTail;
+}
+export interface TemplateMiddle {
+  readonly kind: 'TemplateMiddle';
+  rawText?: string;
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
+}
+export interface TemplateTail {
+  readonly kind: 'TemplateTail';
+  rawText?: string;
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
 }
 export interface PartiallyEmittedExpression {
   readonly kind: 'PartiallyEmittedExpression';
@@ -1669,11 +1793,6 @@ export type PrefixUnaryOperator =
   | 'MinusToken'
   | 'TildeToken'
   | 'ExclamationToken';
-export interface PrefixUnaryExpression {
-  readonly kind: 'PrefixUnaryExpression';
-  readonly operator: PrefixUnaryOperator;
-  readonly operand: UnaryExpression;
-}
 export type PostfixUnaryOperator = 'PlusPlusToken' | 'MinusMinusToken';
 export interface PostfixUnaryExpression {
   readonly kind: 'PostfixUnaryExpression';
@@ -1686,16 +1805,12 @@ export type MemberExpression =
   | ElementAccessExpression
   | ExpressionWithTypeArguments
   | TaggedTemplateExpression;
-export interface NullLiteral {
-  readonly kind: 'NullKeyword';
-}
 export interface TrueLiteral {
   readonly kind: 'TrueKeyword';
 }
 export interface FalseLiteral {
   readonly kind: 'FalseKeyword';
 }
-export type BooleanLiteral = TrueLiteral | FalseLiteral;
 export interface ThisExpression {
   readonly kind: 'ThisKeyword';
 }
@@ -1886,9 +2001,15 @@ export type TemplateLiteralLikeNode =
   | TemplateTail;
 export interface RegularExpressionLiteral {
   readonly kind: 'RegularExpressionLiteral';
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
 }
 export interface BigIntLiteral {
   readonly kind: 'BigIntLiteral';
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
 }
 export type LiteralToken =
   | NumericLiteral
@@ -1899,12 +2020,10 @@ export type LiteralToken =
   | NoSubstitutionTemplateLiteral;
 export interface JsxText {
   readonly kind: 'JsxText';
-}
-export interface TemplateMiddle {
-  readonly kind: 'TemplateMiddle';
-}
-export interface TemplateTail {
-  readonly kind: 'TemplateTail';
+  readonly containsOnlyTriviaWhiteSpaces: boolean;
+  text: string;
+  isUnterminated?: boolean;
+  hasExtendedUnicodeEscape?: boolean;
 }
 export type PseudoLiteralToken = TemplateHead | TemplateMiddle | TemplateTail;
 export type TemplateLiteralToken =
@@ -1918,6 +2037,7 @@ export interface TemplateExpression {
 export interface TemplateSpan {
   readonly kind: 'TemplateSpan';
   readonly expression: Expression;
+  readonly literal: TemplateMiddle | TemplateTail;
 }
 export type TemplateLiteral =
   | TemplateExpression
@@ -2022,6 +2142,7 @@ export interface NonNullExpression {
 }
 export interface MetaProperty {
   readonly kind: 'MetaProperty';
+  readonly keywordToken: 'NewKeyword' | 'ImportKeyword';
   readonly name: Identifier;
 }
 export interface JsxElement {
@@ -2099,6 +2220,11 @@ export interface SourceFile {
   readonly kind: 'SourceFile';
   readonly statements: NodeArray<Statement>;
   readonly endOfFileToken: EndOfFileToken;
+  fileName: string;
+  text: string;
+  moduleName?: string;
+  isDeclarationFile: boolean;
+  hasNoDefaultLib: boolean;
 }
 export interface ModuleBlock {
   readonly kind: 'ModuleBlock';
@@ -2144,38 +2270,46 @@ export type DeclarationWithTypeParameterChildren =
   | JSDocTemplateTag;
 export interface JSDocTypedefTag {
   readonly kind: 'JSDocTypedefTag';
+  readonly fullName?: JSDocNamespaceDeclaration | Identifier;
   readonly name?: Identifier;
+  readonly typeExpression?: JSDocTypeExpression | JSDocTypeLiteral;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocCallbackTag {
   readonly kind: 'JSDocCallbackTag';
+  readonly fullName?: JSDocNamespaceDeclaration | Identifier;
   readonly name?: Identifier;
   readonly typeExpression: JSDocSignature;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocTemplateTag {
   readonly kind: 'JSDocTemplateTag';
+  readonly constraint: JSDocTypeExpression | undefined;
   readonly typeParameters: NodeArray<TypeParameterDeclaration>;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export type ClassLikeDeclarationBase = ClassDeclaration | ClassExpression;
 export interface HeritageClause {
   readonly kind: 'HeritageClause';
+  readonly token: 'ExtendsKeyword' | 'ImplementsKeyword';
   readonly types: NodeArray<ExpressionWithTypeArguments>;
 }
 export type ModuleName = Identifier | StringLiteral;
 export type ModuleBody = NamespaceBody | JSDocNamespaceBody;
 export type NamespaceBody = ModuleBlock | NamespaceDeclaration;
 export type JSDocNamespaceBody = Identifier | JSDocNamespaceDeclaration;
-export interface NamespaceDeclaration {
-  readonly name: Identifier;
-  readonly body: NamespaceBody;
-  readonly kind: 'ModuleDeclaration';
-  readonly modifiers?: NodeArray<ModifierLike>;
-}
 export interface JSDocNamespaceDeclaration {
   readonly name: Identifier;
   readonly body?: JSDocNamespaceBody;
+  readonly kind: 'ModuleDeclaration';
+  readonly modifiers?: NodeArray<ModifierLike>;
+}
+export interface NamespaceDeclaration {
+  readonly name: Identifier;
+  readonly body: NamespaceBody;
   readonly kind: 'ModuleDeclaration';
   readonly modifiers?: NodeArray<ModifierLike>;
 }
@@ -2186,6 +2320,7 @@ export interface ExternalModuleReference {
 }
 export interface ImportClause {
   readonly kind: 'ImportClause';
+  readonly isTypeOnly: boolean;
   readonly name?: Identifier;
   readonly namedBindings?: NamedImportBindings;
 }
@@ -2217,6 +2352,7 @@ export interface ImportSpecifier {
   readonly kind: 'ImportSpecifier';
   readonly propertyName?: Identifier;
   readonly name: Identifier;
+  readonly isTypeOnly: boolean;
 }
 export type NamedImportsOrExports = NamedImports | NamedExports;
 export type ImportOrExportSpecifier = ImportSpecifier | ExportSpecifier;
@@ -2229,9 +2365,11 @@ export type TypeOnlyCompatibleAliasDeclaration =
   | NamespaceExport;
 export interface JSDocNameReference {
   readonly kind: 'JSDocNameReference';
+  readonly name: EntityName | JSDocMemberName;
 }
 export interface JSDocMemberName {
   readonly kind: 'JSDocMemberName';
+  readonly left: EntityName | JSDocMemberName;
   readonly right: Identifier;
 }
 export type JSDocType =
@@ -2263,6 +2401,7 @@ export type JSDocTypeReferencingNode =
 export interface JSDoc {
   readonly kind: 'JSDoc';
   readonly tags?: NodeArray<JSDocTag>;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export type JSDocTag =
   | JSDocUnknownTag
@@ -2288,124 +2427,169 @@ export type JSDocTag =
   | JSDocThrowsTag
   | JSDocPropertyLikeTag
   | JSDocSatisfiesTag;
-export interface JSDocLink {
-  readonly kind: 'JSDocLink';
-}
-export interface JSDocLinkCode {
-  readonly kind: 'JSDocLinkCode';
-}
-export interface JSDocLinkPlain {
-  readonly kind: 'JSDocLinkPlain';
-}
 export type JSDocComment =
   | JSDocText
   | JSDocLink
   | JSDocLinkCode
   | JSDocLinkPlain;
+export interface JSDocLink {
+  readonly kind: 'JSDocLink';
+  readonly name?: EntityName | JSDocMemberName;
+  text: string;
+}
+export interface JSDocLinkCode {
+  readonly kind: 'JSDocLinkCode';
+  readonly name?: EntityName | JSDocMemberName;
+  text: string;
+}
+export interface JSDocLinkPlain {
+  readonly kind: 'JSDocLinkPlain';
+  readonly name?: EntityName | JSDocMemberName;
+  text: string;
+}
 export interface JSDocText {
   readonly kind: 'JSDocText';
+  text: string;
 }
 export interface JSDocUnknownTag {
   readonly kind: 'JSDocTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocAugmentsTag {
   readonly kind: 'JSDocAugmentsTag';
+  readonly class: ExpressionWithTypeArguments & {
+    readonly expression: Identifier | PropertyAccessEntityNameExpression;
+  };
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocImplementsTag {
   readonly kind: 'JSDocImplementsTag';
+  readonly class: ExpressionWithTypeArguments & {
+    readonly expression: Identifier | PropertyAccessEntityNameExpression;
+  };
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocAuthorTag {
   readonly kind: 'JSDocAuthorTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocDeprecatedTag {
   kind: 'JSDocDeprecatedTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocClassTag {
   readonly kind: 'JSDocClassTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocPublicTag {
   readonly kind: 'JSDocPublicTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocPrivateTag {
   readonly kind: 'JSDocPrivateTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocProtectedTag {
   readonly kind: 'JSDocProtectedTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocReadonlyTag {
   readonly kind: 'JSDocReadonlyTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocOverrideTag {
   readonly kind: 'JSDocOverrideTag';
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocEnumTag {
   readonly kind: 'JSDocEnumTag';
   readonly typeExpression: JSDocTypeExpression;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocThisTag {
   readonly kind: 'JSDocThisTag';
   readonly typeExpression: JSDocTypeExpression;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocSeeTag {
   readonly kind: 'JSDocSeeTag';
   readonly name?: JSDocNameReference;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocReturnTag {
   readonly kind: 'JSDocReturnTag';
   readonly typeExpression?: JSDocTypeExpression;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocTypeTag {
   readonly kind: 'JSDocTypeTag';
   readonly typeExpression: JSDocTypeExpression;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
+}
+export interface JSDocTypeLiteral {
+  readonly kind: 'JSDocTypeLiteral';
+  readonly jsDocPropertyTags?: readonly JSDocPropertyLikeTag[];
+  readonly isArrayType: boolean;
 }
 export interface JSDocOverloadTag {
   readonly kind: 'JSDocOverloadTag';
   readonly typeExpression: JSDocSignature;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JSDocThrowsTag {
   readonly kind: 'JSDocThrowsTag';
   readonly typeExpression?: JSDocTypeExpression;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export type JSDocPropertyLikeTag = JSDocPropertyTag | JSDocParameterTag;
-export interface JSDocTypeLiteral {
-  readonly kind: 'JSDocTypeLiteral';
-}
 export interface JSDocSatisfiesTag {
   readonly kind: 'JSDocSatisfiesTag';
   readonly typeExpression: JSDocTypeExpression;
   readonly tagName: Identifier;
+  readonly comment?: string | NodeArray<JSDocComment>;
 }
 export interface JsonSourceFile {
   readonly statements: NodeArray<JsonObjectExpressionStatement>;
   readonly kind: 'SourceFile';
   readonly endOfFileToken: EndOfFileToken;
+  fileName: string;
+  text: string;
+  moduleName?: string;
+  isDeclarationFile: boolean;
+  hasNoDefaultLib: boolean;
 }
 export interface JsonObjectExpressionStatement {
   readonly expression: JsonObjectExpression;
   readonly kind: 'ExpressionStatement';
 }
 export interface TsConfigSourceFile {
+  extendedSourceFiles?: string[];
   readonly statements: NodeArray<JsonObjectExpressionStatement>;
   readonly kind: 'SourceFile';
   readonly endOfFileToken: EndOfFileToken;
+  fileName: string;
+  text: string;
+  moduleName?: string;
+  isDeclarationFile: boolean;
+  hasNoDefaultLib: boolean;
 }
 export interface JsonMinusNumericLiteral {
   readonly kind: 'PrefixUnaryExpression';

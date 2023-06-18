@@ -2,6 +2,7 @@ import ts, { TypeAliasDeclaration } from 'typescript';
 import { isDeprecated } from './classification/isDeprecated.js';
 import { isGenericBaseNode } from './classification/isGenericBaseNode.js';
 import { isNode } from './classification/isNode.js';
+import { isPropertyType } from './classification/isPropertyType.js';
 import { isReferencedFromNode } from './classification/isReferencedFromNode.js';
 import { isSimpleAliasDeclaration } from './classification/isSimpleAliasDeclaration.js';
 import {
@@ -313,7 +314,7 @@ function makeNodeDefinition(
         assert(token, `expected token for ${kind}`);
         return ts.factory.createTypeReferenceNode(token);
       }
-      if (ref.parent && ts.isPropertySignature(ref.parent)) {
+      if (isPropertyType(ref)) {
         const kind = getSyntaxKind(ref);
         if (kind) {
           return ts.factory.createLiteralTypeNode(

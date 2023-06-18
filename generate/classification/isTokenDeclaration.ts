@@ -1,8 +1,13 @@
 import ts from 'typescript';
 
-export function isTokenDeclaration(
-  node: ts.Node,
-): node is ts.InterfaceDeclaration {
+export type TokenDeclaration = Omit<
+  ts.InterfaceDeclaration,
+  'typeParameters'
+> & {
+  typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>;
+};
+
+export function isTokenDeclaration(node: ts.Node): node is TokenDeclaration {
   return (
     ts.isInterfaceDeclaration(node) &&
     node.name.text.endsWith('Token') &&
