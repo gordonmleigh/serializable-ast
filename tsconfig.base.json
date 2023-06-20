@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "lib": ["es2015"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noErrorTruncation": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "pretty": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2022"
+  }
+}

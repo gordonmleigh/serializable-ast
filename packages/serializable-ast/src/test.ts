@@ -1,9 +1,9 @@
+import { getTsConfig, printDiagnostics } from '@w/ts-compiler-utils';
 import { readFile, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
 import { SourceMapConsumer } from 'source-map';
 import ts from 'typescript';
 import { fileURLToPath } from 'url';
-import { getTsConfig } from './getTsConfig.js';
 import { serializeNode } from './serializeNode.js';
 
 const __filename = resolve(fileURLToPath(import.meta.url));
@@ -19,21 +19,7 @@ async function main(): Promise<void> {
   const diagnostics = ts.getPreEmitDiagnostics(program);
 
   if (diagnostics.length) {
-    for (const diag of diagnostics) {
-      let pos: string;
-      if (diag.file && diag.start !== undefined) {
-        const loc = ts.getLineAndCharacterOfPosition(diag.file, diag.start);
-        pos = `${diag.file.fileName}(${loc.line + 1}, ${loc.character + 1})`;
-      } else {
-        pos = 'unknown';
-      }
-      console.error(`${ts.DiagnosticCategory[diag.category]}: ${pos}:`);
-      if (typeof diag.messageText === 'string') {
-        console.error(diag.messageText);
-      } else {
-        console.error(diag.messageText.messageText);
-      }
-    }
+    printDiagnostics(diagnostics);
     process.exit(1);
   }
 

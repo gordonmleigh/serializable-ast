@@ -1,0 +1,21 @@
+{
+  "name": "serializable-ast",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gordonmleigh/ts-meta-tools.git"
+  },
+  "author": "Gordon Leigh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gordonmleigh/ts-meta-tools/issues"
+  },
+  "homepage": "https://github.com/gordonmleigh/ts-meta-tools#readme",
+  "dependencies": {
+    "@w/ts-compiler-utils": "^0.1.0",
+    "source-map": "^0.7.4"
+  },
+  "scripts": {
+    "clean": "rm -rf lib/ *.tsbuildinfo"
+  }
+}

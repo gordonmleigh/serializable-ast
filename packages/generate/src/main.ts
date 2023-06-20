@@ -1,29 +1,28 @@
+import { getTsConfig, printDiagnostics } from '@w/ts-compiler-utils';
 import { writeFile } from 'fs/promises';
-import { dirname, resolve } from 'path';
 import Prettier from 'prettier';
 import ts from 'typescript';
-import { fileURLToPath } from 'url';
 import { processModuleDeclaration } from './processModuleDeclaration.js';
 
-const __filename = resolve(fileURLToPath(import.meta.url));
-const __dirname = dirname(__filename);
+if (process.argv.length !== 4) {
+  console.error(`usage: ${process.argv0} <input> <output>`);
+  process.exit(2);
+}
 
-await main();
+await main(process.argv[2], process.argv[3]);
 
-async function main(): Promise<void> {
-  const entrypoint = resolve(
-    __dirname,
-    '../node_modules/typescript/lib/typescript.d.ts',
+async function main(inputPath: string, outputPath: string): Promise<void> {
+  const program = ts.createProgram(
+    [inputPath],
+    getTsConfig(inputPath)?.options ?? {},
   );
-
-  const program = ts.createProgram([entrypoint], {});
   const diagnostics = ts.getPreEmitDiagnostics(program);
   if (diagnostics.length) {
-    console.error(`compiler error(s)`);
+    printDiagnostics(diagnostics);
     process.exit(1);
   }
 
-  const sourceFile = program.getSourceFile(entrypoint);
+  const sourceFile = program.getSourceFile(inputPath);
   if (!sourceFile) {
     throw new Error(`expected to find source file for entrypoint`);
   }
@@ -33,7 +32,6 @@ async function main(): Promise<void> {
   const printer = ts.createPrinter();
   const source = printer.printFile(output);
 
-  const outputPath = resolve(__dirname, '../src/types.generated.ts');
   const prettierConfig = await Prettier.resolveConfig(outputPath);
 
   const prettifiedSource = Prettier.format(source, {

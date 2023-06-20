@@ -1,22 +1,16 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "lib": ["es2015"],
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "noEmit": true,
-    "noErrorTruncation": true,
-    "noUnusedLocals": true,
-    "pretty": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "ES2022"
-  },
-  "include": ["generate/", "src/"],
-  "exclude": ["lib/", "node_modules/"]
+  "extends": "./tsconfig.base.json",
+  "files": [],
+  "references": [
+    {
+      "path": "packages/ts-compiler-utils"
+    },
+    {
+      "path": "packages/serializable-ast"
+    },
+    {
+      "path": "packages/generate"
+    }
+  ]
 }

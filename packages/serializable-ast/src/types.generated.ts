@@ -398,6 +398,7 @@ export interface ArrowFunction {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly type?: TypeNode | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BinaryExpression {
   readonly kind: 'BinaryExpression';
@@ -405,16 +406,19 @@ export interface BinaryExpression {
   readonly operatorToken: BinaryOperatorToken;
   readonly right: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface Block {
   readonly kind: 'Block';
   readonly statements: NodeArray<Statement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BreakStatement {
   readonly kind: 'BreakStatement';
   readonly label?: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CallSignatureDeclaration {
   readonly kind: 'CallSignature';
@@ -424,12 +428,14 @@ export interface CallSignatureDeclaration {
   readonly type?: TypeNode | undefined;
   readonly questionToken?: QuestionToken | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CaseClause {
   readonly kind: 'CaseClause';
   readonly expression: Expression;
   readonly statements: NodeArray<Statement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ClassLikeDeclaration = ClassDeclaration | ClassExpression;
 export interface ClassStaticBlockDeclaration {
@@ -437,6 +443,7 @@ export interface ClassStaticBlockDeclaration {
   readonly body: Block;
   readonly name?: PropertyName;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ConstructorDeclaration {
   readonly kind: 'Constructor';
@@ -450,6 +457,7 @@ export interface ConstructorDeclaration {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly type?: TypeNode | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ConstructorTypeNode {
   readonly kind: 'ConstructorType';
@@ -459,6 +467,7 @@ export interface ConstructorTypeNode {
   readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ConstructSignatureDeclaration {
   readonly kind: 'ConstructSignature';
@@ -468,21 +477,25 @@ export interface ConstructSignatureDeclaration {
   readonly type?: TypeNode | undefined;
   readonly questionToken?: QuestionToken | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ContinueStatement {
   readonly kind: 'ContinueStatement';
   readonly label?: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DebuggerStatement {
   readonly kind: 'DebuggerStatement';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DoStatement {
   readonly kind: 'DoStatement';
   readonly expression: Expression;
   readonly statement: Statement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ElementAccessExpression {
   readonly kind: 'ElementAccessExpression';
@@ -490,14 +503,17 @@ export interface ElementAccessExpression {
   readonly questionDotToken?: QuestionDotToken;
   readonly argumentExpression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface EmptyStatement {
   readonly kind: 'EmptyStatement';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface EndOfFileToken {
   readonly kind: 'EndOfFileToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface EnumDeclaration {
   readonly kind: 'EnumDeclaration';
@@ -505,12 +521,14 @@ export interface EnumDeclaration {
   readonly name: Identifier;
   readonly members: NodeArray<EnumMember>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface EnumMember {
   readonly kind: 'EnumMember';
   readonly name: PropertyName;
   readonly initializer?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExportAssignment {
   readonly kind: 'ExportAssignment';
@@ -519,6 +537,7 @@ export interface ExportAssignment {
   readonly expression: Expression;
   readonly name?: Identifier | StringLiteral | NumericLiteral;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExportDeclaration {
   readonly kind: 'ExportDeclaration';
@@ -529,6 +548,7 @@ export interface ExportDeclaration {
   readonly assertClause?: AssertClause;
   readonly name?: Identifier | StringLiteral | NumericLiteral;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExportSpecifier {
   readonly kind: 'ExportSpecifier';
@@ -536,11 +556,13 @@ export interface ExportSpecifier {
   readonly propertyName?: Identifier;
   readonly name: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExpressionStatement {
   readonly kind: 'ExpressionStatement';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ForInStatement {
   readonly kind: 'ForInStatement';
@@ -548,6 +570,7 @@ export interface ForInStatement {
   readonly expression: Expression;
   readonly statement: Statement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ForOfStatement {
   readonly kind: 'ForOfStatement';
@@ -556,6 +579,7 @@ export interface ForOfStatement {
   readonly expression: Expression;
   readonly statement: Statement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ForStatement {
   readonly kind: 'ForStatement';
@@ -564,6 +588,7 @@ export interface ForStatement {
   readonly incrementor?: Expression;
   readonly statement: Statement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface FunctionDeclaration {
   readonly kind: 'FunctionDeclaration';
@@ -577,6 +602,7 @@ export interface FunctionDeclaration {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly type?: TypeNode | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface FunctionExpression {
   readonly kind: 'FunctionExpression';
@@ -590,6 +616,7 @@ export interface FunctionExpression {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly type?: TypeNode | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface FunctionTypeNode {
   readonly kind: 'FunctionType';
@@ -598,6 +625,7 @@ export interface FunctionTypeNode {
   readonly typeParameters?: NodeArray<TypeParameterDeclaration> | undefined;
   readonly parameters: NodeArray<ParameterDeclaration>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface Identifier {
   readonly kind: 'Identifier';
@@ -605,6 +633,7 @@ export interface Identifier {
   readonly originalKeywordKind?: SyntaxKind;
   readonly isInJSDocNamespace?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface IfStatement {
   readonly kind: 'IfStatement';
@@ -612,6 +641,7 @@ export interface IfStatement {
   readonly thenStatement: Statement;
   readonly elseStatement?: Statement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImportDeclaration {
   readonly kind: 'ImportDeclaration';
@@ -620,6 +650,7 @@ export interface ImportDeclaration {
   readonly moduleSpecifier: Expression;
   readonly assertClause?: AssertClause;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImportEqualsDeclaration {
   readonly kind: 'ImportEqualsDeclaration';
@@ -628,6 +659,7 @@ export interface ImportEqualsDeclaration {
   readonly isTypeOnly: boolean;
   readonly moduleReference: ModuleReference;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface IndexSignatureDeclaration {
   readonly kind: 'IndexSignature';
@@ -638,6 +670,7 @@ export interface IndexSignatureDeclaration {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly questionToken?: QuestionToken | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface InterfaceDeclaration {
   readonly kind: 'InterfaceDeclaration';
@@ -647,6 +680,7 @@ export interface InterfaceDeclaration {
   readonly heritageClauses?: NodeArray<HeritageClause>;
   readonly members: NodeArray<TypeElement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocFunctionType {
   readonly kind: 'JSDocFunctionType';
@@ -655,6 +689,7 @@ export interface JSDocFunctionType {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly type?: TypeNode | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocSignature {
   readonly kind: 'JSDocSignature';
@@ -662,12 +697,14 @@ export interface JSDocSignature {
   readonly parameters: readonly JSDocParameterTag[];
   readonly type: JSDocReturnTag | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface LabeledStatement {
   readonly kind: 'LabeledStatement';
   readonly label: Identifier;
   readonly statement: Statement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface MethodDeclaration {
   readonly kind: 'MethodDeclaration';
@@ -681,6 +718,7 @@ export interface MethodDeclaration {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly type?: TypeNode | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface MethodSignature {
   readonly kind: 'MethodSignature';
@@ -691,6 +729,7 @@ export interface MethodSignature {
   readonly type?: TypeNode | undefined;
   readonly questionToken?: QuestionToken | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ModuleDeclaration {
   readonly kind: 'ModuleDeclaration';
@@ -698,6 +737,7 @@ export interface ModuleDeclaration {
   readonly name: ModuleName;
   readonly body?: ModuleBody | JSDocNamespaceDeclaration;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NamedTupleMember {
   readonly kind: 'NamedTupleMember';
@@ -706,16 +746,19 @@ export interface NamedTupleMember {
   readonly questionToken?: QuestionToken;
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NamespaceExportDeclaration {
   readonly kind: 'NamespaceExportDeclaration';
   readonly name: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ObjectLiteralExpression {
   readonly kind: 'ObjectLiteralExpression';
   readonly properties: NodeArray<ObjectLiteralElementLike>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ParameterDeclaration {
   readonly kind: 'Parameter';
@@ -726,11 +769,13 @@ export interface ParameterDeclaration {
   readonly type?: TypeNode;
   readonly initializer?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ParenthesizedExpression {
   readonly kind: 'ParenthesizedExpression';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PropertyAccessExpression {
   readonly kind: 'PropertyAccessExpression';
@@ -738,12 +783,14 @@ export interface PropertyAccessExpression {
   readonly questionDotToken?: QuestionDotToken;
   readonly name: MemberName;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PropertyAssignment {
   readonly kind: 'PropertyAssignment';
   readonly name: PropertyName;
   readonly initializer: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PropertyDeclaration {
   readonly kind: 'PropertyDeclaration';
@@ -754,6 +801,7 @@ export interface PropertyDeclaration {
   readonly type?: TypeNode;
   readonly initializer?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PropertySignature {
   readonly kind: 'PropertySignature';
@@ -762,11 +810,13 @@ export interface PropertySignature {
   readonly questionToken?: QuestionToken;
   readonly type?: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ReturnStatement {
   readonly kind: 'ReturnStatement';
   readonly expression?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ShorthandPropertyAssignment {
   readonly kind: 'ShorthandPropertyAssignment';
@@ -774,12 +824,14 @@ export interface ShorthandPropertyAssignment {
   readonly equalsToken?: EqualsToken;
   readonly objectAssignmentInitializer?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SpreadAssignment {
   readonly kind: 'SpreadAssignment';
   readonly expression: Expression;
   readonly name?: PropertyName;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SwitchStatement {
   readonly kind: 'SwitchStatement';
@@ -787,11 +839,13 @@ export interface SwitchStatement {
   readonly caseBlock: CaseBlock;
   possiblyExhaustive?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ThrowStatement {
   readonly kind: 'ThrowStatement';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TryStatement {
   readonly kind: 'TryStatement';
@@ -799,6 +853,7 @@ export interface TryStatement {
   readonly catchClause?: CatchClause;
   readonly finallyBlock?: Block;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeAliasDeclaration {
   readonly kind: 'TypeAliasDeclaration';
@@ -807,6 +862,7 @@ export interface TypeAliasDeclaration {
   readonly typeParameters?: NodeArray<TypeParameterDeclaration>;
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeParameterDeclaration {
   readonly kind: 'TypeParameter';
@@ -816,6 +872,7 @@ export interface TypeParameterDeclaration {
   readonly default?: TypeNode;
   expression?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface VariableDeclaration {
   readonly kind: 'VariableDeclaration';
@@ -824,24 +881,28 @@ export interface VariableDeclaration {
   readonly type?: TypeNode;
   readonly initializer?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface VariableStatement {
   readonly kind: 'VariableStatement';
   readonly modifiers?: NodeArray<ModifierLike>;
   readonly declarationList: VariableDeclarationList;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface WhileStatement {
   readonly kind: 'WhileStatement';
   readonly expression: Expression;
   readonly statement: Statement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface WithStatement {
   readonly kind: 'WithStatement';
   readonly expression: Expression;
   readonly statement: Statement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type HasType =
   | SignatureDeclaration
@@ -880,17 +941,20 @@ export interface TypePredicateNode {
   readonly parameterName: Identifier | ThisTypeNode;
   readonly type?: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ParenthesizedTypeNode {
   readonly kind: 'ParenthesizedType';
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeOperatorNode {
   readonly kind: 'TypeOperator';
   readonly operator: 'KeyOfKeyword' | 'UniqueKeyword' | 'ReadonlyKeyword';
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface MappedTypeNode {
   readonly kind: 'MappedType';
@@ -901,34 +965,40 @@ export interface MappedTypeNode {
   readonly type?: TypeNode;
   readonly members?: NodeArray<TypeElement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type AssertionExpression = TypeAssertion | AsExpression;
 export interface JSDocTypeExpression {
   readonly kind: 'JSDocTypeExpression';
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocNonNullableType {
   readonly kind: 'JSDocNonNullableType';
   readonly type: TypeNode;
   readonly postfix: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocNullableType {
   readonly kind: 'JSDocNullableType';
   readonly type: TypeNode;
   readonly postfix: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocOptionalType {
   readonly kind: 'JSDocOptionalType';
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocVariadicType {
   readonly kind: 'JSDocVariadicType';
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type HasTypeArguments =
   | CallExpression
@@ -943,6 +1013,7 @@ export interface CallExpression {
   readonly typeArguments?: NodeArray<TypeNode>;
   readonly arguments: NodeArray<Expression>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NewExpression {
   readonly kind: 'NewExpression';
@@ -950,6 +1021,7 @@ export interface NewExpression {
   readonly typeArguments?: NodeArray<TypeNode>;
   readonly arguments?: NodeArray<Expression>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TaggedTemplateExpression {
   readonly kind: 'TaggedTemplateExpression';
@@ -957,6 +1029,7 @@ export interface TaggedTemplateExpression {
   readonly typeArguments?: NodeArray<TypeNode>;
   readonly template: TemplateLiteral;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsxOpeningElement {
   readonly kind: 'JsxOpeningElement';
@@ -964,6 +1037,7 @@ export interface JsxOpeningElement {
   readonly typeArguments?: NodeArray<TypeNode>;
   readonly attributes: JsxAttributes;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsxSelfClosingElement {
   readonly kind: 'JsxSelfClosingElement';
@@ -971,6 +1045,7 @@ export interface JsxSelfClosingElement {
   readonly typeArguments?: NodeArray<TypeNode>;
   readonly attributes: JsxAttributes;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type HasInitializer =
   | HasExpressionInitializer
@@ -990,6 +1065,7 @@ export interface JsxAttribute {
   readonly name: Identifier;
   readonly initializer?: JsxAttributeValue;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BindingElement {
   readonly kind: 'BindingElement';
@@ -998,6 +1074,7 @@ export interface BindingElement {
   readonly name: BindingName;
   readonly initializer?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type HasDecorators =
   | ParameterDeclaration
@@ -1019,6 +1096,7 @@ export interface GetAccessorDeclaration {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly type?: TypeNode | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SetAccessorDeclaration {
   readonly kind: 'SetAccessor';
@@ -1032,6 +1110,7 @@ export interface SetAccessorDeclaration {
   readonly parameters: NodeArray<ParameterDeclaration>;
   readonly type?: TypeNode | undefined;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ClassExpression {
   readonly kind: 'ClassExpression';
@@ -1041,6 +1120,7 @@ export interface ClassExpression {
   readonly heritageClauses?: NodeArray<HeritageClause>;
   readonly members: NodeArray<ClassElement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ClassDeclaration {
   readonly kind: 'ClassDeclaration';
@@ -1050,6 +1130,7 @@ export interface ClassDeclaration {
   readonly heritageClauses?: NodeArray<HeritageClause>;
   readonly members: NodeArray<ClassElement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type HasModifiers =
   | TypeParameterDeclaration
@@ -1217,58 +1298,72 @@ export type PunctuationToken =
 export interface DotToken {
   readonly kind: 'DotToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DotDotDotToken {
   readonly kind: 'DotDotDotToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface QuestionToken {
   readonly kind: 'QuestionToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExclamationToken {
   readonly kind: 'ExclamationToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ColonToken {
   readonly kind: 'ColonToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface EqualsToken {
   readonly kind: 'EqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AmpersandAmpersandEqualsToken {
   readonly kind: 'AmpersandAmpersandEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BarBarEqualsToken {
   readonly kind: 'BarBarEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface QuestionQuestionEqualsToken {
   readonly kind: 'QuestionQuestionEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AsteriskToken {
   readonly kind: 'AsteriskToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface EqualsGreaterThanToken {
   readonly kind: 'EqualsGreaterThanToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PlusToken {
   readonly kind: 'PlusToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface MinusToken {
   readonly kind: 'MinusToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface QuestionDotToken {
   readonly kind: 'QuestionDotToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type KeywordToken =
   | AssertsKeyword
@@ -1294,18 +1389,22 @@ export type KeywordToken =
 export interface AssertsKeyword {
   readonly kind: 'AssertsKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AssertKeyword {
   readonly kind: 'AssertKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AwaitKeyword {
   readonly kind: 'AwaitKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CaseKeyword {
   readonly kind: 'CaseKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ModifierToken =
   | AbstractKeyword
@@ -1326,62 +1425,77 @@ export type ModifierToken =
 export interface AbstractKeyword {
   readonly kind: 'AbstractKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AccessorKeyword {
   readonly kind: 'AccessorKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AsyncKeyword {
   readonly kind: 'AsyncKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ConstKeyword {
   readonly kind: 'ConstKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DeclareKeyword {
   readonly kind: 'DeclareKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DefaultKeyword {
   readonly kind: 'DefaultKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExportKeyword {
   readonly kind: 'ExportKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface InKeyword {
   readonly kind: 'InKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PrivateKeyword {
   readonly kind: 'PrivateKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ProtectedKeyword {
   readonly kind: 'ProtectedKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PublicKeyword {
   readonly kind: 'PublicKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ReadonlyKeyword {
   readonly kind: 'ReadonlyKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface OutKeyword {
   readonly kind: 'OutKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface OverrideKeyword {
   readonly kind: 'OverrideKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface StaticKeyword {
   readonly kind: 'StaticKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type Modifier =
   | AbstractKeyword
@@ -1404,6 +1518,7 @@ export interface Decorator {
   readonly kind: 'Decorator';
   readonly expression: LeftHandSideExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type AccessibilityModifier =
   | PublicKeyword
@@ -1461,6 +1576,7 @@ export interface QualifiedName {
   readonly left: EntityName;
   readonly right: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type EntityName = Identifier | QualifiedName;
 export type PropertyName =
@@ -1475,6 +1591,7 @@ export interface StringLiteral {
   isUnterminated?: boolean;
   hasExtendedUnicodeEscape?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NumericLiteral {
   readonly kind: 'NumericLiteral';
@@ -1482,16 +1599,19 @@ export interface NumericLiteral {
   isUnterminated?: boolean;
   hasExtendedUnicodeEscape?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ComputedPropertyName {
   readonly kind: 'ComputedPropertyName';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PrivateIdentifier {
   readonly kind: 'PrivateIdentifier';
   readonly text: string;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type MemberName = Identifier | PrivateIdentifier;
 export type DeclarationName =
@@ -1626,6 +1746,7 @@ export interface VariableDeclarationList {
   readonly kind: 'VariableDeclarationList';
   readonly declarations: NodeArray<VariableDeclaration>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ClassElement =
   | PropertyDeclaration
@@ -1645,6 +1766,7 @@ export interface AutoAccessorPropertyDeclaration {
   readonly type?: TypeNode;
   readonly initializer?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ObjectLiteralElement =
   | PropertyAssignment
@@ -1682,6 +1804,7 @@ export interface JSDocPropertyTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocParameterTag {
   readonly kind: 'JSDocParameterTag';
@@ -1692,21 +1815,25 @@ export interface JSDocParameterTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ObjectBindingPattern {
   readonly kind: 'ObjectBindingPattern';
   readonly elements: NodeArray<BindingElement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ArrayBindingPattern {
   readonly kind: 'ArrayBindingPattern';
   readonly elements: NodeArray<ArrayBindingElement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ArrayBindingElement = BindingElement | OmittedExpression;
 export interface OmittedExpression {
   readonly kind: 'OmittedExpression';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type FunctionLikeDeclarationBase =
   | FunctionDeclaration
@@ -1728,11 +1855,13 @@ export interface FunctionBody {
   readonly kind: 'Block';
   readonly statements: NodeArray<Statement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SemicolonClassElement {
   readonly kind: 'SemicolonClassElement';
   readonly name?: PropertyName;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type KeywordTypeNode =
   | AnyKeywordToken
@@ -1752,12 +1881,14 @@ export interface ImportTypeAssertionContainer {
   readonly assertClause: AssertClause;
   readonly multiLine?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AssertClause {
   readonly kind: 'AssertClause';
   readonly elements: NodeArray<AssertEntry>;
   readonly multiLine?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImportTypeNode {
   readonly kind: 'ImportType';
@@ -1767,6 +1898,7 @@ export interface ImportTypeNode {
   readonly qualifier?: EntityName;
   readonly typeArguments?: NodeArray<TypeNode>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type NodeWithTypeArguments =
   | ImportTypeNode
@@ -1776,6 +1908,7 @@ export type NodeWithTypeArguments =
 export interface ThisTypeNode {
   readonly kind: 'ThisType';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type FunctionOrConstructorTypeNode =
   | FunctionTypeNode
@@ -1789,54 +1922,64 @@ export interface TypeReferenceNode {
   readonly typeName: EntityName;
   readonly typeArguments?: NodeArray<TypeNode>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExpressionWithTypeArguments {
   readonly kind: 'ExpressionWithTypeArguments';
   readonly expression: LeftHandSideExpression;
   readonly typeArguments?: NodeArray<TypeNode>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeQueryNode {
   readonly kind: 'TypeQuery';
   readonly exprName: EntityName;
   readonly typeArguments?: NodeArray<TypeNode>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeLiteralNode {
   readonly kind: 'TypeLiteral';
   readonly members: NodeArray<TypeElement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ArrayTypeNode {
   readonly kind: 'ArrayType';
   readonly elementType: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TupleTypeNode {
   readonly kind: 'TupleType';
   readonly elements: NodeArray<TypeNode | NamedTupleMember>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface OptionalTypeNode {
   readonly kind: 'OptionalType';
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface RestTypeNode {
   readonly kind: 'RestType';
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type UnionOrIntersectionTypeNode = UnionTypeNode | IntersectionTypeNode;
 export interface UnionTypeNode {
   readonly kind: 'UnionType';
   readonly types: NodeArray<TypeNode>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface IntersectionTypeNode {
   readonly kind: 'IntersectionType';
   readonly types: NodeArray<TypeNode>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ConditionalTypeNode {
   readonly kind: 'ConditionalType';
@@ -1845,17 +1988,20 @@ export interface ConditionalTypeNode {
   readonly trueType: TypeNode;
   readonly falseType: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface InferTypeNode {
   readonly kind: 'InferType';
   readonly typeParameter: TypeParameterDeclaration;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface IndexedAccessTypeNode {
   readonly kind: 'IndexedAccessType';
   readonly objectType: TypeNode;
   readonly indexType: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface LiteralTypeNode {
   readonly kind: 'LiteralType';
@@ -1865,10 +2011,12 @@ export interface LiteralTypeNode {
     | LiteralExpression
     | PrefixUnaryExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NullLiteral {
   readonly kind: 'NullKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type BooleanLiteral = TrueLiteral | FalseLiteral;
 export type LiteralExpression =
@@ -1882,6 +2030,7 @@ export interface PrefixUnaryExpression {
   readonly operator: PrefixUnaryOperator;
   readonly operand: UnaryExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NoSubstitutionTemplateLiteral {
   readonly kind: 'NoSubstitutionTemplateLiteral';
@@ -1890,6 +2039,7 @@ export interface NoSubstitutionTemplateLiteral {
   hasExtendedUnicodeEscape?: boolean;
   rawText?: string;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type PropertyNameLiteral =
   | Identifier
@@ -1900,6 +2050,7 @@ export interface TemplateLiteralTypeNode {
   readonly head: TemplateHead;
   readonly templateSpans: NodeArray<TemplateLiteralTypeSpan>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TemplateHead {
   readonly kind: 'TemplateHead';
@@ -1908,12 +2059,14 @@ export interface TemplateHead {
   isUnterminated?: boolean;
   hasExtendedUnicodeEscape?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TemplateLiteralTypeSpan {
   readonly kind: 'TemplateLiteralTypeSpan';
   readonly type: TypeNode;
   readonly literal: TemplateMiddle | TemplateTail;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TemplateMiddle {
   readonly kind: 'TemplateMiddle';
@@ -1922,6 +2075,7 @@ export interface TemplateMiddle {
   isUnterminated?: boolean;
   hasExtendedUnicodeEscape?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TemplateTail {
   readonly kind: 'TemplateTail';
@@ -1930,11 +2084,13 @@ export interface TemplateTail {
   isUnterminated?: boolean;
   hasExtendedUnicodeEscape?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PartiallyEmittedExpression {
   readonly kind: 'PartiallyEmittedExpression';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type UnaryExpression =
   | UpdateExpression
@@ -1960,6 +2116,7 @@ export interface PostfixUnaryExpression {
   readonly operand: LeftHandSideExpression;
   readonly operator: PostfixUnaryOperator;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type MemberExpression =
   | PrimaryExpression
@@ -1970,48 +2127,58 @@ export type MemberExpression =
 export interface TrueLiteral {
   readonly kind: 'TrueKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface FalseLiteral {
   readonly kind: 'FalseKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ThisExpression {
   readonly kind: 'ThisKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SuperExpression {
   readonly kind: 'SuperKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImportExpression {
   readonly kind: 'ImportKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DeleteExpression {
   readonly kind: 'DeleteExpression';
   readonly expression: UnaryExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeOfExpression {
   readonly kind: 'TypeOfExpression';
   readonly expression: UnaryExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface VoidExpression {
   readonly kind: 'VoidExpression';
   readonly expression: UnaryExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AwaitExpression {
   readonly kind: 'AwaitExpression';
   readonly expression: UnaryExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface YieldExpression {
   readonly kind: 'YieldExpression';
   readonly asteriskToken?: AsteriskToken;
   readonly expression?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ExponentiationOperator = 'AsteriskAsteriskToken';
 export type MultiplicativeOperator =
@@ -2088,6 +2255,7 @@ export interface AssignmentExpression<
   readonly kind: 'BinaryExpression';
   readonly right: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ObjectDestructuringAssignment {
   readonly left: ObjectLiteralExpression;
@@ -2095,6 +2263,7 @@ export interface ObjectDestructuringAssignment {
   readonly kind: 'BinaryExpression';
   readonly right: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ArrayDestructuringAssignment {
   readonly left: ArrayLiteralExpression;
@@ -2102,11 +2271,13 @@ export interface ArrayDestructuringAssignment {
   readonly kind: 'BinaryExpression';
   readonly right: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ArrayLiteralExpression {
   readonly kind: 'ArrayLiteralExpression';
   readonly elements: NodeArray<Expression>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type DestructuringAssignment =
   | ObjectDestructuringAssignment
@@ -2135,6 +2306,7 @@ export interface SpreadElement {
   readonly kind: 'SpreadElement';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type BindingOrAssignmentElementRestIndicator =
   | DotDotDotToken
@@ -2166,6 +2338,7 @@ export interface ConditionalExpression {
   readonly colonToken: ColonToken;
   readonly whenFalse: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ConciseBody = FunctionBody | Expression;
 export type LiteralLikeNode =
@@ -2183,6 +2356,7 @@ export interface RegularExpressionLiteral {
   isUnterminated?: boolean;
   hasExtendedUnicodeEscape?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BigIntLiteral {
   readonly kind: 'BigIntLiteral';
@@ -2190,6 +2364,7 @@ export interface BigIntLiteral {
   isUnterminated?: boolean;
   hasExtendedUnicodeEscape?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type LiteralToken =
   | NumericLiteral
@@ -2205,6 +2380,7 @@ export interface JsxText {
   isUnterminated?: boolean;
   hasExtendedUnicodeEscape?: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type PseudoLiteralToken = TemplateHead | TemplateMiddle | TemplateTail;
 export type TemplateLiteralToken =
@@ -2215,12 +2391,14 @@ export interface TemplateExpression {
   readonly head: TemplateHead;
   readonly templateSpans: NodeArray<TemplateSpan>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TemplateSpan {
   readonly kind: 'TemplateSpan';
   readonly expression: Expression;
   readonly literal: TemplateMiddle | TemplateTail;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type TemplateLiteral =
   | TemplateExpression
@@ -2234,6 +2412,7 @@ export interface PropertyAccessEntityNameExpression {
   readonly kind: 'PropertyAccessExpression';
   readonly questionDotToken?: QuestionDotToken;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type EntityNameOrEntityNameExpression =
   | EntityName
@@ -2247,6 +2426,7 @@ export interface PropertyAccessChain {
   readonly expression: LeftHandSideExpression;
   readonly questionDotToken?: QuestionDotToken;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SuperPropertyAccessExpression {
   readonly expression: SuperExpression;
@@ -2254,6 +2434,7 @@ export interface SuperPropertyAccessExpression {
   readonly questionDotToken?: QuestionDotToken;
   readonly name: MemberName;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ElementAccessChain {
   readonly kind: 'ElementAccessExpression';
@@ -2261,6 +2442,7 @@ export interface ElementAccessChain {
   readonly questionDotToken?: QuestionDotToken;
   readonly argumentExpression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SuperElementAccessExpression {
   readonly expression: SuperExpression;
@@ -2268,6 +2450,7 @@ export interface SuperElementAccessExpression {
   readonly questionDotToken?: QuestionDotToken;
   readonly argumentExpression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type SuperProperty =
   | SuperPropertyAccessExpression
@@ -2279,6 +2462,7 @@ export interface CallChain {
   readonly typeArguments?: NodeArray<TypeNode>;
   readonly arguments: NodeArray<Expression>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type OptionalChain =
   | PropertyAccessChain
@@ -2289,6 +2473,7 @@ export interface NonNullChain {
   readonly kind: 'NonNullExpression';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SuperCall {
   readonly expression: SuperExpression;
@@ -2297,6 +2482,7 @@ export interface SuperCall {
   readonly typeArguments?: NodeArray<TypeNode>;
   readonly arguments: NodeArray<Expression>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImportCall {
   readonly expression: ImportExpression;
@@ -2305,6 +2491,7 @@ export interface ImportCall {
   readonly typeArguments?: NodeArray<TypeNode>;
   readonly arguments: NodeArray<Expression>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type CallLikeExpression =
   | CallExpression
@@ -2318,29 +2505,34 @@ export interface AsExpression {
   readonly expression: Expression;
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeAssertion {
   readonly kind: 'TypeAssertionExpression';
   readonly type: TypeNode;
   readonly expression: UnaryExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SatisfiesExpression {
   readonly kind: 'SatisfiesExpression';
   readonly expression: Expression;
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NonNullExpression {
   readonly kind: 'NonNullExpression';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface MetaProperty {
   readonly kind: 'MetaProperty';
   readonly keywordToken: 'NewKeyword' | 'ImportKeyword';
   readonly name: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsxElement {
   readonly kind: 'JsxElement';
@@ -2348,6 +2540,7 @@ export interface JsxElement {
   readonly children: NodeArray<JsxChild>;
   readonly closingElement: JsxClosingElement;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JsxChild =
   | JsxText
@@ -2359,6 +2552,7 @@ export interface JsxClosingElement {
   readonly kind: 'JsxClosingElement';
   readonly tagName: JsxTagNameExpression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JsxAttributeLike = JsxAttribute | JsxSpreadAttribute;
 export interface JsxSpreadAttribute {
@@ -2366,6 +2560,7 @@ export interface JsxSpreadAttribute {
   readonly expression: Expression;
   readonly name?: PropertyName;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JsxTagNameExpression =
   | Identifier
@@ -2377,11 +2572,13 @@ export interface JsxTagNamePropertyAccess {
   readonly questionDotToken?: QuestionDotToken;
   readonly name: MemberName;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsxAttributes {
   readonly kind: 'JsxAttributes';
   readonly properties: NodeArray<JsxAttributeLike>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsxFragment {
   readonly kind: 'JsxFragment';
@@ -2389,14 +2586,17 @@ export interface JsxFragment {
   readonly children: NodeArray<JsxChild>;
   readonly closingFragment: JsxClosingFragment;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsxOpeningFragment {
   readonly kind: 'JsxOpeningFragment';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsxClosingFragment {
   readonly kind: 'JsxClosingFragment';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JsxAttributeValue =
   | StringLiteral
@@ -2409,20 +2609,24 @@ export interface JsxExpression {
   readonly dotDotDotToken?: DotDotDotToken;
   readonly expression?: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NotEmittedStatement {
   readonly kind: 'NotEmittedStatement';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CommaListExpression {
   readonly kind: 'CommaListExpression';
   readonly elements: NodeArray<Expression>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface MissingDeclaration {
   readonly kind: 'MissingDeclaration';
   readonly name?: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type BlockLike = SourceFile | Block | ModuleBlock | CaseOrDefaultClause;
 export interface SourceFile {
@@ -2435,11 +2639,13 @@ export interface SourceFile {
   isDeclarationFile: boolean;
   hasNoDefaultLib: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ModuleBlock {
   readonly kind: 'ModuleBlock';
   readonly statements: NodeArray<Statement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type CaseOrDefaultClause = CaseClause | DefaultClause;
 export type IterationStatement =
@@ -2455,17 +2661,20 @@ export interface CaseBlock {
   readonly kind: 'CaseBlock';
   readonly clauses: NodeArray<CaseOrDefaultClause>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DefaultClause {
   readonly kind: 'DefaultClause';
   readonly statements: NodeArray<Statement>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CatchClause {
   readonly kind: 'CatchClause';
   readonly variableDeclaration?: VariableDeclaration;
   readonly block: Block;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ObjectTypeDeclaration =
   | ClassLikeDeclaration
@@ -2490,6 +2699,7 @@ export interface JSDocTypedefTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocCallbackTag {
   readonly kind: 'JSDocCallbackTag';
@@ -2499,6 +2709,7 @@ export interface JSDocCallbackTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocTemplateTag {
   readonly kind: 'JSDocTemplateTag';
@@ -2507,6 +2718,7 @@ export interface JSDocTemplateTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ClassLikeDeclarationBase = ClassDeclaration | ClassExpression;
 export interface HeritageClause {
@@ -2514,6 +2726,7 @@ export interface HeritageClause {
   readonly token: 'ExtendsKeyword' | 'ImplementsKeyword';
   readonly types: NodeArray<ExpressionWithTypeArguments>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ModuleName = Identifier | StringLiteral;
 export type ModuleBody = NamespaceBody | JSDocNamespaceBody;
@@ -2525,6 +2738,7 @@ export interface JSDocNamespaceDeclaration {
   readonly kind: 'ModuleDeclaration';
   readonly modifiers?: NodeArray<ModifierLike>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NamespaceDeclaration {
   readonly name: Identifier;
@@ -2532,12 +2746,14 @@ export interface NamespaceDeclaration {
   readonly kind: 'ModuleDeclaration';
   readonly modifiers?: NodeArray<ModifierLike>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ModuleReference = EntityName | ExternalModuleReference;
 export interface ExternalModuleReference {
   readonly kind: 'ExternalModuleReference';
   readonly expression: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImportClause {
   readonly kind: 'ImportClause';
@@ -2545,28 +2761,33 @@ export interface ImportClause {
   readonly name?: Identifier;
   readonly namedBindings?: NamedImportBindings;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type NamedImportBindings = NamespaceImport | NamedImports;
 export interface NamespaceImport {
   readonly kind: 'NamespaceImport';
   readonly name: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NamedImports {
   readonly kind: 'NamedImports';
   readonly elements: NodeArray<ImportSpecifier>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type NamedExportBindings = NamespaceExport | NamedExports;
 export interface NamespaceExport {
   readonly kind: 'NamespaceExport';
   readonly name: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NamedExports {
   readonly kind: 'NamedExports';
   readonly elements: NodeArray<ExportSpecifier>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type AssertionKey = Identifier | StringLiteral;
 export interface AssertEntry {
@@ -2574,6 +2795,7 @@ export interface AssertEntry {
   readonly name: AssertionKey;
   readonly value: Expression;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImportSpecifier {
   readonly kind: 'ImportSpecifier';
@@ -2581,6 +2803,7 @@ export interface ImportSpecifier {
   readonly name: Identifier;
   readonly isTypeOnly: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type NamedImportsOrExports = NamedImports | NamedExports;
 export type ImportOrExportSpecifier = ImportSpecifier | ExportSpecifier;
@@ -2595,12 +2818,14 @@ export interface JSDocNameReference {
   readonly kind: 'JSDocNameReference';
   readonly name: EntityName | JSDocMemberName;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocMemberName {
   readonly kind: 'JSDocMemberName';
   readonly left: EntityName | JSDocMemberName;
   readonly right: Identifier;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JSDocType =
   | JSDocAllType
@@ -2616,15 +2841,18 @@ export type JSDocType =
 export interface JSDocAllType {
   readonly kind: 'JSDocAllType';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocUnknownType {
   readonly kind: 'JSDocUnknownType';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocNamepathType {
   readonly kind: 'JSDocNamepathType';
   readonly type: TypeNode;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JSDocTypeReferencingNode =
   | JSDocVariadicType
@@ -2636,6 +2864,7 @@ export interface JSDoc {
   readonly tags?: NodeArray<JSDocTag>;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JSDocTag =
   | JSDocUnknownTag
@@ -2671,29 +2900,34 @@ export interface JSDocLink {
   readonly name?: EntityName | JSDocMemberName;
   text: string;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocLinkCode {
   readonly kind: 'JSDocLinkCode';
   readonly name?: EntityName | JSDocMemberName;
   text: string;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocLinkPlain {
   readonly kind: 'JSDocLinkPlain';
   readonly name?: EntityName | JSDocMemberName;
   text: string;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocText {
   readonly kind: 'JSDocText';
   text: string;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocUnknownTag {
   readonly kind: 'JSDocTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocAugmentsTag {
   readonly kind: 'JSDocAugmentsTag';
@@ -2703,6 +2937,7 @@ export interface JSDocAugmentsTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocImplementsTag {
   readonly kind: 'JSDocImplementsTag';
@@ -2712,54 +2947,63 @@ export interface JSDocImplementsTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocAuthorTag {
   readonly kind: 'JSDocAuthorTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocDeprecatedTag {
   kind: 'JSDocDeprecatedTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocClassTag {
   readonly kind: 'JSDocClassTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocPublicTag {
   readonly kind: 'JSDocPublicTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocPrivateTag {
   readonly kind: 'JSDocPrivateTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocProtectedTag {
   readonly kind: 'JSDocProtectedTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocReadonlyTag {
   readonly kind: 'JSDocReadonlyTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocOverrideTag {
   readonly kind: 'JSDocOverrideTag';
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocEnumTag {
   readonly kind: 'JSDocEnumTag';
@@ -2767,6 +3011,7 @@ export interface JSDocEnumTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocThisTag {
   readonly kind: 'JSDocThisTag';
@@ -2774,6 +3019,7 @@ export interface JSDocThisTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocSeeTag {
   readonly kind: 'JSDocSeeTag';
@@ -2781,6 +3027,7 @@ export interface JSDocSeeTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocReturnTag {
   readonly kind: 'JSDocReturnTag';
@@ -2788,6 +3035,7 @@ export interface JSDocReturnTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocTypeTag {
   readonly kind: 'JSDocTypeTag';
@@ -2795,12 +3043,14 @@ export interface JSDocTypeTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocTypeLiteral {
   readonly kind: 'JSDocTypeLiteral';
   readonly jsDocPropertyTags?: readonly JSDocPropertyLikeTag[];
   readonly isArrayType: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocOverloadTag {
   readonly kind: 'JSDocOverloadTag';
@@ -2808,6 +3058,7 @@ export interface JSDocOverloadTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JSDocThrowsTag {
   readonly kind: 'JSDocThrowsTag';
@@ -2815,6 +3066,7 @@ export interface JSDocThrowsTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JSDocPropertyLikeTag = JSDocPropertyTag | JSDocParameterTag;
 export interface JSDocSatisfiesTag {
@@ -2823,6 +3075,7 @@ export interface JSDocSatisfiesTag {
   readonly tagName: Identifier;
   readonly comment?: string | NodeArray<JSDocComment>;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsonSourceFile {
   readonly statements: NodeArray<JsonObjectExpressionStatement>;
@@ -2834,11 +3087,13 @@ export interface JsonSourceFile {
   isDeclarationFile: boolean;
   hasNoDefaultLib: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsonObjectExpressionStatement {
   readonly expression: JsonObjectExpression;
   readonly kind: 'ExpressionStatement';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TsConfigSourceFile {
   extendedSourceFiles?: string[];
@@ -2851,12 +3106,14 @@ export interface TsConfigSourceFile {
   isDeclarationFile: boolean;
   hasNoDefaultLib: boolean;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface JsonMinusNumericLiteral {
   readonly kind: 'PrefixUnaryExpression';
   readonly operator: 'MinusToken';
   readonly operand: NumericLiteral;
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type JsonObjectExpression =
   | ObjectLiteralExpression
@@ -2873,6 +3130,7 @@ export type DestructuringPattern =
 export interface SyntaxList {
   kind: 'SyntaxList';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type PunctuationSyntaxKindToken =
   | OpenBraceToken
@@ -3022,19 +3280,23 @@ export type KeywordSyntaxKindToken =
 export interface QuestionQuestionToken {
   readonly kind: 'QuestionQuestionToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AsteriskAsteriskToken {
   readonly kind: 'AsteriskAsteriskToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ExponentiationOperatorToken = AsteriskAsteriskToken;
 export interface SlashToken {
   readonly kind: 'SlashToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PercentToken {
   readonly kind: 'PercentToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type MultiplicativeOperatorToken =
   | AsteriskToken
@@ -3050,14 +3312,17 @@ export type AdditiveOperatorOrHigherToken =
 export interface LessThanLessThanToken {
   readonly kind: 'LessThanLessThanToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface GreaterThanGreaterThanToken {
   readonly kind: 'GreaterThanGreaterThanToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface GreaterThanGreaterThanGreaterThanToken {
   readonly kind: 'GreaterThanGreaterThanGreaterThanToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ShiftOperatorToken =
   | LessThanLessThanToken
@@ -3069,22 +3334,27 @@ export type ShiftOperatorOrHigherToken =
 export interface LessThanToken {
   readonly kind: 'LessThanToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface LessThanEqualsToken {
   readonly kind: 'LessThanEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface GreaterThanToken {
   readonly kind: 'GreaterThanToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface GreaterThanEqualsToken {
   readonly kind: 'GreaterThanEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface InstanceOfKeywordToken {
   readonly kind: 'InstanceOfKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type RelationalOperatorToken =
   | LessThanToken
@@ -3099,18 +3369,22 @@ export type RelationalOperatorOrHigherToken =
 export interface EqualsEqualsToken {
   readonly kind: 'EqualsEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface EqualsEqualsEqualsToken {
   readonly kind: 'EqualsEqualsEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExclamationEqualsEqualsToken {
   readonly kind: 'ExclamationEqualsEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExclamationEqualsToken {
   readonly kind: 'ExclamationEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type EqualityOperatorToken =
   | EqualsEqualsToken
@@ -3123,14 +3397,17 @@ export type EqualityOperatorOrHigherToken =
 export interface AmpersandToken {
   readonly kind: 'AmpersandToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BarToken {
   readonly kind: 'BarToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CaretToken {
   readonly kind: 'CaretToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type BitwiseOperatorToken = AmpersandToken | BarToken | CaretToken;
 export type BitwiseOperatorOrHigherToken =
@@ -3139,10 +3416,12 @@ export type BitwiseOperatorOrHigherToken =
 export interface AmpersandAmpersandToken {
   readonly kind: 'AmpersandAmpersandToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BarBarToken {
   readonly kind: 'BarBarToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type LogicalOperatorToken = AmpersandAmpersandToken | BarBarToken;
 export type LogicalOperatorOrHigherToken =
@@ -3151,50 +3430,62 @@ export type LogicalOperatorOrHigherToken =
 export interface PlusEqualsToken {
   readonly kind: 'PlusEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface MinusEqualsToken {
   readonly kind: 'MinusEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AsteriskAsteriskEqualsToken {
   readonly kind: 'AsteriskAsteriskEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AsteriskEqualsToken {
   readonly kind: 'AsteriskEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SlashEqualsToken {
   readonly kind: 'SlashEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PercentEqualsToken {
   readonly kind: 'PercentEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AmpersandEqualsToken {
   readonly kind: 'AmpersandEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BarEqualsToken {
   readonly kind: 'BarEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CaretEqualsToken {
   readonly kind: 'CaretEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface LessThanLessThanEqualsToken {
   readonly kind: 'LessThanLessThanEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface GreaterThanGreaterThanGreaterThanEqualsToken {
   readonly kind: 'GreaterThanGreaterThanGreaterThanEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface GreaterThanGreaterThanEqualsToken {
   readonly kind: 'GreaterThanGreaterThanEqualsToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type CompoundAssignmentOperatorToken =
   | PlusEqualsToken
@@ -3219,6 +3510,7 @@ export type AssignmentOperatorOrHigherToken =
 export interface CommaToken {
   readonly kind: 'CommaToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export type ModifierSyntaxKindToken =
   | AbstractKeyword
@@ -3252,304 +3544,380 @@ export type KeywordTypeSyntaxKindToken =
 export interface OpenBraceToken {
   readonly kind: 'OpenBraceToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CloseBraceToken {
   readonly kind: 'CloseBraceToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface OpenParenToken {
   readonly kind: 'OpenParenToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CloseParenToken {
   readonly kind: 'CloseParenToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface OpenBracketToken {
   readonly kind: 'OpenBracketToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CloseBracketToken {
   readonly kind: 'CloseBracketToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SemicolonToken {
   readonly kind: 'SemicolonToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface LessThanSlashToken {
   readonly kind: 'LessThanSlashToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PlusPlusToken {
   readonly kind: 'PlusPlusToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface MinusMinusToken {
   readonly kind: 'MinusMinusToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TildeToken {
   readonly kind: 'TildeToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AtToken {
   readonly kind: 'AtToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BacktickToken {
   readonly kind: 'BacktickToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface HashToken {
   readonly kind: 'HashToken';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AnyKeywordToken {
   readonly kind: 'AnyKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface AsKeywordToken {
   readonly kind: 'AsKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BigIntKeywordToken {
   readonly kind: 'BigIntKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BooleanKeywordToken {
   readonly kind: 'BooleanKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface BreakKeywordToken {
   readonly kind: 'BreakKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface CatchKeywordToken {
   readonly kind: 'CatchKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ClassKeywordToken {
   readonly kind: 'ClassKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ConstructorKeywordToken {
   readonly kind: 'ConstructorKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ContinueKeywordToken {
   readonly kind: 'ContinueKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DebuggerKeywordToken {
   readonly kind: 'DebuggerKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DeleteKeywordToken {
   readonly kind: 'DeleteKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface DoKeywordToken {
   readonly kind: 'DoKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ElseKeywordToken {
   readonly kind: 'ElseKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface EnumKeywordToken {
   readonly kind: 'EnumKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ExtendsKeywordToken {
   readonly kind: 'ExtendsKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface FalseKeywordToken {
   readonly kind: 'FalseKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface FinallyKeywordToken {
   readonly kind: 'FinallyKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ForKeywordToken {
   readonly kind: 'ForKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface FromKeywordToken {
   readonly kind: 'FromKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface FunctionKeywordToken {
   readonly kind: 'FunctionKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface GetKeywordToken {
   readonly kind: 'GetKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface GlobalKeywordToken {
   readonly kind: 'GlobalKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface IfKeywordToken {
   readonly kind: 'IfKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImplementsKeywordToken {
   readonly kind: 'ImplementsKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ImportKeywordToken {
   readonly kind: 'ImportKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface InferKeywordToken {
   readonly kind: 'InferKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface InterfaceKeywordToken {
   readonly kind: 'InterfaceKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface IntrinsicKeywordToken {
   readonly kind: 'IntrinsicKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface IsKeywordToken {
   readonly kind: 'IsKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface KeyOfKeywordToken {
   readonly kind: 'KeyOfKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface LetKeywordToken {
   readonly kind: 'LetKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ModuleKeywordToken {
   readonly kind: 'ModuleKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NamespaceKeywordToken {
   readonly kind: 'NamespaceKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NeverKeywordToken {
   readonly kind: 'NeverKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NewKeywordToken {
   readonly kind: 'NewKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NullKeywordToken {
   readonly kind: 'NullKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface NumberKeywordToken {
   readonly kind: 'NumberKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ObjectKeywordToken {
   readonly kind: 'ObjectKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface OfKeywordToken {
   readonly kind: 'OfKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface PackageKeywordToken {
   readonly kind: 'PackageKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface RequireKeywordToken {
   readonly kind: 'RequireKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ReturnKeywordToken {
   readonly kind: 'ReturnKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SatisfiesKeywordToken {
   readonly kind: 'SatisfiesKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SetKeywordToken {
   readonly kind: 'SetKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface StringKeywordToken {
   readonly kind: 'StringKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SuperKeywordToken {
   readonly kind: 'SuperKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SwitchKeywordToken {
   readonly kind: 'SwitchKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface SymbolKeywordToken {
   readonly kind: 'SymbolKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ThisKeywordToken {
   readonly kind: 'ThisKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface ThrowKeywordToken {
   readonly kind: 'ThrowKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TrueKeywordToken {
   readonly kind: 'TrueKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TryKeywordToken {
   readonly kind: 'TryKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeKeywordToken {
   readonly kind: 'TypeKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface TypeOfKeywordToken {
   readonly kind: 'TypeOfKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface UndefinedKeywordToken {
   readonly kind: 'UndefinedKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface UniqueKeywordToken {
   readonly kind: 'UniqueKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface UnknownKeywordToken {
   readonly kind: 'UnknownKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface VarKeywordToken {
   readonly kind: 'VarKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface VoidKeywordToken {
   readonly kind: 'VoidKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface WhileKeywordToken {
   readonly kind: 'WhileKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface WithKeywordToken {
   readonly kind: 'WithKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }
 export interface YieldKeywordToken {
   readonly kind: 'YieldKeyword';
   pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
 }

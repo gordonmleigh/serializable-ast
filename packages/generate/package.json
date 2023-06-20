@@ -1,0 +1,12 @@
+{
+  "name": "@w/generate",
+  "type": "module",
+  "private": "true",
+  "scripts": {
+    "clean": "rm -rf lib/ *.tsbuildinfo",
+    "start": "node --loader=@swc-node/register/esm src/main.ts"
+  },
+  "dependencies": {
+    "@w/ts-compiler-utils": "^0.1.0"
+  }
+}

@@ -1,4 +1,4 @@
-import ts, { TypeAliasDeclaration } from 'typescript';
+import ts from 'typescript';
 import { isDeprecated } from './classification/isDeprecated.js';
 import { isGenericBaseNode } from './classification/isGenericBaseNode.js';
 import { isNode } from './classification/isNode.js';
@@ -453,7 +453,7 @@ function makeNodeUnionDefinition(node: ts.TypeAliasDeclaration): ts.Statement {
 }
 
 function makeSyntaxKindUnionDefinition(
-  node: TypeAliasDeclaration,
+  node: ts.TypeAliasDeclaration,
   defs: DeclarationCollection,
 ): ts.Statement {
   return attachDebugComments(
