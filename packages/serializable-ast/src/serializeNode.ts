@@ -1,3 +1,4 @@
+import { relative, resolve } from 'path';
 import { SourceMapConsumer } from 'source-map';
 import ts from 'typescript';
 import { shouldSerializeProp } from './shouldSerializeProp.js';
@@ -45,6 +46,7 @@ export interface SerializeOptions {
   includePosition?: boolean;
   sourceFile?: string;
   sourceMap?: SourceMapConsumer;
+  workingDirectory?: string;
 }
 
 /**
@@ -111,6 +113,8 @@ function serializeNodeInternal(
     node.pos > -1
   ) {
     const sourceFile = node.getSourceFile() as ts.SourceFile;
+    const cwd = resolve(opts?.workingDirectory ?? '.');
+    const relativeSourceFilePath = relative(cwd, sourceFile.fileName);
     const location = ts.getLineAndCharacterOfPosition(sourceFile, node.pos);
 
     if (opts.sourceMap) {
@@ -122,7 +126,9 @@ function serializeNodeInternal(
         ret.pos = {
           char: original.column + 1,
           line: original.line,
-          file: original.source,
+          file: original.source
+            ? relative(cwd, resolve(relativeSourceFilePath, original.source))
+            : relativeSourceFilePath,
         };
       }
     }
@@ -130,7 +136,7 @@ function serializeNodeInternal(
       ret.pos = {
         char: location.character + 1,
         line: location.line + 1,
-        file: opts.sourceFile ?? sourceFile.fileName,
+        file: opts.sourceFile ?? relativeSourceFilePath,
       };
     }
   }
@@ -155,6 +161,9 @@ function serializeProperty(
 ): any {
   if (Array.isArray(value)) {
     return serializeArray(value, opts, path);
+  }
+  if (key === 'fileName' && typeof value === 'string') {
+    return relative(resolve(opts?.workingDirectory ?? '.'), value);
   }
   if (typeof value === 'object') {
     return serializeNodeInternal(value, opts, path);
