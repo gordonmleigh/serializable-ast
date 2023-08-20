@@ -1,4 +1,5 @@
 import { MainLayout } from '@/components/MainLayout';
+import { declarationHasDetail } from '@/util/declarationHasDetail.js';
 import { fetchDeclarationCollection } from '@/util/declarations';
 import { DeclarationInfo } from '@gordonmleigh/superdocs/components/DeclarationInfo';
 import { FormatImport } from '@gordonmleigh/superdocs/components/FormatImport';
@@ -13,7 +14,9 @@ interface DeclarationPageParams {
 
 export function generateStaticParams(): DeclarationPageParams['params'][] {
   const declarations = fetchDeclarationCollection().declarations;
-  return declarations.map(({ slug }) => ({ slug }));
+  return declarations
+    .filter(declarationHasDetail)
+    .map(({ slug }) => ({ slug }));
 }
 
 export default function DeclarationPage({

@@ -1,5 +1,6 @@
 import { MainLayout } from '@/components/MainLayout';
 import { NavigationLink } from '@/components/NavigationLink';
+import { declarationHasDetail } from '@/util/declarationHasDetail.js';
 import { fetchDeclarationGroups } from '@/util/declarations';
 
 export default function CodePage(): JSX.Element {
@@ -17,7 +18,11 @@ export default function CodePage(): JSX.Element {
           >
             {group.declarations.map((def) => (
               <NavigationLink
-                href={def.documentationLink}
+                href={
+                  declarationHasDetail(def)
+                    ? def.documentationLink
+                    : `/code/groups/${group.slug}#${def.slug}`
+                }
                 key={def.slug}
                 title={def.name}
               />

@@ -1,4 +1,5 @@
 import { MainLayout } from '@/components/MainLayout';
+import { declarationHasDetail } from '@/util/declarationHasDetail.js';
 import { fetchDeclarationGroups } from '@/util/declarations';
 import { DeclarationInfo } from '@gordonmleigh/superdocs/components/DeclarationInfo';
 import Link from 'next/link';
@@ -30,14 +31,16 @@ export default function GroupPage({
         {group.declarations.map((def) => (
           <div className="mb-24" key={def.slug}>
             <DeclarationInfo className="mb-4" declaration={def} />
-            <div>
-              <Link
-                className="text-zinc-500 hover:underline text-sm"
-                href={def.documentationLink}
-              >
-                More &raquo;
-              </Link>
-            </div>
+            {declarationHasDetail(def) && (
+              <div>
+                <Link
+                  className="text-zinc-500 hover:underline text-sm"
+                  href={def.documentationLink}
+                >
+                  More &raquo;
+                </Link>
+              </div>
+            )}
           </div>
         ))}
       </div>

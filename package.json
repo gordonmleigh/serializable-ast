@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "build": "npm run clean && npm run generate && npm run compile && npm run docs",
-    "clean": "rimraf --glob '**/*.tsbuildinfo' 'packages/*/lib'",
+    "clean": "rimraf --glob '**/*.tsbuildinfo' 'packages/*/lib' 'packages/docs/out' 'packages/docs/.next'",
     "compile": "node tsbuild.js",
     "dev:docs": "nodemon --exec 'npm run -w @w/docs dev' --watch packages/serializable-ast/lib",
     "docs": "npm run -w @w/docs build",

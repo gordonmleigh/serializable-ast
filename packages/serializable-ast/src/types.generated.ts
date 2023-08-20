@@ -220,6 +220,7 @@ export type Node =
   | Expression
   | LiteralLikeNode
   | TemplateSpan
+  | JsxNamespacedName
   | JsxClosingElement
   | Statement
   | CaseBlock
@@ -258,6 +259,7 @@ export type JSDocContainer =
   | SpreadAssignment
   | MethodDeclaration
   | ConstructorDeclaration
+  | SemicolonClassElement
   | GetAccessorDeclaration
   | SetAccessorDeclaration
   | ClassStaticBlockDeclaration
@@ -407,6 +409,7 @@ export type HasJSDoc =
   | PropertyDeclaration
   | PropertySignature
   | ReturnStatement
+  | SemicolonClassElement
   | ShorthandPropertyAssignment
   | SpreadAssignment
   | SwitchStatement
@@ -1013,6 +1016,15 @@ export interface ReturnStatement {
 /**
  * @group Node Types
  */
+export interface SemicolonClassElement {
+  readonly kind: 'SemicolonClassElement';
+  readonly name?: PropertyName;
+  pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
+}
+/**
+ * @group Node Types
+ */
 export interface ShorthandPropertyAssignment {
   readonly kind: 'ShorthandPropertyAssignment';
   readonly name: Identifier;
@@ -1350,7 +1362,7 @@ export type HasExpressionInitializer =
  */
 export interface JsxAttribute {
   readonly kind: 'JsxAttribute';
-  readonly name: Identifier;
+  readonly name: JsxAttributeName;
   readonly initializer?: JsxAttributeValue;
   pos?: FileLocation;
   jsDoc?: NodeArray<JSDoc>;
@@ -1989,6 +2001,7 @@ export type PrimaryExpression =
   | NewExpression
   | MetaProperty
   | JsxElement
+  | JsxAttributes
   | JsxSelfClosingElement
   | JsxFragment
   | MissingDeclaration
@@ -2010,6 +2023,8 @@ export type Declaration =
   | ElementAccessExpression
   | CallExpression
   | NewExpression
+  | JsxAttributes
+  | JsxAttribute
   | JSDocEnumTag
   | JSDocSignature
   | JSDocPropertyLikeTag
@@ -2086,14 +2101,16 @@ export type MemberName = Identifier | PrivateIdentifier;
  * @group Node Unions
  */
 export type DeclarationName =
-  | Identifier
-  | PrivateIdentifier
+  | PropertyName
+  | JsxAttributeName
   | StringLiteralLike
-  | NumericLiteral
-  | ComputedPropertyName
   | ElementAccessExpression
   | BindingPattern
   | EntityNameExpression;
+/**
+ * @group Node Unions
+ */
+export type JsxAttributeName = Identifier | JsxNamespacedName;
 /**
  * @group Node Unions
  */
@@ -2294,7 +2311,6 @@ export type ObjectLiteralElement =
   | MethodDeclaration
   | GetAccessorDeclaration
   | SetAccessorDeclaration
-  | JsxAttribute
   | JsxSpreadAttribute;
 /**
  * @group Node Unions
@@ -2406,15 +2422,6 @@ export type FunctionLikeDeclaration =
 export interface FunctionBody {
   readonly kind: 'Block';
   readonly statements: NodeArray<Statement>;
-  pos?: FileLocation;
-  jsDoc?: NodeArray<JSDoc>;
-}
-/**
- * @group Node Types
- */
-export interface SemicolonClassElement {
-  readonly kind: 'SemicolonClassElement';
-  readonly name?: PropertyName;
   pos?: FileLocation;
   jsDoc?: NodeArray<JSDoc>;
 }
@@ -2689,7 +2696,18 @@ export interface NoSubstitutionTemplateLiteral {
 export type PropertyNameLiteral =
   | Identifier
   | StringLiteralLike
-  | NumericLiteral;
+  | NumericLiteral
+  | JsxNamespacedName;
+/**
+ * @group Node Types
+ */
+export interface JsxNamespacedName {
+  readonly kind: 'JsxNamespacedName';
+  readonly name: Identifier;
+  readonly namespace: Identifier;
+  pos?: FileLocation;
+  jsDoc?: NodeArray<JSDoc>;
+}
 /**
  * @group Node Types
  */
@@ -3264,9 +3282,7 @@ export type TemplateLiteral =
 /**
  * @group Node Groups
  */
-export type ObjectLiteralExpressionBase =
-  | ObjectLiteralExpression
-  | JsxAttributes;
+export type ObjectLiteralExpressionBase = ObjectLiteralExpression;
 /**
  * @group Node Types
  */
@@ -3504,12 +3520,13 @@ export interface JsxSpreadAttribute {
 export type JsxTagNameExpression =
   | Identifier
   | ThisExpression
-  | JsxTagNamePropertyAccess;
+  | JsxTagNamePropertyAccess
+  | JsxNamespacedName;
 /**
  * @group Node Types
  */
 export interface JsxTagNamePropertyAccess {
-  readonly expression: JsxTagNameExpression;
+  readonly expression: Identifier | ThisExpression | JsxTagNamePropertyAccess;
   readonly kind: 'PropertyAccessExpression';
   readonly questionDotToken?: QuestionDotToken;
   readonly name: MemberName;
@@ -3520,8 +3537,8 @@ export interface JsxTagNamePropertyAccess {
  * @group Node Types
  */
 export interface JsxAttributes {
-  readonly kind: 'JsxAttributes';
   readonly properties: NodeArray<JsxAttributeLike>;
+  readonly kind: 'JsxAttributes';
   pos?: FileLocation;
   jsDoc?: NodeArray<JSDoc>;
 }
