@@ -45,13 +45,15 @@ async function main(): Promise<void> {
     throw new Error(`expected to find source file for entrypoint`);
   }
 
-  const output = serializeNode(sourceFile, {
-    sourceMap: await new SourceMapConsumer(
-      await readFile(
-        resolve(__dirname, '../lib/serializeNode.d.ts.map'),
-        'utf-8',
-      ),
+  const map = JSON.parse(
+    await readFile(
+      resolve(__dirname, '../lib/serializeNode.d.ts.map'),
+      'utf-8',
     ),
+  );
+
+  const output = serializeNode(sourceFile, {
+    sourceMap: new SourceMapConsumer(map),
   });
   await writeFile('out.log.json', JSON.stringify(output, null, 2));
 }

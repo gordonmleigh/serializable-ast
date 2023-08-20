@@ -12,6 +12,6 @@
   },
   "homepage": "https://github.com/gordonmleigh/ts-meta-tools#readme",
   "dependencies": {
-    "source-map": "^0.7.4"
+    "source-map": "^0.6.1"
   }
 }
