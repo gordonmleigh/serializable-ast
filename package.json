@@ -1,9 +1,8 @@
 {
-  "name": "__root",
   "private": "true",
   "type": "module",
   "scripts": {
-    "clean": "npm run --workspaces --if-present clean",
+    "clean": "rimraf --glob '**/*.tsbuildinfo' 'packages/*/lib'",
     "compile": "npm run index && node tsbuild.js",
     "generate": "npm start -w packages/generate -- ../../node_modules/typescript/lib/typescript.d.ts ../serializable-ast/src/types.generated.ts",
     "index": "npm run --workspaces --if-present index",
@@ -27,6 +26,7 @@
     "ignore": "^5.2.4",
     "minimist": "^1.2.8",
     "prettier": "^2.8.8",
+    "rimraf": "^5.0.1",
     "typescript": "^5.0.4"
   }
 }

@@ -13,8 +13,5 @@
   "homepage": "https://github.com/gordonmleigh/ts-meta-tools#readme",
   "dependencies": {
     "source-map": "^0.7.4"
-  },
-  "scripts": {
-    "clean": "rm -rf lib/ *.tsbuildinfo"
   }
 }
