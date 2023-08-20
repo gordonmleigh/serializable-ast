@@ -2,10 +2,10 @@
   "private": "true",
   "type": "module",
   "scripts": {
+    "build": "npm run clean && npm run generate && npm run compile",
     "clean": "rimraf --glob '**/*.tsbuildinfo' 'packages/*/lib'",
-    "compile": "npm run index && node tsbuild.js",
+    "compile": "node tsbuild.js",
     "generate": "npm start -w packages/generate -- ../../node_modules/typescript/lib/typescript.d.ts ../serializable-ast/src/types.generated.ts",
-    "index": "npm run --workspaces --if-present index",
     "watch:compile": "node tsbuild.js -w"
   },
   "workspaces": [
