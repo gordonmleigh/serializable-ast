@@ -4,9 +4,6 @@
   "files": [],
   "references": [
     {
-      "path": "packages/ts-compiler-utils"
-    },
-    {
       "path": "packages/serializable-ast"
     },
     {

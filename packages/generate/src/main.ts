@@ -1,4 +1,4 @@
-import { getTsConfig, printDiagnostics } from '@w/ts-compiler-utils';
+import { existsSync } from 'fs';
 import { writeFile } from 'fs/promises';
 import Prettier from 'prettier';
 import ts from 'typescript';
@@ -12,13 +12,30 @@ if (process.argv.length !== 4) {
 await main(process.argv[2], process.argv[3]);
 
 async function main(inputPath: string, outputPath: string): Promise<void> {
-  const program = ts.createProgram(
-    [inputPath],
-    getTsConfig(inputPath)?.options ?? {},
-  );
+  let config: ts.ParsedCommandLine | undefined;
+
+  const configPath = ts.findConfigFile(inputPath, existsSync);
+  if (configPath) {
+    config = ts.getParsedCommandLineOfConfigFile(
+      configPath,
+      undefined,
+      ts.sys as any,
+    );
+  }
+
+  const program = ts.createProgram([inputPath], config?.options ?? {});
+
   const diagnostics = ts.getPreEmitDiagnostics(program);
   if (diagnostics.length) {
-    printDiagnostics(diagnostics);
+    console.error(
+      ts.formatDiagnosticsWithColorAndContext(diagnostics, {
+        getCurrentDirectory: () => ts.sys.getCurrentDirectory(),
+        getNewLine: () => ts.sys.newLine,
+        getCanonicalFileName: ts.sys.useCaseSensitiveFileNames
+          ? (x) => x
+          : (x) => x.toLowerCase(),
+      }),
+    );
     process.exit(1);
   }
 

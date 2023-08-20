@@ -1,4 +1,4 @@
-import { getTsConfig, printDiagnostics } from '@w/ts-compiler-utils';
+import { existsSync } from 'fs';
 import { readFile, writeFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
 import { SourceMapConsumer } from 'source-map';
@@ -13,13 +13,30 @@ await main();
 
 async function main(): Promise<void> {
   const entrypoint = resolve(__dirname, '../lib/serializeNode.d.ts');
+  let config: ts.ParsedCommandLine | undefined;
 
-  const config = getTsConfig(entrypoint);
+  const configPath = ts.findConfigFile(entrypoint, existsSync);
+  if (configPath) {
+    config = ts.getParsedCommandLineOfConfigFile(
+      configPath,
+      undefined,
+      ts.sys as any,
+    );
+  }
+
   const program = ts.createProgram([entrypoint], config?.options ?? {});
   const diagnostics = ts.getPreEmitDiagnostics(program);
 
   if (diagnostics.length) {
-    printDiagnostics(diagnostics);
+    console.error(
+      ts.formatDiagnosticsWithColorAndContext(diagnostics, {
+        getCurrentDirectory: () => ts.sys.getCurrentDirectory(),
+        getNewLine: () => ts.sys.newLine,
+        getCanonicalFileName: ts.sys.useCaseSensitiveFileNames
+          ? (x) => x
+          : (x) => x.toLowerCase(),
+      }),
+    );
     process.exit(1);
   }
 
