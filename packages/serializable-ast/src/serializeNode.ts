@@ -6,12 +6,16 @@ import { Node, SyntaxKind } from './types.generated.js';
 
 /**
  * Get the node type for the given {@link SyntaxKind}.
+ *
+ * @group Core
  */
 export type NodeOfKind<Kind extends SyntaxKind> = NodeOfSomeKind<Kind>;
 
 /**
  * Get the node type for the given {@link SyntaxKind}, with the type parameter
  * being unconstrained.
+ *
+ * @group Core
  */
 export type NodeOfSomeKind<Kind> = Node extends infer N
   ? N extends { kind: Kind }
@@ -22,6 +26,8 @@ export type NodeOfSomeKind<Kind> = Node extends infer N
 /**
  * Get the name of the given TypeScript Compiler API {@link ts.SyntaxKind}
  * value.
+ *
+ * @group Core
  */
 export type SyntaxKindName<Kind extends ts.SyntaxKind> = {
   [K in keyof typeof ts.SyntaxKind as (typeof ts.SyntaxKind)[K]]: K extends `First${string}`
@@ -34,6 +40,8 @@ export type SyntaxKindName<Kind extends ts.SyntaxKind> = {
 /**
  * Get the type of the serialized representation of the given TypeScript
  * Compiler API node.
+ *
+ * @group Core
  */
 export type SerializedNode<T extends ts.Node> = NodeOfSomeKind<
   SyntaxKindName<T['kind']>
@@ -41,6 +49,8 @@ export type SerializedNode<T extends ts.Node> = NodeOfSomeKind<
 
 /**
  * Options for the serializer.
+ *
+ * @group Core
  */
 export interface SerializeOptions {
   includePosition?: boolean;
@@ -52,6 +62,8 @@ export interface SerializeOptions {
 /**
  * Serialize the given TypeScript Compiler API node.
  * @param node The node to serialize.
+ *
+ * @group Core
  */
 export function serializeNode<N extends ts.Node>(
   node: N,

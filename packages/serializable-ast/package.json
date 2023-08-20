@@ -1,16 +1,29 @@
 {
-  "name": "serializable-ast",
+  "name": "@gordonmleigh/serializable-ast",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./serializeNode": {
+      "types": "./lib/serializeNode.d.ts",
+      "default": "./lib/serializeNode.js"
+    },
+    "./types": {
+      "types": "./lib/types.generated.d.ts",
+      "default": "./lib/types.generated.js"
+    }
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gordonmleigh/ts-meta-tools.git"
+    "url": "git+https://github.com/gordonmleigh/serializable-ast.git"
   },
   "author": "Gordon Leigh",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gordonmleigh/ts-meta-tools/issues"
+    "url": "https://github.com/gordonmleigh/serializable-ast/issues"
   },
-  "homepage": "https://github.com/gordonmleigh/ts-meta-tools#readme",
+  "homepage": "https://gordonmleigh.github.io/serializable-ast",
   "dependencies": {
     "source-map": "^0.6.1"
   }

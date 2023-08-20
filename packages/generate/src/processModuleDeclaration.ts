@@ -28,7 +28,7 @@ import {
   isDeclarationNode,
 } from './util/DeclarationCollection.js';
 import { assert } from './util/assert.js';
-import { attachDebugComments } from './util/attachDebugComments.js';
+import { attachJSDoc } from './util/attachJSDoc.js';
 import { getName } from './util/getName.js';
 import { getNodeKind } from './util/getNodeKind.js';
 import { getNodeMembers } from './util/getNodeMembers.js';
@@ -64,59 +64,70 @@ export function processModuleDeclaration(
 
   // output a definition for NodeArray<T>
   statements.push(
-    ts.factory.createTypeAliasDeclaration(
-      [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
-      'NodeArray',
-      [ts.factory.createTypeParameterDeclaration(undefined, 'T', undefined)],
-      ts.factory.createTypeOperatorNode(
-        ts.SyntaxKind.ReadonlyKeyword,
-        ts.factory.createArrayTypeNode(ts.factory.createTypeReferenceNode('T')),
+    attachJSDoc(
+      ts.factory.createTypeAliasDeclaration(
+        [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+        'NodeArray',
+        [ts.factory.createTypeParameterDeclaration(undefined, 'T', undefined)],
+        ts.factory.createTypeOperatorNode(
+          ts.SyntaxKind.ReadonlyKeyword,
+          ts.factory.createArrayTypeNode(
+            ts.factory.createTypeReferenceNode('T'),
+          ),
+        ),
       ),
+      'Core',
     ),
   );
 
   // output a definition for FileLocation
   statements.push(
-    ts.factory.createInterfaceDeclaration(
-      [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
-      'FileLocation',
-      undefined,
-      undefined,
-      [
-        ts.factory.createPropertySignature(
-          undefined,
-          'char',
-          ts.factory.createToken(ts.SyntaxKind.QuestionToken),
-          ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
-        ),
-        ts.factory.createPropertySignature(
-          undefined,
-          'line',
-          ts.factory.createToken(ts.SyntaxKind.QuestionToken),
-          ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
-        ),
-        ts.factory.createPropertySignature(
-          undefined,
-          'file',
-          ts.factory.createToken(ts.SyntaxKind.QuestionToken),
-          ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
-        ),
-      ],
+    attachJSDoc(
+      ts.factory.createInterfaceDeclaration(
+        [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+        'FileLocation',
+        undefined,
+        undefined,
+        [
+          ts.factory.createPropertySignature(
+            undefined,
+            'char',
+            ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+            ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+          ),
+          ts.factory.createPropertySignature(
+            undefined,
+            'line',
+            ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+            ts.factory.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
+          ),
+          ts.factory.createPropertySignature(
+            undefined,
+            'file',
+            ts.factory.createToken(ts.SyntaxKind.QuestionToken),
+            ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
+          ),
+        ],
+      ),
+      'Core',
     ),
   );
 
   // output a definition for SyntaxKind
   statements.push(
-    ts.factory.createTypeAliasDeclaration(
-      [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
-      'SyntaxKind',
-      undefined,
-      ts.factory.createIndexedAccessTypeNode(
-        ts.factory.createTypeReferenceNode('Node'),
-        ts.factory.createLiteralTypeNode(
-          ts.factory.createStringLiteral('kind'),
+    attachJSDoc(
+      ts.factory.createTypeAliasDeclaration(
+        [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
+        'SyntaxKind',
+        undefined,
+        ts.factory.createIndexedAccessTypeNode(
+          ts.factory.createTypeReferenceNode('Node'),
+          ts.factory.createLiteralTypeNode(
+            ts.factory.createStringLiteral('kind'),
+          ),
         ),
       ),
+      'Node Kinds',
     ),
   );
 
@@ -388,7 +399,7 @@ function makeNodeDefinition(
     ),
   );
 
-  return attachDebugComments(
+  return attachJSDoc(
     ts.factory.createInterfaceDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       name,
@@ -396,7 +407,7 @@ function makeNodeDefinition(
       undefined,
       processedMembers,
     ),
-    ' NodeType',
+    'Node Types',
   );
 }
 
@@ -412,14 +423,14 @@ function makeNodeGroupDefinition(
       members.map((member) => ts.factory.createTypeReferenceNode(member)),
     );
   }
-  return attachDebugComments(
+  return attachJSDoc(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       name,
       undefined,
       type,
     ),
-    ' NodeGroup',
+    'Node Groups',
   );
 }
 
@@ -427,7 +438,7 @@ function makeTokenGroupDefinition(
   name: ts.Identifier,
   refs: (ts.EntityName | string)[],
 ): ts.Statement {
-  return attachDebugComments(
+  return attachJSDoc(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       name,
@@ -436,19 +447,19 @@ function makeTokenGroupDefinition(
         refs.map((ref) => ts.factory.createTypeReferenceNode(ref)),
       ),
     ),
-    ' TokenGroup',
+    'Token Groups',
   );
 }
 
 function makeNodeUnionDefinition(node: ts.TypeAliasDeclaration): ts.Statement {
-  return attachDebugComments(
+  return attachJSDoc(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       node.name,
       undefined,
       node.type,
     ),
-    ' NodeUnion',
+    'Node Unions',
   );
 }
 
@@ -456,7 +467,7 @@ function makeSyntaxKindUnionDefinition(
   node: ts.TypeAliasDeclaration,
   defs: DeclarationCollection,
 ): ts.Statement {
-  return attachDebugComments(
+  return attachJSDoc(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       node.name,
@@ -476,7 +487,7 @@ function makeSyntaxKindUnionDefinition(
         }),
       ),
     ),
-    ' SyntaxKindUnion',
+    'Node Kinds',
   );
 }
 
@@ -488,7 +499,7 @@ function makeTokenInstanceDeclaration(
 ): ts.Statement {
   const members = getAllNames(tokenRef.typeArguments[0].typeName, defs);
 
-  return attachDebugComments(
+  return attachJSDoc(
     ts.factory.createTypeAliasDeclaration(
       [ts.factory.createToken(ts.SyntaxKind.ExportKeyword)],
       name,
@@ -502,7 +513,7 @@ function makeTokenInstanceDeclaration(
         }),
       ),
     ),
-    ' TokenInstance',
+    'Token Instances',
   );
 }
 
