@@ -1,4 +1,5 @@
 const { join, dirname } = require('path');
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -26,5 +27,11 @@ module.exports = {
   plugins: [
     require('@gordonmleigh/superdocs/tailwind'),
     require('@tailwindcss/typography'),
+
+    plugin(function ({ addVariant }) {
+      addVariant('nav-item', ['& > li', '& > li > ul > li']);
+      addVariant('nav-link', ['& > li > a', ' & > li > ul > li > a']);
+      addVariant('nav-submenu', '& > li > ul');
+    }),
   ],
 };

@@ -1,4 +1,3 @@
-import { mdxComponents } from '@/components/mdx';
 import rehypePrism from '@mapbox/rehype-prism';
 import { glob } from 'fast-glob';
 import { readFile } from 'fs/promises';
@@ -58,7 +57,6 @@ async function fetchPage(path: string): Promise<ContentPage> {
       },
       parseFrontmatter: true,
     },
-    components: mdxComponents,
   });
   if (frontmatter.order) {
     try {

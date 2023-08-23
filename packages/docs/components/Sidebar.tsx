@@ -1,53 +1,87 @@
+import { fetchAllContent } from '@/util/content.js';
+import { fetchDeclarationGroups } from '@/util/declarations.js';
+import { styled } from '@/util/styled.js';
+import { SymbolIcon } from '@gordonmleigh/superdocs/components/SymbolIcon';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { ReactNode } from 'react';
 import { Logo } from './Logo';
+import { SectionNavigation } from './SectionNavigation';
+import { SidebarPanel } from './SidebarPanel';
 
-export interface SidebarProps {
-  onClose?: () => void;
-  open?: boolean;
-  pages: ReactNode;
-  sections?: ReactNode;
-}
+const NavigationSection = styled(
+  'div',
+  'text-xs semibold mt-8 dark:text-white',
+);
 
-export function Sidebar({
-  onClose,
-  open,
-  pages,
-  sections,
-}: SidebarProps): JSX.Element {
+export async function Sidebar(): Promise<JSX.Element> {
+  const pages = await fetchAllContent();
+  const groups = fetchDeclarationGroups();
+
   return (
-    <>
-      <div
-        className={clsx(
-          'fixed left-0 top-0 z-30 h-full bg-zinc-400/20 backdrop-blur-sm transition lg:hidden',
-          open ? 'w-full' : 'w-0',
-        )}
-        onClick={onClose}
-      />
-      <div
-        className={clsx(
-          'fixed inset-0 z-50 mt-14 flex w-72 border-r bg-white dark:bg-zinc-900 shadow-lg shadow-zinc-900/10 transition-transform',
-          'lg:mt-0 lg:transform-none lg:border-zinc-200 dark:lg:border-zinc-800 lg:pb-8 lg:shadow-none xl:w-80',
-          open ? 'transform-none' : '-translate-x-full',
-        )}
-      >
-        <div className="flex w-full flex-col">
-          <div className="hidden h-14 content-center px-6 py-4 lg:flex bg-inherit">
-            <Link href="/" aria-label="Home">
-              <Logo className="h-6" />
-            </Link>
-          </div>
-          <div className="overflow-y-auto px-6" onClick={onClose}>
-            <nav className="mt-5 md:hidden">
-              <ul role="list" className="flex flex-col">
-                {sections}
-              </ul>
-            </nav>
-            {pages}
-          </div>
+    <SidebarPanel>
+      <div className="flex w-full flex-col">
+        <div className="hidden h-14 content-center px-6 py-4 lg:flex bg-inherit">
+          <Link href="/" aria-label="Home">
+            <Logo className="h-6" />
+          </Link>
+        </div>
+        <div className="overflow-y-auto px-6">
+          <nav className="mt-5 md:hidden">
+            <SectionNavigation
+              className={clsx(
+                'flex flex-col',
+                'nav-link:block nav-link:py-1 nav-link:text-sm nav-link:text-zinc-600',
+                'nav-link:transition nav-link:hover:text-zinc-900',
+                'dark:nav-link:text-zinc-400 dark:nav-link:hover:text-white',
+              )}
+            />
+          </nav>
+
+          <NavigationSection>Getting Started</NavigationSection>
+          <ul
+            className={clsx(
+              'nav-link:block nav-link:py-1 nav-link:text-sm nav-link:text-zinc-600',
+              'nav-link:transition nav-link:hover:text-zinc-900',
+              'dark:nav-link:text-zinc-400 dark:nav-link:hover:text-white',
+            )}
+          >
+            {pages.map((page) => (
+              <li key={page.meta.slug}>
+                <Link href={'/docs' + page.meta.slug}>{page.meta.title}</Link>
+              </li>
+            ))}
+          </ul>
+
+          <NavigationSection>API</NavigationSection>
+          <ul
+            className={clsx(
+              'nav-link:flex nav-link:items-center',
+              'nav-link:py-1 nav-link:text-sm nav-link:text-zinc-600',
+              'nav-link:transition nav-link:hover:text-zinc-900',
+              'dark:nav-link:text-zinc-400 dark:nav-link:hover:text-white',
+              'nav-submenu:ml-4',
+            )}
+          >
+            {groups.map((group) => (
+              <li key={group.slug}>
+                <Link href={`/code/groups/${group.slug}`}>{group.name}</Link>
+                <ul>
+                  {group.declarations.map((def) => (
+                    <li key={def.slug}>
+                      <Link href={`/code/groups/${group.slug}#${def.slug}`}>
+                        <>
+                          <SymbolIcon node={def.node} />
+                          &nbsp;{def.name}
+                        </>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </>
+    </SidebarPanel>
   );
 }
