@@ -2,4 +2,4 @@
 
 This is a monorepo containing:
 
-- [serializable-ast](packages/decoders/README.md): The `@gordonmleigh/serializable-ast` package
+- [serializable-ast](packages/serializable-ast/README.md): The `@gordonmleigh/serializable-ast` package
