@@ -1,14 +1,13 @@
-import { MainLayout } from '@/components/MainLayout';
+import { packageDeclarations } from '@/util/context';
 import { declarationHasDetail } from '@/util/declarationHasDetail.js';
-import { fetchDeclarationGroups } from '@/util/declarations';
 import clsx from 'clsx';
 import Link from 'next/link';
 
 export default function CodePage(): JSX.Element {
-  const groups = fetchDeclarationGroups();
+  const groups = packageDeclarations.current.groups;
 
   return (
-    <MainLayout>
+    <>
       <h1>API Documentation</h1>
       <nav>
         <ul
@@ -42,6 +41,6 @@ export default function CodePage(): JSX.Element {
           ))}
         </ul>
       </nav>
-    </MainLayout>
+    </>
   );
 }
